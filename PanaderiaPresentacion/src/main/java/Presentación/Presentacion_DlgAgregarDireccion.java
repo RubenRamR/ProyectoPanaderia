@@ -35,8 +35,11 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         txtNombres = new javax.swing.JTextField();
         txtApellidoPaterno = new javax.swing.JTextField();
         txtApellidoMaterno = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtNombres1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(360, 340));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -91,11 +94,27 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         txtApellidoMaterno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(txtApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Nombre:");
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setVerifyInputWhenFocusTarget(false);
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 120, -1));
+
+        txtNombres1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNombres1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombres1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtNombres1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 160, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+       Presentacion_DlgAgregarPan agregar = new Presentacion_DlgAgregarPan();
+        agregar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -106,6 +125,10 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombresActionPerformed
 
+    private void txtNombres1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombres1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombres1ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -115,8 +138,10 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtApellidoMaterno;
     private javax.swing.JTextField txtApellidoPaterno;
     private javax.swing.JTextField txtNombres;
+    private javax.swing.JTextField txtNombres1;
     // End of variables declaration//GEN-END:variables
 }

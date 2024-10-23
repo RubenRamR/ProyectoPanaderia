@@ -4,6 +4,8 @@
  */
 package Presentación;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joseq
@@ -15,6 +17,16 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JFrame {
      */
     public Presentacion_DlgConfirmacionPago() {
         initComponents();
+        txtCosto.setText("30");
+        txtCliente.setText("Mario");
+        txtFechaEntrega.setText("28/10/2024");
+        txtUbicacionEntrega.setText("Casa");
+        txtCliente.setEditable(false);
+        txtCosto.setEditable(false);
+        txtFechaEntrega.setEditable(false);
+        txtUbicacionEntrega.setEditable(false);
+        
+        
     }
 
     /**
@@ -40,6 +52,8 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JFrame {
         btnRegistrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(550, 350));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Confirmación de pago");
@@ -143,18 +157,30 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
+        int confirmacion = JOptionPane.showOptionDialog(this,
+                "¿Está seguro de que deseas completar la venta? " + txtCliente.getText(),
+                "Confirmación de edicion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new Object[]{"Cancelar", "Confirmar"},
+                "Confirmar");
+        // Si el usuario selecciona "Cancelar", no se hace nada
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            return;
+        }
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
    
