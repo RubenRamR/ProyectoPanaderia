@@ -8,12 +8,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>PanaderiaPersistencia</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>PanaderiaDTOs</artifactId>
+            <artifactId>PanaderiasDTO</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
