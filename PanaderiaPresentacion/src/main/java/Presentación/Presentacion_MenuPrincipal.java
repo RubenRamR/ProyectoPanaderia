@@ -144,7 +144,8 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresosMensualesActionPerformed
 
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
-        // TODO add your handling code here:
+        Presentacion_DlgDatosCliente cliente = new Presentacion_DlgDatosCliente();
+        cliente.setVisible(true);
     }//GEN-LAST:event_btnRegistrarVenta1ActionPerformed
 
     private void btnGestionDeGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeGastosActionPerformed
@@ -196,6 +197,7 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Presentacion_MenuPrincipal().setVisible(true);
             }

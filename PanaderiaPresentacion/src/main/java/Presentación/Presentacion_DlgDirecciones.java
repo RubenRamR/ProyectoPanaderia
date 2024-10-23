@@ -41,6 +41,8 @@ public class Presentacion_DlgDirecciones extends javax.swing.JFrame {
         jLabel1.setText("Seleccione una dirección");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(550, 450));
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -124,7 +126,9 @@ public class Presentacion_DlgDirecciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAgregarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDireccionActionPerformed
-        // TODO add your handling code here:
+       Presentacion_DlgAgregarDireccion agregar = new Presentacion_DlgAgregarDireccion();
+       agregar.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnAgregarDireccionActionPerformed
 
     private void btnSeleccionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionar1ActionPerformed

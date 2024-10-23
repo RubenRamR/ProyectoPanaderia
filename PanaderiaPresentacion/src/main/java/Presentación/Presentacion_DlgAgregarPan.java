@@ -34,7 +34,9 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(400, 300));
+        setPreferredSize(new java.awt.Dimension(450, 350));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -51,7 +53,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JFrame {
         jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 190, -1));
 
-        jComboBoxPanes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPanes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dona", "Cuernito", "Concha", "Pancake" }));
         getContentPane().add(jComboBoxPanes, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, -1, -1));
 
         txtExtra.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -59,7 +61,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JFrame {
 
         btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnAgregar.setText("Cancelar");
+        btnAgregar.setText("Aceptar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -76,7 +78,9 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        Presentacion_DlgCobrarVenta cobrar = new Presentacion_DlgCobrarVenta();
+        cobrar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     
