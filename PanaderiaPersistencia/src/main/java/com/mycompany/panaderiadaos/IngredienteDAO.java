@@ -30,6 +30,7 @@ import org.bson.types.ObjectId;
  * 
  */
 public class IngredienteDAO implements IIngredienteDAO {
+    
 
     private final IConexion conexion;
     private final IngredienteConversiones ingredienteConversiones;

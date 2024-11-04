@@ -10,6 +10,7 @@ import java.util.List;
 
 
 public interface IClienteDAO {
+    
 
     public Cliente agregarCliente(Cliente cliente) throws PersistenciaException;
 

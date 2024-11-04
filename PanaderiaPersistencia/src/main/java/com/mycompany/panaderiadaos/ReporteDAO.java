@@ -22,6 +22,7 @@ import org.bson.types.ObjectId;
  *
  */
 public class ReporteDAO implements IReporteDAO {
+    
 
     private IConexion conexion;
     private ReportesConversiones conversor;

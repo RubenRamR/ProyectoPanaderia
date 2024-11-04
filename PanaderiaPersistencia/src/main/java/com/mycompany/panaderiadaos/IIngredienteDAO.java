@@ -31,6 +31,7 @@ import java.util.List;
  *
  */
 public interface IIngredienteDAO {
+    
 
     /**
      * Agrega un nuevo ingrediente a la base de datos.

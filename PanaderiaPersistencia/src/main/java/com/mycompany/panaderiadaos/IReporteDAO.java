@@ -22,6 +22,7 @@ import java.util.List;
  *
  */
 public interface IReporteDAO {
+    
 
     /**
      * Guarda un reporte en la base de datos.
