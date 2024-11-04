@@ -1,10 +1,10 @@
 package com.mycompany.panaderiadominiodocumentosanidados;
 
 /**
- * Representa un ingrediente en detalle, incluyendo su identificador, nombre y
+ * 
+ *Representa un ingrediente en detalle, incluyendo su identificador, nombre y
  * cantidad. Esta clase se utiliza para modelar los ingredientes de un producto
- * de pastelería.
- *
+ * de la panaderia ya que contara con muchas cosas.
  * 
  */
 public class IngredienteDetalle {
