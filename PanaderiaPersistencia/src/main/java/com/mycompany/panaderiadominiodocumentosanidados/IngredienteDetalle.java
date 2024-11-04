@@ -5,7 +5,7 @@ package com.mycompany.panaderiadominiodocumentosanidados;
  * cantidad. Esta clase se utiliza para modelar los ingredientes de un producto
  * de pastelería.
  *
- * @author abelc
+ * 
  */
 public class IngredienteDetalle {
 
