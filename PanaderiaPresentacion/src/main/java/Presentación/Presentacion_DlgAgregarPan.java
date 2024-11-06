@@ -94,7 +94,6 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
         setMinimumSize(new java.awt.Dimension(920, 550));
-        setPreferredSize(new java.awt.Dimension(920, 550));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -112,7 +111,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, -1));
 
         jComboBoxIngrediente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jComboBoxIngrediente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dona", "Cuernito", "Concha", "Pancake" }));
+        jComboBoxIngrediente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguno", "Babaria", "Canela", "Chocolate", "Azucar" }));
         jComboBoxIngrediente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxIngredienteActionPerformed(evt);
