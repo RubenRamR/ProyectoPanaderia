@@ -4,17 +4,24 @@
  */
 package Presentación;
 
+import DTO.DTO_Cliente;
+import DTO.DTO_Direccion;
+
 /**
  *
  * @author joseq
  */
 public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
 
+    DTO_Direccion direccion = new DTO_Direccion();
+    DTO_Cliente cliente = new DTO_Cliente();
+    String nombre;
     /**
      * Creates new form Presentacion_DlgDatosCliente
      */
-    public Presentacion_DlgAgregarDireccion() {
+    public Presentacion_DlgAgregarDireccion(DTO_Cliente cliente) {
         initComponents();
+        this.cliente=cliente;
     }
 
     /**
@@ -32,14 +39,15 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
-        txtNombres = new javax.swing.JTextField();
-        txtApellidoPaterno = new javax.swing.JTextField();
-        txtApellidoMaterno = new javax.swing.JTextField();
+        txtCalle = new javax.swing.JTextField();
+        txtColonia = new javax.swing.JTextField();
+        txtNumeroExterior = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtNombres1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(360, 340));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(375, 355));
+        setPreferredSize(new java.awt.Dimension(375, 355));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -80,19 +88,19 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         });
         getContentPane().add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
 
-        txtNombres.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNombres.addActionListener(new java.awt.event.ActionListener() {
+        txtCalle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombresActionPerformed(evt);
+                txtCalleActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 160, -1));
+        getContentPane().add(txtCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 160, -1));
 
-        txtApellidoPaterno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 160, -1));
+        txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(txtColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 160, -1));
 
-        txtApellidoMaterno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
+        txtNumeroExterior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(txtNumeroExterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Nombre:");
@@ -100,34 +108,40 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         jLabel6.setVerifyInputWhenFocusTarget(false);
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 120, -1));
 
-        txtNombres1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNombres1.addActionListener(new java.awt.event.ActionListener() {
+        txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombres1ActionPerformed(evt);
+                txtNombreActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNombres1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 160, -1));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 160, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-       Presentacion_DlgAgregarPan agregar = new Presentacion_DlgAgregarPan();
+        direccion.setCalle(txtCalle.getText());
+        direccion.setColonia(txtColonia.getText());
+        direccion.setNumExterior(txtNumeroExterior.getText());
+        nombre = txtNombre.getText();
+        Presentacion_DlgAgregarPan agregar = new Presentacion_DlgAgregarPan(cliente,nombre);
         agregar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+        Presentacion_DlgDirecciones direccion = new Presentacion_DlgDirecciones(cliente);
+        direccion.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed
+    private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombresActionPerformed
+    }//GEN-LAST:event_txtCalleActionPerformed
 
-    private void txtNombres1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombres1ActionPerformed
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombres1ActionPerformed
+    }//GEN-LAST:event_txtNombreActionPerformed
 
 
 
@@ -139,9 +153,9 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField txtApellidoMaterno;
-    private javax.swing.JTextField txtApellidoPaterno;
-    private javax.swing.JTextField txtNombres;
-    private javax.swing.JTextField txtNombres1;
+    private javax.swing.JTextField txtCalle;
+    private javax.swing.JTextField txtColonia;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNumeroExterior;
     // End of variables declaration//GEN-END:variables
 }

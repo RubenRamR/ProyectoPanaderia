@@ -1,15 +1,23 @@
 
 package Presentación;
 
+import DTO.DTO_Cliente;
+
 /**
  *
  * @author joseq
  */
 public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
 
+    private double cantidad;
+    DTO_Cliente cliente = new DTO_Cliente();
+    String nombre;
     
-    public Presentacion_DlgCobrarVenta() {
+    public Presentacion_DlgCobrarVenta(DTO_Cliente cliente,String nombre,double cantidad) {
         initComponents();
+        this.cliente=cliente;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
     }
 
    
@@ -26,8 +34,9 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(460, 360));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(470, 370));
+        setPreferredSize(new java.awt.Dimension(470, 370));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -42,7 +51,7 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
         jLabel3.setText("Seleccione Cantidad a pagar:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "50%", "100%", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "50%", "100%" }));
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -81,7 +90,9 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        Presentacion_DlgAgregarPan agregar = new Presentacion_DlgAgregarPan(cliente,nombre);
+        agregar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -89,7 +100,7 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Presentacion_DlgConfirmacionPago sig = new Presentacion_DlgConfirmacionPago();
+        Presentacion_DlgConfirmacionPago sig = new Presentacion_DlgConfirmacionPago(cliente, nombre, cantidad);
         sig.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
