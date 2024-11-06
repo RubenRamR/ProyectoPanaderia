@@ -4,12 +4,15 @@
  */
 package Presentación;
 
+import DTO.DTO_Cliente;
+
 /**
  *
  * @author joseq
  */
 public class Presentacion_DlgDatosCliente extends javax.swing.JFrame {
 
+    DTO_Cliente cliente = new DTO_Cliente();
     /**
      * Creates new form Presentacion_DlgDatosCliente
      */
@@ -38,7 +41,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JFrame {
         txtApellidoPaterno = new javax.swing.JTextField();
         txtApellidoMaterno = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(400, 470));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -105,13 +108,17 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        Presentacion_DlgDirecciones direccion = new Presentacion_DlgDirecciones();
+        cliente.setNombre(txtNombres.getText());
+        cliente.setApellidoM(txtApellidoMaterno.getText());
+        cliente.setApellidoP(txtApellidoPaterno.getText());
+        cliente.setTelefono(txtTelofono.getText());
+        Presentacion_DlgDirecciones direccion = new Presentacion_DlgDirecciones(cliente);
         direccion.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed

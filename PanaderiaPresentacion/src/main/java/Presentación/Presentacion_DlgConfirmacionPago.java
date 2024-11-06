@@ -4,6 +4,7 @@
  */
 package Presentación;
 
+import DTO.DTO_Cliente;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,24 +12,32 @@ import javax.swing.JOptionPane;
  * @author joseq
  */
 public class Presentacion_DlgConfirmacionPago extends javax.swing.JFrame {
+    
+    private double cantidad;
+    DTO_Cliente cliente = new DTO_Cliente();
+    String nombre;
 
     /**
      * Creates new form Presentacion_DlgConfirmacionPago
      */
-    public Presentacion_DlgConfirmacionPago() {
+    public Presentacion_DlgConfirmacionPago(DTO_Cliente cliente,String nombre,double cantidad) {
         initComponents();
-        txtCosto.setText("30");
-        txtCliente.setText("Mario");
+        this.cliente=cliente;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        cargarDatosIniciales();
+    }
+
+    public void cargarDatosIniciales(){
+        txtCosto.setText(String.valueOf(cantidad));
+        txtCliente.setText(cliente.getNombre());
         txtFechaEntrega.setText("28/10/2024");
-        txtUbicacionEntrega.setText("Casa");
+        txtUbicacionEntrega.setText(nombre);
         txtCliente.setEditable(false);
         txtCosto.setEditable(false);
         txtFechaEntrega.setEditable(false);
         txtUbicacionEntrega.setEditable(false);
-        
-        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
