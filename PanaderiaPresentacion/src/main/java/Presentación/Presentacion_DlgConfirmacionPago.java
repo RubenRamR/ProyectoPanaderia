@@ -4,40 +4,45 @@
  */
 package Presentación;
 
+import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
+import DTO.DTO_Venta;
+import com.mycompany.panaderiaventa.IFuncionalidadesVenta;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author joseq
  */
-public class Presentacion_DlgConfirmacionPago extends javax.swing.JFrame {
+public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
     
-    private double cantidad;
-    DTO_Cliente cliente = new DTO_Cliente();
-    String nombre;
+    private ControlAgregarVenta control;
+    private DTO_Venta venta;
+    private IFuncionalidadesVenta ventas;
 
     /**
      * Creates new form Presentacion_DlgConfirmacionPago
      */
-    public Presentacion_DlgConfirmacionPago(DTO_Cliente cliente,String nombre,double cantidad) {
+    public Presentacion_DlgConfirmacionPago(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        control = ControlAgregarVenta.getInstance();
+//        this.actualizarCliente = new FuncionalidadActualizarCliente();
+//        this.venta = control.getVenta();
+//        this.agregarCliente = new FuncionalidadAgregarClientes();
+//        this.ventas = new FuncionalidadesVenta();
+        setTitle("Confirmación");
         initComponents();
-        this.cliente=cliente;
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        cargarDatosIniciales();
+        txtCliente.setText(venta.getCliente().getNombre());
+        txtCosto.setText(Float.toString(venta.getMontoTotal()));
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+        txtFechaEntrega.setText(ff.format(venta.getFechaEntrega()));
+        txtUbicacionEntrega.setText(venta.getDireccionEntrega().getCalle());
+        setVisible(true);
+
     }
 
-    public void cargarDatosIniciales(){
-        txtCosto.setText(String.valueOf(cantidad));
-        txtCliente.setText(cliente.getNombre());
-        txtFechaEntrega.setText("28/10/2024");
-        txtUbicacionEntrega.setText(nombre);
-        txtCliente.setEditable(false);
-        txtCosto.setEditable(false);
-        txtFechaEntrega.setEditable(false);
-        txtUbicacionEntrega.setEditable(false);
-    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -177,19 +182,7 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        int confirmacion = JOptionPane.showOptionDialog(this,
-                "¿Está seguro de que deseas completar la venta? " + txtCliente.getText(),
-                "Confirmación de edicion",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new Object[]{"Cancelar", "Confirmar"},
-                "Confirmar");
-        // Si el usuario selecciona "Cancelar", no se hace nada
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            return;
-        }
-        this.dispose();
+       
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
    

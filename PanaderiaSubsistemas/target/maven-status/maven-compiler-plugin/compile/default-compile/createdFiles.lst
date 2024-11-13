@@ -1,0 +1,5 @@
+Panes\IPanes.class
+Panes\PanesFachada.class
+Ventas\VentasFachada.class
+Clientes\ICliente.class
+Clientes\ClienteFachada.class

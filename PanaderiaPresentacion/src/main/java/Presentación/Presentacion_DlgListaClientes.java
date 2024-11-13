@@ -4,17 +4,22 @@
  */
 package Presentación;
 
+import Control.ControlAgregarVenta;
+import DTO.DTO_Venta;
+
 /**
  *
  * @author joseq
  */
-public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
+public class Presentacion_DlgListaClientes extends javax.swing.JDialog {
+    private ControlAgregarVenta control;
+    private DTO_Venta venta;
 
     /**
      * Creates new form Presentacion_DlgListaClientes
      */
-    public Presentacion_DlgListaClientes() {
-        initComponents();
+    public Presentacion_DlgListaClientes(java.awt.Frame parent, boolean modal) {
+      super(parent, modal);
     }
 
     /**
@@ -29,11 +34,11 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaClientes = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
         txtBuscarCliente = new javax.swing.JTextField();
-        btnBuscar1 = new javax.swing.JButton();
-        btnContinuar = new javax.swing.JButton();
+        buscarBtn = new javax.swing.JButton();
+        continuarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -42,7 +47,7 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
         jLabel1.setText("Seleccione un cliente");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -53,7 +58,7 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
                 "Nombres", "Apellido Paterno", "Apellido Materno", "Telefono"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaClientes);
 
         btnRegresar.setBackground(new java.awt.Color(204, 153, 0));
         btnRegresar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -66,21 +71,21 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
 
         txtBuscarCliente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        btnBuscar1.setBackground(new java.awt.Color(204, 153, 0));
-        btnBuscar1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnBuscar1.setText("Buscar");
-        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+        buscarBtn.setBackground(new java.awt.Color(204, 153, 0));
+        buscarBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        buscarBtn.setText("Buscar");
+        buscarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscar1ActionPerformed(evt);
+                buscarBtnActionPerformed(evt);
             }
         });
 
-        btnContinuar.setBackground(new java.awt.Color(204, 153, 0));
-        btnContinuar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnContinuar.setText("Continuar");
-        btnContinuar.addActionListener(new java.awt.event.ActionListener() {
+        continuarBtn.setBackground(new java.awt.Color(204, 153, 0));
+        continuarBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        continuarBtn.setText("Continuar");
+        continuarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnContinuarActionPerformed(evt);
+                continuarBtnActionPerformed(evt);
             }
         });
 
@@ -101,12 +106,12 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
                         .addGap(89, 89, 89)
                         .addComponent(btnRegresar)
                         .addGap(78, 78, 78)
-                        .addComponent(btnContinuar)))
+                        .addComponent(continuarBtn)))
                 .addContainerGap(18, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addContainerGap(348, Short.MAX_VALUE)
-                    .addComponent(btnBuscar1)
+                    .addComponent(buscarBtn)
                     .addGap(60, 60, 60)))
         );
         jPanel1Layout.setVerticalGroup(
@@ -122,13 +127,13 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(continuarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(77, 77, 77)
-                    .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(288, Short.MAX_VALUE)))
         );
 
@@ -141,24 +146,24 @@ public class Presentacion_DlgListaClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+    private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscar1ActionPerformed
+    }//GEN-LAST:event_buscarBtnActionPerformed
 
-    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+    private void continuarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnContinuarActionPerformed
+    }//GEN-LAST:event_continuarBtnActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar1;
-    private javax.swing.JButton btnContinuar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton buscarBtn;
+    private javax.swing.JButton continuarBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaClientes;
     private javax.swing.JTextField txtBuscarCliente;
     // End of variables declaration//GEN-END:variables
 }

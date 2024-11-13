@@ -1,23 +1,26 @@
 
 package Presentación;
 
+import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
+import DTO.DTO_Venta;
 
 /**
  *
  * @author joseq
  */
-public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
+public class Presentacion_DlgCobrarVenta extends javax.swing.JDialog{
+    ControlAgregarVenta control;
+    DTO_Venta venta;
 
-    private double cantidad;
-    DTO_Cliente cliente = new DTO_Cliente();
-    String nombre;
     
-    public Presentacion_DlgCobrarVenta(DTO_Cliente cliente,String nombre,double cantidad) {
+    public Presentacion_DlgCobrarVenta(java.awt.Frame parent, boolean modal) {
+      super(parent, modal);
+        control = ControlAgregarVenta.getInstance();
+        this.venta = control.getVenta();
+        setTitle("Tipo de pago");
         initComponents();
-        this.cliente=cliente;
-        this.nombre = nombre;
-        this.cantidad = cantidad;
+        setVisible(true);
     }
 
    
@@ -28,11 +31,11 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxCantidad = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        comboBoxPago = new javax.swing.JComboBox<>();
+        cancelarBtn = new javax.swing.JButton();
+        aceptarbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(470, 370));
@@ -51,67 +54,71 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JFrame {
         jLabel3.setText("Seleccione Cantidad a pagar:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "50%", "100%" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, -1, -1));
+        comboBoxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "50%", "100%" }));
+        getContentPane().add(comboBoxCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Seleccione metodo de pago:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tarjeta", "Efectivo" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tarjeta", "Efectivo" }));
+        comboBoxPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                comboBoxPagoActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, -1, -1));
+        getContentPane().add(comboBoxPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(204, 153, 0));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setText("Cancelar Pedido");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cancelarBtn.setBackground(new java.awt.Color(204, 153, 0));
+        cancelarBtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cancelarBtn.setText("Cancelar Pedido");
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cancelarBtnActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
+        getContentPane().add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(204, 153, 0));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        aceptarbtn.setBackground(new java.awt.Color(204, 153, 0));
+        aceptarbtn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        aceptarbtn.setText("Aceptar");
+        aceptarbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                aceptarbtnActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, -1, -1));
+        getContentPane().add(aceptarbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Presentacion_DlgAgregarPan agregar = new Presentacion_DlgAgregarPan(cliente,nombre);
-        agregar.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+      this.dispose();
+        control.mostrarProductosVenta();
+    }//GEN-LAST:event_cancelarBtnActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void comboBoxPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPagoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_comboBoxPagoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Presentacion_DlgConfirmacionPago sig = new Presentacion_DlgConfirmacionPago(cliente, nombre, cantidad);
-        sig.setVisible(true);
+    private void aceptarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarbtnActionPerformed
+        if (comboBoxPago.getSelectedItem().toString().equals("Anticipo del 50%")) {
+            venta.setEstado("Pendiente");
+        } else {
+            venta.setEstado("Pagado");
+        }
+        control.setVenta(venta);
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+        control.mostrarConfirmacionPago();
+    }//GEN-LAST:event_aceptarbtnActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton aceptarbtn;
+    private javax.swing.JButton cancelarBtn;
+    private javax.swing.JComboBox<String> comboBoxCantidad;
+    private javax.swing.JComboBox<String> comboBoxPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -1,6 +1,7 @@
 package Presentación;
 
 
+import Control.ControlAgregarVenta;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -10,11 +11,18 @@ import javax.swing.plaf.ColorUIResource;
  * @author joseq
  */
 public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
+    
+    
+    ControlAgregarVenta control;
+    
+    
+    
 
     public static JDesktopPane JDesktopPane_menu;
 
     public Presentacion_MenuPrincipal() {
         initComponents();
+        control = ControlAgregarVenta.getInstance();
          this.setSize(new Dimension(1200, 700)); // Establecer tamaño de la ventana
         this.setLocationRelativeTo(null); // Centrar la ventana
         this.setTitle("Menu Principal");
@@ -144,8 +152,11 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresosMensualesActionPerformed
 
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
-        Presentacion_DlgDatosCliente cliente = new Presentacion_DlgDatosCliente();
-        cliente.setVisible(true);
+
+
+ this.dispose();
+ control.mostrarProductosVenta();
+ 
     }//GEN-LAST:event_btnRegistrarVenta1ActionPerformed
 
     private void btnGestionDeGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeGastosActionPerformed

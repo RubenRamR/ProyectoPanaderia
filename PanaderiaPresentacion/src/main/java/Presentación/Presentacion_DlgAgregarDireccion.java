@@ -4,24 +4,34 @@
  */
 package Presentación;
 
-import DTO.DTO_Cliente;
+import Control.ControlAgregarVenta;
 import DTO.DTO_Direccion;
+
+
+import DTO.DTO_Venta;
+import java.util.ResourceBundle.Control;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author joseq
  */
-public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
+public class Presentacion_DlgAgregarDireccion extends javax.swing.JDialog {
 
-    DTO_Direccion direccion = new DTO_Direccion();
-    DTO_Cliente cliente = new DTO_Cliente();
-    String nombre;
+    DTO_Venta venta;
+    ControlAgregarVenta control;
+
     /**
      * Creates new form Presentacion_DlgDatosCliente
      */
-    public Presentacion_DlgAgregarDireccion(DTO_Cliente cliente) {
+    public Presentacion_DlgAgregarDireccion(java.awt.Frame parent, boolean modal) {
+        super(parent,modal);
+        this.control = ControlAgregarVenta.getInstance();
+        this.venta = control.getVenta();
+        setTitle("Datos de la dirección");
         initComponents();
-        this.cliente=cliente;
+
+        setVisible(true);
     }
 
     /**
@@ -37,13 +47,11 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnSiguiente = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         txtCalle = new javax.swing.JTextField();
         txtColonia = new javax.swing.JTextField();
-        txtNumeroExterior = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        txtNumExt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(375, 355));
@@ -68,15 +76,15 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         jLabel5.setText("Numero Exterior:");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
-        btnSiguiente.setBackground(new java.awt.Color(204, 153, 0));
-        btnSiguiente.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSiguiente.setText("Siguiente");
-        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
+        btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiguienteActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, -1, -1));
+        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, -1, -1));
 
         btnRegresar.setBackground(new java.awt.Color(204, 153, 0));
         btnRegresar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -99,63 +107,63 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JFrame {
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(txtColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 160, -1));
 
-        txtNumeroExterior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtNumeroExterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("Nombre:");
-        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setVerifyInputWhenFocusTarget(false);
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 120, -1));
-
-        txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 160, -1));
+        txtNumExt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(txtNumExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        direccion.setCalle(txtCalle.getText());
-        direccion.setColonia(txtColonia.getText());
-        direccion.setNumExterior(txtNumeroExterior.getText());
-        nombre = txtNombre.getText();
-        Presentacion_DlgAgregarPan agregar = new Presentacion_DlgAgregarPan(cliente,nombre);
-        agregar.setVisible(true);
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+if (txtCalle.getText().isEmpty() || txtColonia.getText().isEmpty() || txtNumExt.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            int numExterior = Integer.parseInt(txtNumExt.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El número exterior debe ser un valor numérico.", "Número no válido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        DTO_Direccion dir = new DTO_Direccion();
+        dir.setCalle(txtCalle.getText());
+        dir.setColonia(txtColonia.getText());
+        dir.setNumExterior(txtNumExt.getText());
+        venta.setDireccionEntrega(dir);
+        control.setVenta(venta);
         this.dispose();
-    }//GEN-LAST:event_btnSiguienteActionPerformed
+        control.mostrarCobrarVenta();
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        Presentacion_DlgDirecciones direccion = new Presentacion_DlgDirecciones(cliente);
-        direccion.setVisible(true);
-        this.dispose();
+ if (control.getVentanaAnterior().equals("Cliente")) {
+            this.dispose();
+            control.mostrarDatosClientes();
+
+        }
+        if (control.getVentanaAnterior().equals("Clientes")) {
+            this.dispose();
+            control.mostrarListaClientes();
+        } else {
+            this.dispose();
+            control.mostrarListaDirecciones();
+        }
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCalleActionPerformed
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtColonia;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNumeroExterior;
+    private javax.swing.JTextField txtNumExt;
     // End of variables declaration//GEN-END:variables
 }

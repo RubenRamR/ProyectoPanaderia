@@ -4,20 +4,34 @@
  */
 package Presentación;
 
+import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
+import DTO.DTO_Direccion;
+import DTO.DTO_Venta;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author joseq
  */
-public class Presentacion_DlgDatosCliente extends javax.swing.JFrame {
+public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
+
+    ControlAgregarVenta control;
+    DTO_Venta venta;
 
     DTO_Cliente cliente = new DTO_Cliente();
+
     /**
      * Creates new form Presentacion_DlgDatosCliente
      */
-    public Presentacion_DlgDatosCliente() {
+    public Presentacion_DlgDatosCliente(java.awt.Frame parent, boolean modal) {
+         super(parent, modal);
+        control = ControlAgregarVenta.getInstance();
+        this.venta = control.getVenta();
+        setTitle("Datos del cliente");
         initComponents();
+
+        setVisible(true);
     }
 
     /**
@@ -36,10 +50,10 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
-        txtTelofono = new javax.swing.JTextField();
-        txtNombres = new javax.swing.JTextField();
-        txtApellidoPaterno = new javax.swing.JTextField();
-        txtApellidoMaterno = new javax.swing.JTextField();
+        campoTextoTelefono = new javax.swing.JTextField();
+        campoTextoNombre = new javax.swing.JTextField();
+        campoTextoApellidoP = new javax.swing.JTextField();
+        campoTextoApellidoM = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(400, 470));
@@ -87,57 +101,99 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JFrame {
         });
         getContentPane().add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
 
-        txtTelofono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtTelofono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 160, -1));
+        campoTextoTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(campoTextoTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 160, -1));
 
-        txtNombres.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNombres.addActionListener(new java.awt.event.ActionListener() {
+        campoTextoNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoTextoNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombresActionPerformed(evt);
+                campoTextoNombreActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 160, -1));
+        getContentPane().add(campoTextoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 160, -1));
 
-        txtApellidoPaterno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 160, -1));
+        campoTextoApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(campoTextoApellidoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 160, -1));
 
-        txtApellidoMaterno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
+        campoTextoApellidoM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(campoTextoApellidoM, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 160, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        cliente.setNombre(txtNombres.getText());
-        cliente.setApellidoM(txtApellidoMaterno.getText());
-        cliente.setApellidoP(txtApellidoPaterno.getText());
-        cliente.setTelefono(txtTelofono.getText());
-        Presentacion_DlgDirecciones direccion = new Presentacion_DlgDirecciones(cliente);
-        direccion.setVisible(true);
-        this.dispose();
+ if (campoTextoNombre.getText().isEmpty() || campoTextoApellidoP.getText().isEmpty()
+                || campoTextoApellidoM.getText().isEmpty() || campoTextoTelefono.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!esNumeroEntero(campoTextoTelefono.getText())) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe ser un número entero.", "Teléfono inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        DTO_Cliente cliente = new DTO_Cliente();
+        cliente.setNombre(this.campoTextoNombre.getText());
+        cliente.setApellidoP(this.campoTextoApellidoP.getText());
+        cliente.setApellidoM(this.campoTextoApellidoM.getText());
+        cliente.setTelefono(this.campoTextoTelefono.getText());
+
+        venta.setCliente(cliente);
+        control.setVenta(venta);
+
+        int respuesta = JOptionPane.showOptionDialog(null, "¿Realizara envio a domicilio?", "Tipo de envio", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
+        if (respuesta == JOptionPane.CLOSED_OPTION) {
+            return;
+        }
+        if (respuesta == JOptionPane.YES_OPTION) {
+            control.setVentanaAnterior("Cliente");
+            this.dispose();
+            control.mostrarAgregarDireccion();
+        } else {
+            DTO_Direccion direccion = new DTO_Direccion();
+            direccion.setCalle("En tienda");
+            venta.setDireccionEntrega(direccion);
+            control.setVenta(venta);
+            this.dispose();
+            control.mostrarCobrarVenta();
+        }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        this.dispose();
+         this.dispose();
+        control.mostrarProductosVenta();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed
+    private void campoTextoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTextoNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombresActionPerformed
-
+    }//GEN-LAST:event_campoTextoNombreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JTextField campoTextoApellidoM;
+    private javax.swing.JTextField campoTextoApellidoP;
+    private javax.swing.JTextField campoTextoNombre;
+    private javax.swing.JTextField campoTextoTelefono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField txtApellidoMaterno;
-    private javax.swing.JTextField txtApellidoPaterno;
-    private javax.swing.JTextField txtNombres;
-    private javax.swing.JTextField txtTelofono;
     // End of variables declaration//GEN-END:variables
+
+
+ private boolean esNumeroEntero(String texto) {
+        try {
+            Integer.parseInt(texto);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+
+
 }

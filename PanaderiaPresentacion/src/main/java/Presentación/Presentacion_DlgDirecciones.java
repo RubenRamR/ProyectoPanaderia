@@ -4,22 +4,30 @@
  */
 package Presentación;
 
+import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
+import DTO.DTO_Venta;
+
+import java.util.List;
 
 /**
  *
  * @author joseq
  */
-public class Presentacion_DlgDirecciones extends javax.swing.JFrame {
+public class Presentacion_DlgDirecciones extends javax.swing.JDialog {
 
-    DTO_Cliente cliente = new DTO_Cliente();
+    private ControlAgregarVenta control;
+     private DTO_Venta venta;
     
+
     /**
      * Creates new form Presentacion_DlgListaClientes
      */
-    public Presentacion_DlgDirecciones(DTO_Cliente cliente) {
-        initComponents();
-        this.cliente=cliente;
+    public Presentacion_DlgDirecciones(java.awt.Frame parent, boolean modal) {
+       super(parent, modal);
+       control = ControlAgregarVenta.getInstance();
+        this.venta = control.getVenta();
+        
     }
 
     /**
@@ -127,21 +135,18 @@ public class Presentacion_DlgDirecciones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        Presentacion_DlgDatosCliente clientes = new Presentacion_DlgDatosCliente();
-        clientes.setVisible(true);
-        this.dispose();
+           this.dispose();
+        control.mostrarListaClientes();
+        
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAgregarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDireccionActionPerformed
-       Presentacion_DlgAgregarDireccion agregar = new Presentacion_DlgAgregarDireccion(cliente);
-       agregar.setVisible(true);
-       this.dispose();
+        
     }//GEN-LAST:event_btnAgregarDireccionActionPerformed
 
     private void btnSeleccionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionar1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSeleccionar1ActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
