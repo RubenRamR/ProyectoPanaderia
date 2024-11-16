@@ -276,7 +276,7 @@ public class Presentacion_ProductosVenta extends javax.swing.JFrame {
 public void ponerTotal() {
         total = calcularTotal();
 
-        labelTotal.setText("Total a pagar " + total);
+        JlabelTotal.setText("Total a pagar " + total);
     }
 
     private void llenarTabla() {

@@ -21,6 +21,7 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
     private DTO_Venta venta;
     private IFuncionalidadesVenta ventas;
 
+
     /**
      * Creates new form Presentacion_DlgConfirmacionPago
      */
