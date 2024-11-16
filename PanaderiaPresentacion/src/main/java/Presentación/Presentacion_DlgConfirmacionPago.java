@@ -4,13 +4,21 @@
  */
 package Presentación;
 
+import ActualizarCliente.FuncionalidadActulizarCliente;
+import ActualizarCliente.IFuncionalidadActualizarCliente;
 import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
 import DTO.DTO_Venta;
 import DTO.DTO_Direccion;
+import com.mycompany.funcionalidadagregarclientes.FuncionalidadAgregarClientes;
+import com.mycompany.funcionalidadagregarclientes.IFuncionalidadAgregarClientes;
 
 import com.mycompany.panaderiaventa.IFuncionalidadesVenta;
 import com.mycompany.panaderiaventa.FuncionalidadesVenta;
+
+
+
+
 
 
 import java.text.SimpleDateFormat;
@@ -28,6 +36,8 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
     private ControlAgregarVenta control;
     private DTO_Venta venta;
     private IFuncionalidadesVenta ventas;
+    private IFuncionalidadAgregarClientes agregarCliente;
+    private IFuncionalidadActualizarCliente actualizarCliente;
 
 
     /**
@@ -36,10 +46,10 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
     public Presentacion_DlgConfirmacionPago(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         control = ControlAgregarVenta.getInstance();
-//        this.actualizarCliente = new FuncionalidadActualizarCliente();
-//        this.venta = control.getVenta();
-//        this.agregarCliente = new FuncionalidadAgregarClientes();
-//        this.ventas = new FuncionalidadesVenta();
+        this.actualizarCliente = new FuncionalidadActulizarCliente();
+        this.venta = control.getVenta();
+        this.agregarCliente = new FuncionalidadAgregarClientes();
+        this.ventas = new FuncionalidadesVenta();
         setTitle("Confirmación");
         initComponents();
         txtCliente.setText(venta.getCliente().getNombre());
@@ -74,8 +84,6 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
         btnRegresar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jPanel1.setPreferredSize(new java.awt.Dimension(550, 350));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -105,6 +113,11 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
         btnRegresar.setBackground(new java.awt.Color(204, 153, 0));
         btnRegresar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         btnRegistrar.setBackground(new java.awt.Color(204, 153, 0));
         btnRegistrar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -191,8 +204,73 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-       
+        if (venta.getCliente().getID() == null) {
+
+            if (!venta.getDireccionEntrega().getCalle().equalsIgnoreCase("En tienda")) {
+
+                List<DTO_Direccion> a = new ArrayList<>();
+                a.add(venta.getDireccionEntrega());
+                venta.getCliente().setDirecciones(a);
+                System.out.println(venta.getCliente().getDirecciones());
+            }
+            DTO_Cliente cliente = agregarCliente.agregarCliente(venta.getCliente());
+            DTO_Cliente clienteProvisional = new DTO_Cliente();
+            clienteProvisional.setID(cliente.getID());
+            clienteProvisional.setNombre(cliente.getNombre());
+            clienteProvisional.setApellidoP(cliente.getApellidoP());
+            clienteProvisional.setApellidoM(cliente.getApellidoM());
+            venta.setCliente(clienteProvisional);
+            venta.setFechaRegistro(new Date());
+
+        } else {
+
+            if (control.isNuevaDireccion() && !venta.getDireccionEntrega().getCalle().equalsIgnoreCase("En tienda")) {
+                System.out.println("entro al actualiza");
+                List<DTO_Direccion> direcciones = venta.getCliente().getDirecciones();
+                direcciones.add(venta.getDireccionEntrega());
+                venta.getCliente().setDirecciones(direcciones);
+                DTO_Cliente clienteProvisional = new DTO_Cliente();
+                clienteProvisional.setID(venta.getCliente().getID());
+                clienteProvisional.setNombre(venta.getCliente().getNombre());
+                clienteProvisional.setApellidoP(venta.getCliente().getApellidoP());
+                clienteProvisional.setApellidoM(venta.getCliente().getApellidoM());
+                actualizarCliente.actualizarCliente(venta.getCliente());
+                venta.getCliente().setDirecciones(direcciones);
+                venta.setCliente(clienteProvisional);
+                venta.setFechaRegistro(new Date());
+
+            } else {
+                DTO_Cliente clienteProvisional = new DTO_Cliente();
+                clienteProvisional.setID(venta.getCliente().getID());
+                clienteProvisional.setNombre(venta.getCliente().getNombre());
+                clienteProvisional.setApellidoP(venta.getCliente().getApellidoP());
+                clienteProvisional.setApellidoM(venta.getCliente().getApellidoM());
+                venta.setCliente(clienteProvisional);
+                venta.setFechaRegistro(new Date());
+
+            }
+        }
+        ventas.agregarVenta(venta);
+        String mensaje = "¡La venta ha sido registrada exitosamente!";
+        control.setNuevaDireccion(false);
+        JOptionPane.showMessageDialog(null, mensaje, "Registro de Venta Exitoso", JOptionPane.INFORMATION_MESSAGE);
+
+        int respuesta = JOptionPane.showOptionDialog(null, "¿Quiere registrar otra venta?", "Hola", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            this.dispose();
+            control.mostrarProductosVenta();
+
+        } else {
+            this.dispose();
+            control.mostrarMenu();
+
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+          this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
    
 

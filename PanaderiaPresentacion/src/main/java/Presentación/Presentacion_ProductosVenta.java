@@ -187,75 +187,75 @@ public class Presentacion_ProductosVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-  if (validarCamposVacios()) {
-
-            if (((DefaultTableModel) tableProductos.getModel()).getRowCount() <= 0) {
-                JOptionPane.showMessageDialog(this, "No se puede continuar sin agregar algun producto.", "No hay productos en la venta", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            int rowCount = this.tableProductos.getModel().getRowCount();
-            List<DTO_DetalleVenta> listaDetalles = new ArrayList<>();
-
-            for (int i = 0; i < rowCount; i++) {
-                DTO_DetalleVenta detalleVenta = new DTO_DetalleVenta();
-                Object valueNombre = this.tableProductos.getModel().getValueAt(i, 0); // Obtener el valor en la segunda columna (índice 1)
-                Object valueEspecificaciones = this.tableProductos.getModel().getValueAt(i, 1);
-                Object valueCantidad = this.tableProductos.getModel().getValueAt(i, 2);
-                Object valuePrecio = this.tableProductos.getModel().getValueAt(i, 3);
-                Object valueTamanio = this.tableProductos.getModel().getValueAt(i, 4);
-
-                String nombre = valueNombre != null ? valueNombre.toString() : "";
-                String especificaciones = valueEspecificaciones != null ? valueEspecificaciones.toString() : "";
-
-                int cantidad = 0;
-                if (valueCantidad != null) {
-                    try {
-                        cantidad = Integer.parseInt(valueCantidad.toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                float precio = 0.0f;
-                if (valuePrecio != null) {
-                    try {
-                        precio = Float.parseFloat(valuePrecio.toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                String tamanio = valueTamanio != null ? valueTamanio.toString() : "";
-
-                detalleVenta.setIdproducto(this.funcionalidadesProductos.consultarProductoPorNombre(nombre).getId());
-                detalleVenta.setEspecificacion(especificaciones);
-                detalleVenta.setCantidad(cantidad);
-                detalleVenta.setPrecio(precio);
-                detalleVenta.setTamanhoProducto(tamanio);
-                detalleVenta.setImporte(detalleVenta.getCantidad() * detalleVenta.getPrecio());
-                listaDetalles.add(detalleVenta);
-            }
-            venta.setDetallesVenta(listaDetalles);
-            int respuesta = JOptionPane.showOptionDialog(null, "¿El cliente ya ha comprado aqui?", "Bienvenido", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
-            LocalDate localDate = fechaEntrega.getDate();
-            Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            venta.setFechaEntrega(date);
-            venta.setMontoTotal(total);
-            control.setVenta(venta);
-            if (respuesta == JOptionPane.CLOSED_OPTION) {
-                return;
-            }
-            if (respuesta == JOptionPane.YES_OPTION) {
-                dispose();
-                control.mostrarListaClientes();
-
-            } else if (respuesta == JOptionPane.NO_OPTION) {
-                System.out.println(control.getVenta());
-                dispose();
-                control.mostrarDatosClientes();
-
-            }
-        }
+//  if (validarCamposVacios()) {
+//
+//            if (((DefaultTableModel) tableProductos.getModel()).getRowCount() <= 0) {
+//                JOptionPane.showMessageDialog(this, "No se puede continuar sin agregar algun producto.", "No hay productos en la venta", JOptionPane.WARNING_MESSAGE);
+//                return;
+//            }
+//            int rowCount = this.tableProductos.getModel().getRowCount();
+//            List<DTO_DetalleVenta> listaDetalles = new ArrayList<>();
+//
+//            for (int i = 0; i < rowCount; i++) {
+//                DTO_DetalleVenta detalleVenta = new DTO_DetalleVenta();
+//                Object valueNombre = this.tableProductos.getModel().getValueAt(i, 0); // Obtener el valor en la segunda columna (índice 1)
+//                Object valueEspecificaciones = this.tableProductos.getModel().getValueAt(i, 1);
+//                Object valueCantidad = this.tableProductos.getModel().getValueAt(i, 2);
+//                Object valuePrecio = this.tableProductos.getModel().getValueAt(i, 3);
+//                Object valueTamanio = this.tableProductos.getModel().getValueAt(i, 4);
+//
+//                String nombre = valueNombre != null ? valueNombre.toString() : "";
+//                String especificaciones = valueEspecificaciones != null ? valueEspecificaciones.toString() : "";
+//
+//                int cantidad = 0;
+//                if (valueCantidad != null) {
+//                    try {
+//                        cantidad = Integer.parseInt(valueCantidad.toString());
+//                    } catch (NumberFormatException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                float precio = 0.0f;
+//                if (valuePrecio != null) {
+//                    try {
+//                        precio = Float.parseFloat(valuePrecio.toString());
+//                    } catch (NumberFormatException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                String tamanio = valueTamanio != null ? valueTamanio.toString() : "";
+//
+//                detalleVenta.setIdproducto(this.funcionalidadesProductos.consultarProductoPorNombre(nombre).getId());
+//                detalleVenta.setEspecificacion(especificaciones);
+//                detalleVenta.setCantidad(cantidad);
+//                detalleVenta.setPrecio(precio);
+//                detalleVenta.setTamanhoProducto(tamanio);
+//                detalleVenta.setImporte(detalleVenta.getCantidad() * detalleVenta.getPrecio());
+//                listaDetalles.add(detalleVenta);
+//            }
+////            venta.setDetallesVenta(listaDetalles);
+////            int respuesta = JOptionPane.showOptionDialog(null, "¿El cliente ya ha comprado aqui?", "Bienvenido", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
+//////            LocalDate localDate = fechaEntrega.getDate();
+//////            Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+////            venta.setFechaEntrega(date);
+////            venta.setMontoTotal(total);
+////            control.setVenta(venta);
+////            if (respuesta == JOptionPane.CLOSED_OPTION) {
+////                return;
+////            }
+////            if (respuesta == JOptionPane.YES_OPTION) {
+////                dispose();
+////                control.mostrarListaClientes();
+////
+////            } else if (respuesta == JOptionPane.NO_OPTION) {
+////                System.out.println(control.getVenta());
+////                dispose();
+////                control.mostrarDatosClientes();
+//
+//            }
+////        }
         
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -276,7 +276,7 @@ public class Presentacion_ProductosVenta extends javax.swing.JFrame {
 public void ponerTotal() {
         total = calcularTotal();
 
-        JlabelTotal.setText("Total a pagar " + total);
+//        JlabelTotal.setText("Total a pagar " + total);
     }
 
     private void llenarTabla() {
@@ -321,13 +321,13 @@ public void ponerTotal() {
         }
     }
 
-    private boolean validarCamposVacios() {
-        if (fechaEntrega.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha de entrega.", "Fecha no seleccionada", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        return true;
-    }
+//    private boolean validarCamposVacios() {
+//        if (fechaEntrega.getDate() == null) {
+//            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha de entrega.", "Fecha no seleccionada", JOptionPane.WARNING_MESSAGE);
+//            return false;
+//        }
+//        return true;
+//    }
 // Editor para los botones
 
     class BotonEditor extends DefaultCellEditor {
