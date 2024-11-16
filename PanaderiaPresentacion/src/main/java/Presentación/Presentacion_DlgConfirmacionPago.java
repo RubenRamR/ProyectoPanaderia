@@ -7,8 +7,16 @@ package Presentación;
 import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
 import DTO.DTO_Venta;
+import DTO.DTO_Direccion;
+
 import com.mycompany.panaderiaventa.IFuncionalidadesVenta;
+import com.mycompany.panaderiaventa.FuncionalidadesVenta;
+
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
