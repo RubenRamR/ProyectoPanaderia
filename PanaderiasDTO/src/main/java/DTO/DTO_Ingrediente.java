@@ -4,23 +4,22 @@
  */
 package DTO;
 
-
 public class DTO_Ingrediente {
 
     private String id;
     private String nombre;
     private Integer cantidad;
-    private String unidadDeMedida;
+      
     private Float precio;
 
     public DTO_Ingrediente() {
     }
 
-    public DTO_Ingrediente(String id, String nombre, Integer cantidad, String unidadDeMedida, Float precio) {
+    public DTO_Ingrediente(String id, String nombre, Integer cantidad, Float precio) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
-        this.unidadDeMedida = unidadDeMedida;
+
         this.precio = precio;
     }
 
@@ -50,14 +49,6 @@ public class DTO_Ingrediente {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public String getUnidadDeMedida() {
-        return unidadDeMedida;
-    }
-
-    public void setUnidadDeMedida(String unidadDeMedida) {
-        this.unidadDeMedida = unidadDeMedida;
     }
 
     public Float getPrecio() {

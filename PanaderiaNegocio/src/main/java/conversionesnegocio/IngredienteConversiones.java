@@ -34,7 +34,7 @@ public class IngredienteConversiones {
         ingredienteDTO.setNombre(ingrediente.getNombre());
         ingredienteDTO.setCantidad(ingrediente.getCantidad());
         ingredienteDTO.setPrecio(ingrediente.getPrecio());
-        ingredienteDTO.setUnidadDeMedida(ingrediente.getUnidadDeMedida());
+        
 
         return ingredienteDTO;
     }
