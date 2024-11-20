@@ -155,7 +155,7 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
 
 
  this.dispose();
- control.mostrarProductosVenta();
+ control.mostrarDatosClientes();
  
     }//GEN-LAST:event_btnRegistrarVenta1ActionPerformed
 

@@ -5,6 +5,7 @@
 package Control;
 
 import DTO.DTO_Cliente;
+import DTO.DTO_DetalleVenta;
 import DTO.DTO_Direccion;
 import DTO.DTO_Producto;
 import DTO.DTO_Venta;
@@ -28,6 +29,7 @@ public class ControlAgregarVenta {
     private static ControlAgregarVenta instance;
     private DTO_Producto producto;
     private DTO_Venta venta;
+    private DTO_DetalleVenta detalleVenta;
     private boolean nuevaDireccion;
     private String ventanaAnterior;
 
@@ -45,8 +47,9 @@ public class ControlAgregarVenta {
     }
     //Agregar esos DLG
 
-    public void mostrarAgregarPan(JFrame frame) {
-        Presentacion_DlgAgregarPan dlgpan = new Presentacion_DlgAgregarPan(frame,true);
+    public void mostrarAgregarPan() {
+        Presentacion_DlgAgregarPan dlgpan = new Presentacion_DlgAgregarPan(null,true);
+        
     }
 
     public void mostrarAgregarDireccion() {
@@ -116,4 +119,13 @@ public class ControlAgregarVenta {
         this.ventanaAnterior = ventanaAnterior;
     }
 
+    public DTO_DetalleVenta getDetalleVenta() {
+        return detalleVenta;
+    }
+
+    public void setDetalleVenta(DTO_DetalleVenta detalleVenta) {
+        this.detalleVenta = detalleVenta;
+    }
+
+    
 }

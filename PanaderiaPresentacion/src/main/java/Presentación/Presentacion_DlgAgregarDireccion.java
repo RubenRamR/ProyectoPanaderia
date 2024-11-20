@@ -7,7 +7,6 @@ package Presentación;
 import Control.ControlAgregarVenta;
 import DTO.DTO_Direccion;
 
-
 import DTO.DTO_Venta;
 import java.util.ResourceBundle.Control;
 import javax.swing.JOptionPane;
@@ -25,7 +24,7 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JDialog {
      * Creates new form Presentacion_DlgDatosCliente
      */
     public Presentacion_DlgAgregarDireccion(java.awt.Frame parent, boolean modal) {
-        super(parent,modal);
+        super(parent, modal);
         this.control = ControlAgregarVenta.getInstance();
         this.venta = control.getVenta();
         setTitle("Datos de la dirección");
@@ -114,7 +113,7 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-if (txtCalle.getText().isEmpty() || txtColonia.getText().isEmpty() || txtNumExt.getText().isEmpty()) {
+        if (txtCalle.getText().isEmpty() || txtColonia.getText().isEmpty() || txtNumExt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -132,11 +131,11 @@ if (txtCalle.getText().isEmpty() || txtColonia.getText().isEmpty() || txtNumExt.
         venta.setDireccionEntrega(dir);
         control.setVenta(venta);
         this.dispose();
-        control.mostrarCobrarVenta();
+        control.mostrarAgregarPan();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
- if (control.getVentanaAnterior().equals("Cliente")) {
+        if (control.getVentanaAnterior().equals("Cliente")) {
             this.dispose();
             control.mostrarDatosClientes();
 
