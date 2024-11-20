@@ -4,12 +4,27 @@
  */
 package Presentacion.gestioninventarios;
 
-
-
+import Control.ControlGestionarInventario;
+import DTO.DTO_Producto;
+import com.mycompany.panaderiaconsultarproductos.FuncionalidadConsultarProductos;
+import com.mycompany.panaderiaconsultarproductos.IFuncionalidadConsultarProductos;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
 
-    
+    private ControlGestionarInventario controlGesionarInventario;
+    private IFuncionalidadConsultarProductos funcionalidadConsultarProductos;
+
+    /**
+     * Creates new form Presentacion_DlgCatalogoProductos
+     */
+    public Presentacion_DlgInventarioProductos() {
+        initComponents();
+        controlGesionarInventario = ControlGestionarInventario.getInstance();
+        funcionalidadConsultarProductos = new FuncionalidadConsultarProductos();
+        llenarTabla();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,7 +47,7 @@ public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventario productos");
 
-        btnAgregar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -65,7 +80,7 @@ public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
         });
         scrollPane.setViewportView(tableProductos);
 
-        btnVolver.setBackground(new java.awt.Color(140, 220, 254));
+        btnVolver.setBackground(new java.awt.Color(204, 153, 0));
         btnVolver.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -139,19 +154,24 @@ public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-   
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-   
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-  
+
     private void tableProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductosMouseClicked
-     
+        DTO_Producto producto = new DTO_Producto();
+        int fila = tableProductos.rowAtPoint(evt.getPoint());
+        producto.setNombre(tableProductos.getValueAt(fila, 0).toString());
+        controlGesionarInventario.setProductoDTO(producto);
+        controlGesionarInventario.mostrarDetalleProducto();
+        this.dispose();
     }//GEN-LAST:event_tableProductosMouseClicked
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+        controlGesionarInventario.mostrarOpcionesGestion();
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
@@ -159,14 +179,32 @@ public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+        limpiarTabla();
 
-     
+        if (txtBuscar.getText().isBlank()) {
+            llenarTabla();
+            return;
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) tableProductos.getModel();
+        DTO_Producto productoDTO = new DTO_Producto();
+        List<DTO_Producto> productosConsultados = funcionalidadConsultarProductos.consultarProductosCoincidentes(txtBuscar.getText());
+        if (productosConsultados != null) {
+            productosConsultados.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), t.getPrecio()}));
+        }
+
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-    
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtBuscarKeyTyped
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -180,4 +218,25 @@ public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
+    private void llenarTabla() {
+        limpiarTabla();
+        List<DTO_Producto> listaProductos = funcionalidadConsultarProductos.consultarProductos();
+        DefaultTableModel modelo = (DefaultTableModel) tableProductos.getModel();
+
+        if (listaProductos != null) {
+            listaProductos.forEach(t -> {
+                // Agregar la fila al modelo
+                modelo.addRow(new Object[]{t.getNombre(), t.getPrecio()});
+
+            });
+        }
+    }
+
+    private void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tableProductos.getModel();
+
+        modelo.setRowCount(0);
+
+        tableProductos.setModel(modelo);
+    }
 }

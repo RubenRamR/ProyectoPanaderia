@@ -173,7 +173,7 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
             tableIngredientes.getColumnModel().getColumn(0).setResizable(false);
         }
 
-        btnCancelar.setBackground(new java.awt.Color(140, 220, 254));
+        btnCancelar.setBackground(new java.awt.Color(204, 153, 0));
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +185,7 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Ingrese las cantidades de cada ingrediente.");
 
-        btnAceptar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAceptar.setBackground(new java.awt.Color(204, 153, 0));
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {

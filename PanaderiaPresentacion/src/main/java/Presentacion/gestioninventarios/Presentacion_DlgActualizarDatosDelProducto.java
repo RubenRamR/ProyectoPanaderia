@@ -140,7 +140,7 @@ public class Presentacion_DlgActualizarDatosDelProducto extends javax.swing.JFra
             tableIngredientes.getColumnModel().getColumn(1).setPreferredWidth(1);
         }
 
-        btnAceptar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAceptar.setBackground(new java.awt.Color(204, 153, 0));
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {

@@ -62,7 +62,7 @@ public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Detalles del producto");
 
-        btnActualizar.setBackground(new java.awt.Color(140, 220, 254));
+        btnActualizar.setBackground(new java.awt.Color(204, 153, 0));
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +95,7 @@ public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
         });
         scrollPane.setViewportView(tableIngredientes);
 
-        btnVolver.setBackground(new java.awt.Color(140, 220, 254));
+        btnVolver.setBackground(new java.awt.Color(204, 153, 0));
         btnVolver.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +107,7 @@ public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
         labelNombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelNombre.setText("Nombre:");
 
-        btnEliminar.setBackground(new java.awt.Color(140, 220, 254));
+        btnEliminar.setBackground(new java.awt.Color(204, 153, 0));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {

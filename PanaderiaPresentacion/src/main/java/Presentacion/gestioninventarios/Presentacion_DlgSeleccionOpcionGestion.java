@@ -4,12 +4,20 @@
  */
 package Presentacion.gestioninventarios;
 
-
-
+import Control.ControlGestionarInventario;
 
 public class Presentacion_DlgSeleccionOpcionGestion extends javax.swing.JFrame {
 
-   
+    private ControlGestionarInventario controlGesionarInventario;
+
+    /**
+     * Creates new form Presentacion_DlgGestionarInventario
+     */
+    public Presentacion_DlgSeleccionOpcionGestion() {
+        initComponents();
+        controlGesionarInventario = new ControlGestionarInventario();
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,7 +36,7 @@ public class Presentacion_DlgSeleccionOpcionGestion extends javax.swing.JFrame {
         setTitle("Gestión inventario");
         setLocationByPlatform(true);
 
-        btnAgregar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAgregar.setText("Inventario Ingredientes");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -37,7 +45,7 @@ public class Presentacion_DlgSeleccionOpcionGestion extends javax.swing.JFrame {
             }
         });
 
-        btnAgregar1.setBackground(new java.awt.Color(140, 220, 254));
+        btnAgregar1.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAgregar1.setText("Inventario Productos");
         btnAgregar1.addActionListener(new java.awt.event.ActionListener() {
@@ -46,7 +54,7 @@ public class Presentacion_DlgSeleccionOpcionGestion extends javax.swing.JFrame {
             }
         });
 
-        btnVolver.setBackground(new java.awt.Color(140, 220, 254));
+        btnVolver.setBackground(new java.awt.Color(204, 153, 0));
         btnVolver.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -87,15 +95,18 @@ public class Presentacion_DlgSeleccionOpcionGestion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
+        controlGesionarInventario.mostrarInventarioIngredientes();
+        this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
-       
+        controlGesionarInventario.mostrarInvetarioProductos();
+        this.dispose();
     }//GEN-LAST:event_btnAgregar1ActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        
+        controlGesionarInventario.mostrarMenuPrincipal();
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
 
