@@ -4,17 +4,25 @@
  */
 package Presentacion.gestioninventarios;
 
-
+import Control.ControlGestionarInventario;
+import DTO.DTO_Ingrediente;
+import com.mycompany.panaderiaactualizaringrediente.IFuncionalidadActualizarIngrediente;
+import com.mycompany.panaderiaagregaringrediente.IFuncionalidadAgregarIngrediente;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
+import java.util.List;
 
 public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
 
-  
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngredientes;
+    private IFuncionalidadAgregarIngrediente funcionalidadAgregarIngrediente;
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngrediente;
+    private IFuncionalidadActualizarIngrediente funcionalidadActualizarIngrediente;
+    private IFuncionalidadEliminarIngrediente funcionalidadEliminarIngrediente;
+    private ControlGestionarInventario control;
+    private List<DTO_Ingrediente> listaIngredientes;
 
-    /**
-     * Creates new form Presentacion_DlgInventarioIngredientes
-     */
     public Presentacion_DlgInventarioIngredientes() {
-       
+
     }
 
     /**
@@ -263,27 +271,27 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-   
+
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-       
+
 
     }//GEN-LAST:event_btnAgregarActionPerformed
-   
+
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        
+
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void tableIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableIngredientesMouseClicked
-        
+
     }//GEN-LAST:event_tableIngredientesMouseClicked
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-     
+
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
@@ -291,21 +299,21 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-       
+
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarCantidadActionPerformed
-       
-        
+
+
     }//GEN-LAST:event_btnModificarCantidadActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
-       
+
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped

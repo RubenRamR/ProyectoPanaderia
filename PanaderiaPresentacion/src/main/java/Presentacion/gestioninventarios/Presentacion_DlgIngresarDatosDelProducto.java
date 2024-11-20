@@ -4,11 +4,78 @@
  */
 package Presentacion.gestioninventarios;
 
+import Control.ControlGestionarInventario;
+import DTO.DTO_Ingrediente;
+import DTO.DTO_IngredienteDetalle;
+import DTO.DTO_Producto;
+import com.mycompany.panaderiaconsultaringredientes.FuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultarproductos.FuncionalidadConsultarProductos;
+import com.mycompany.panaderiaconsultarproductos.IFuncionalidadConsultarProductos;
+import extra.Render;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 
 
 
 public class Presentacion_DlgIngresarDatosDelProducto extends javax.swing.JFrame {
+    
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngrediente;
+    private IFuncionalidadConsultarProductos funcionalidadAgregarProducto;
+    private ControlGestionarInventario control;
 
+    
+    /**
+     * Creates new form Presentacion_DlgSeleccionarIngredientesProducto
+     */
+    public Presentacion_DlgIngresarDatosDelProducto() {
+        initComponents();
+        funcionalidadConsultarIngrediente = new FuncionalidadConsultarIngredientes();
+        funcionalidadAgregarProducto = new FuncionalidadConsultarProductos();
+        control = ControlGestionarInventario.getInstance();
+        cargaTabla();
+    }
+
+    private void cargaTabla() {
+        tableIngredientes.setDefaultRenderer(Object.class, new Render());
+        String[] columnas = {"Nombre", "Selección"};
+        boolean[] editable = {false, true};
+        Class[] tipos = new Class[]{java.lang.Object.class, java.lang.Boolean.class};
+
+        DefaultTableModel model = new DefaultTableModel(columnas, 0) {
+            public Class getColumnClass(int i) {
+                return tipos[i];
+            }
+
+            public boolean isCellEditable(int row, int column) {
+                return editable[column];
+            }
+        };
+
+        limipiarTabla(tableIngredientes, model);
+
+        Object datos = new Object[columnas.length];
+        List<DTO_Ingrediente> ingredientes = funcionalidadConsultarIngrediente.consultarIngredientes();
+        for (DTO_Ingrediente ingrediente : ingredientes) {
+
+            model.addRow(new Object[]{ingrediente.getNombre(), false});
+        }
+
+        tableIngredientes.setModel(model);
+    }
+
+    private void limipiarTabla(JTable tabla, DefaultTableModel modeloTabla) {
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                modeloTabla.removeRow(i);
+                i -= 1;
+            }
+        }
+    }
   
 
     
@@ -154,19 +221,61 @@ public class Presentacion_DlgIngresarDatosDelProducto extends javax.swing.JFrame
     }//GEN-LAST:event_tableIngredientesMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-       
+        if (this.txtDescripcion.getText().isBlank() || this.txtNombre.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son necesarios.");
+            return;
+        }
+
+        DTO_Producto productoDTO = new DTO_Producto();
+        List<DTO_IngredienteDetalle> listaIngredienteDetalle = new ArrayList<>();
+
+        for (int i = 0; i < tableIngredientes.getRowCount(); i++) {
+            // Obtener el valor del CheckBox en la columna "Seleccionar"
+            boolean seleccionado = (boolean) tableIngredientes.getValueAt(i, 1);
+
+            if (seleccionado) {
+                String fila = tableIngredientes.getValueAt(i, 0).toString();
+                DTO_IngredienteDetalle ingredienteDetalleDTO = new DTO_IngredienteDetalle();
+                ingredienteDetalleDTO.setNombre(fila);
+                listaIngredienteDetalle.add(ingredienteDetalleDTO);
+
+            }
+        }
+        if (listaIngredienteDetalle.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se puede agregar sin ingredientes.");
+            return;
+        }
+        DTO_Producto productoConsultado = funcionalidadAgregarProducto.consultarProductoPorNombre(this.txtNombre.getText());
+
+        if (productoConsultado != null) {
+            JOptionPane.showMessageDialog(this, "El producto ya se encuentra agregado.");
+//            return;
+        }
+        productoDTO.setIngredientes(listaIngredienteDetalle);
+        productoDTO.setNombre(this.txtNombre.getText());
+        productoDTO.setDescripcion(this.txtDescripcion.getText());
+        control.setProductoDTO(productoDTO);
+        this.dispose();
+        control.mostrarIngredientesSeleccionados();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+        control.mostrarInvetarioProductos();
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-       
+       char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
-        
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtDescripcionKeyTyped
 
 
