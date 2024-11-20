@@ -4,15 +4,85 @@
  */
 package Presentacion.gestioninventarios;
 
+import Control.ControlGestionarInventario;
+import DTO.DTO_Ingrediente;
+import DTO.DTO_IngredienteDetalle;
+import DTO.DTO_Producto;
+import com.mycompany.panaderiaconsultaringredientes.FuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultarproductos.FuncionalidadConsultarProductos;
+import com.mycompany.panaderiaconsultarproductos.IFuncionalidadConsultarProductos;
+import extra.Render;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 
 public class Presentacion_DlgActualizarDatosDelProducto extends javax.swing.JFrame {
+    
+    
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngredientes;
+     private IFuncionalidadConsultarProductos funcionalidadAgregarProducto;
+     private ControlGestionarInventario control;
 
     
-    /**
+   /**
      * Creates new form Presentacion_DlgSeleccionarIngredientesProducto
      */
+    public Presentacion_DlgActualizarDatosDelProducto() {
+        initComponents();
+        funcionalidadConsultarIngredientes = new FuncionalidadConsultarIngredientes();
+        funcionalidadAgregarProducto = new FuncionalidadConsultarProductos();
+        control = ControlGestionarInventario.getInstance();
+        txtNombre.setText(control.getProductoDTO().getDescripcion());
+        cargaTabla();
+        
+    }
+     private void cargaTabla() {
+        tableIngredientes.setDefaultRenderer(Object.class, new Render());
+        String[] columnas = {"Nombre", "Selección"};
+        boolean[] editable = {false, true};
+        Class[] tipos = new Class[]{java.lang.Object.class, java.lang.Boolean.class};
+
+        DefaultTableModel model = new DefaultTableModel(columnas, 0) {
+            public Class getColumnClass(int i) {
+                return tipos[i];
+            }
+
+            public boolean isCellEditable(int row, int column) {
+                return editable[column];
+            }
+        };
+
+        limipiarTabla(tableIngredientes, model);
+
+        List<DTO_IngredienteDetalle> ingredientesDetalle = control.getProductoDTO().getIngredientes();
+        for (DTO_IngredienteDetalle ingrediente : ingredientesDetalle) {
+
+            model.addRow(new Object[]{ingrediente.getNombre(), true});
+        }
+
+        List<DTO_Ingrediente> ingredientesFaltantes = funcionalidadConsultarIngredientes.consultarIngredientesFaltantes(control.getProductoDTO());
+        for (DTO_Ingrediente ingrediente : ingredientesFaltantes) {
+
+            model.addRow(new Object[]{ingrediente.getNombre(), false});
+        }
+
+        tableIngredientes.setModel(model);
+    }
+
+    private void limipiarTabla(JTable tabla, DefaultTableModel modeloTabla) {
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                modeloTabla.removeRow(i);
+                i -= 1;
+            }
+        }
+    }
     
 
     
@@ -70,7 +140,7 @@ public class Presentacion_DlgActualizarDatosDelProducto extends javax.swing.JFra
             tableIngredientes.getColumnModel().getColumn(1).setPreferredWidth(1);
         }
 
-        btnAceptar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAceptar.setBackground(new java.awt.Color(204, 153, 0));
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -152,15 +222,61 @@ public class Presentacion_DlgActualizarDatosDelProducto extends javax.swing.JFra
     }//GEN-LAST:event_tableIngredientesMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        
+        if (this.txtDescripcion.getText().isBlank() || this.txtNombre.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son necesarios.");
+            return;
+        }
+
+        DTO_Producto productoDTO = new DTO_Producto();
+        List<DTO_IngredienteDetalle> listaIngredienteDetalle = new ArrayList<>();
+
+        for (int i = 0; i < tableIngredientes.getRowCount(); i++) {
+            // Obtener el valor del CheckBox en la columna "Seleccionar"
+            boolean seleccionado = (boolean) tableIngredientes.getValueAt(i, 1);
+
+            if (seleccionado) {
+                String fila = tableIngredientes.getValueAt(i, 0).toString();
+                DTO_IngredienteDetalle ingredienteDetalleDTO = new DTO_IngredienteDetalle();
+                ingredienteDetalleDTO.setNombre(fila);
+                listaIngredienteDetalle.add(ingredienteDetalleDTO);
+
+            }
+        }
+        if (listaIngredienteDetalle.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se puede agregar sin ingredientes.");
+            return;
+        }
+
+        if (!control.getProductoDTO().getNombre().equals(txtNombre.getText())) {
+            DTO_Producto productoConsultado = funcionalidadAgregarProducto.consultarProductoPorNombre(this.txtNombre.getText());
+
+            if (productoConsultado != null) {
+                JOptionPane.showMessageDialog(this, "El producto ya se encuentra agregado.");
+                return;
+            }
+        }
+        System.out.println(control.getProductoDTO().getId());
+        productoDTO.setId(control.getProductoDTO().getId());
+        productoDTO.setIngredientes(listaIngredienteDetalle);
+        productoDTO.setNombre(this.txtNombre.getText());
+        productoDTO.setDescripcion(this.txtDescripcion.getText());
+        control.setProductoAActualizar(productoDTO);
+        this.dispose();
+        control.mostrarActualizarIngredientesSeleccionados();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-       
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
-        
+         char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtDescripcionKeyTyped
 
 

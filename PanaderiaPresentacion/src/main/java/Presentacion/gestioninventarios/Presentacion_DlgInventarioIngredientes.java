@@ -4,17 +4,45 @@
  */
 package Presentacion.gestioninventarios;
 
-
+import Control.ControlGestionarInventario;
+import DTO.DTO_Ingrediente;
+import com.mycompany.panaderiaactualizaringrediente.FuncionalidadActualizarIngrediente;
+import com.mycompany.panaderiaactualizaringrediente.IFuncionalidadActualizarIngrediente;
+import com.mycompany.panaderiaagregaringrediente.FuncionalidadAgregarIngrediente;
+import com.mycompany.panaderiaagregaringrediente.IFuncionalidadAgregarIngrediente;
+import com.mycompany.panaderiaconsultaringredientes.FuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaeliminaringrediente.FuncionalidadEliminarIngrediente;
+import com.mycompany.panaderiaeliminaringrediente.IFuncionalidadEliminarIngrediente;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
 
-  
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngredientes;
+    private IFuncionalidadAgregarIngrediente funcionalidadAgregarIngrediente;
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngrediente;
+    private IFuncionalidadActualizarIngrediente funcionalidadActualizarIngrediente;
+    private IFuncionalidadEliminarIngrediente funcionalidadEliminarIngrediente;
+    private ControlGestionarInventario control;
+    private List<DTO_Ingrediente> listaIngredientes;
 
-    /**
-     * Creates new form Presentacion_DlgInventarioIngredientes
-     */
     public Presentacion_DlgInventarioIngredientes() {
-       
+
+        initComponents();
+        funcionalidadConsultarIngredientes = new FuncionalidadConsultarIngredientes();
+        funcionalidadAgregarIngrediente = new FuncionalidadAgregarIngrediente();
+        funcionalidadConsultarIngrediente = new FuncionalidadConsultarIngredientes();
+        funcionalidadActualizarIngrediente = new FuncionalidadActualizarIngrediente();
+        funcionalidadEliminarIngrediente = new FuncionalidadEliminarIngrediente();
+        listaIngredientes = funcionalidadConsultarIngredientes.consultarIngredientes();
+        control = ControlGestionarInventario.getInstance();
+        llenarTabla();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnModificarCantidad.setEnabled(false);
+        btnModificarCantidad.setVisible(false);
     }
 
     /**
@@ -48,7 +76,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventario ingredientes");
 
-        btnAgregar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +142,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
             }
         });
 
-        btnActualizar.setBackground(new java.awt.Color(140, 220, 254));
+        btnActualizar.setBackground(new java.awt.Color(204, 153, 0));
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,7 +151,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
             }
         });
 
-        btnVolver.setBackground(new java.awt.Color(140, 220, 254));
+        btnVolver.setBackground(new java.awt.Color(204, 153, 0));
         btnVolver.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +174,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
 
         jLabel5.setText("Nombre:");
 
-        btnEliminar.setBackground(new java.awt.Color(140, 220, 254));
+        btnEliminar.setBackground(new java.awt.Color(204, 153, 0));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +190,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
             }
         });
 
-        btnLimpiar.setBackground(new java.awt.Color(140, 220, 254));
+        btnLimpiar.setBackground(new java.awt.Color(204, 153, 0));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -263,27 +291,75 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-   
+
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-       
+        if (txtNombre.getText().isEmpty() || txtPrecio.getText().isEmpty() || comboUnidad.getSelectedItem().toString().isEmpty() || txtCantidad.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos deben estar llenos.");
+            return;
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        DTO_Ingrediente ingredienteNuevo = null;
+        try {
+            ingredienteNuevo = funcionalidadAgregarIngrediente.agregarIngrediente(obtenerIngredienteDTO());
+
+            if (ingredienteNuevo.getPrecio() <= 0) {
+                JOptionPane.showMessageDialog(this, "La cantidad tiene que ser mayor a 0");
+                return;
+            }
+            modelo.addRow(new Object[]{ingredienteNuevo.getNombre(), ingredienteNuevo.getCantidad(), ingredienteNuevo.getPrecio()});
+            this.limpiarCampos();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
 
     }//GEN-LAST:event_btnAgregarActionPerformed
-   
+
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       
+        btnActualizar.setEnabled(false);
+        btnAgregar.setEnabled(true);
+        try {
+            DTO_Ingrediente ingrediente = funcionalidadActualizarIngrediente.actualizarIngrediente(obtenerIngredienteDTO());
+            if (ingrediente != null) {
+                JOptionPane.showMessageDialog(this, "Se he actulizado el ingrediente.");
+                llenarTabla();
+            }
+            valoresPorDefecto();
+
+        } catch (Exception ex) {
+            JOptionPane.showConfirmDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        
+        control.mostrarOpcionesGestion();
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void tableIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableIngredientesMouseClicked
-        
+        int fila = tableIngredientes.rowAtPoint(evt.getPoint());
+        txtNombre.setText(tableIngredientes.getValueAt(fila, 0).toString());
+        txtCantidad.setText(tableIngredientes.getValueAt(fila, 1).toString());
+        comboUnidad.setSelectedItem(tableIngredientes.getValueAt(fila, 2).toString());
+        txtPrecio.setText(tableIngredientes.getValueAt(fila, 3).toString());
+
+        btnActualizar.setEnabled(true);
+        btnModificarCantidad.setEnabled(true);
+        btnAgregar.setEnabled(false);
+        btnEliminar.setEnabled(true);
+        txtCantidad.setEnabled(false);
+        txtNombre.setEnabled(false);
+
+        btnModificarCantidad.setVisible(true);
     }//GEN-LAST:event_tableIngredientesMouseClicked
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-     
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
@@ -291,21 +367,61 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-       
+        limpiarTabla();
+
+        if (txtBuscar.getText().isBlank()) {
+            llenarTabla();
+            return;
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+        DTO_Ingrediente ingredientoDTO = new DTO_Ingrediente();
+        ingredientoDTO.setNombre(txtBuscar.getText());
+//        ingredientoDTO.setPrecio(Float.parseFloat(txtPrecio.getText()));
+//        ingredientoDTO.setUnidadDeMedida(comboUnidad.getSelectedItem().toString());
+//        ingredientoDTO.setCantidad(Integer.parseInt(txtCantidad.getText()));
+        List<DTO_Ingrediente> ingredienteConsultado = funcionalidadConsultarIngrediente.consultarIngrediente(ingredientoDTO);
+        if (ingredienteConsultado != null) {
+            ingredienteConsultado.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), t.getCantidad(), t.getPrecio()}));
+        }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas eliminar el ingrediente " + txtNombre.getText() + " ?");
+        if (respuesta == JOptionPane.YES_OPTION) {
+            Boolean eliminado = funcionalidadEliminarIngrediente.eliminarIngrediente(obtenerIngredienteDTO());
+            if (eliminado) {
+                JOptionPane.showMessageDialog(this, "Se he eliminado con exito.");
+                llenarTabla();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No se he eliminado con exito.");
+
+            }
+        }
+        valoresPorDefecto();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarCantidadActionPerformed
-       
-        
+        String respuestaCantidad = JOptionPane.showInputDialog(this, "Ingrese la cantidad que desea aumentar, actual: " + txtCantidad.getText());
+        try {
+            int cantidad = Integer.parseInt(respuestaCantidad);
+            if (cantidad < 0) {
+                JOptionPane.showMessageDialog(this, "No se pueden ingresar valores negativos.");
+                return;
+            }
+            int respuesta = JOptionPane.showConfirmDialog(this, "Estas seguro que deseas la cantidad a " + (cantidad + Integer.parseInt(txtCantidad.getText())));
+            if (respuesta == JOptionPane.YES_OPTION) {
+                txtCantidad.setText(String.valueOf(cantidad + Integer.parseInt(txtCantidad.getText())));
+            }
+        } catch (NumberFormatException e) {
+        }
+
     }//GEN-LAST:event_btnModificarCantidadActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        valoresPorDefecto();
 
-       
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
@@ -316,11 +432,11 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+
         char c = evt.getKeyChar();
         if (!Character.isDigit(c)) {
             evt.consume();
         }
-
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
@@ -333,21 +449,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
-    private void valoresPorDefecto() {
-        txtCantidad.setEnabled(true);
-        txtNombre.setEnabled(true);
-        btnModificarCantidad.setVisible(false);
-        btnModificarCantidad.setEnabled(false);
-        btnAgregar.setEnabled(true);
-        btnActualizar.setEnabled(false);
-        btnEliminar.setEnabled(false);
 
-        txtCantidad.setText("");
-        txtNombre.setText("");
-        txtPrecio.setText("");
-        comboUnidad.setSelectedIndex(0);
-
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
@@ -368,4 +470,54 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
+ private void llenarTabla() {
+        limpiarTabla();
+        List<DTO_Ingrediente> listaIngredientes = funcionalidadConsultarIngredientes.consultarIngredientes();
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        if (listaIngredientes != null) {
+            listaIngredientes.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), t.getCantidad(), t.getPrecio()}));
+        }
+
+    }
+
+    private void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        modelo.setRowCount(0);
+
+        tableIngredientes.setModel(modelo);
+    }
+
+    private DTO_Ingrediente obtenerIngredienteDTO() {
+        DTO_Ingrediente ingredientoDTO = new DTO_Ingrediente();
+        ingredientoDTO.setNombre(txtNombre.getText());
+        ingredientoDTO.setPrecio(Float.parseFloat(txtPrecio.getText()));
+        ingredientoDTO.setCantidad(Integer.parseInt(txtCantidad.getText()));
+        return ingredientoDTO;
+    }
+
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        comboUnidad.setSelectedItem(0);
+        txtCantidad.setText("");
+    }
+
+    private void valoresPorDefecto() {
+        txtCantidad.setEnabled(true);
+        txtNombre.setEnabled(true);
+        btnModificarCantidad.setVisible(false);
+        btnModificarCantidad.setEnabled(false);
+        btnAgregar.setEnabled(true);
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+
+        txtCantidad.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        comboUnidad.setSelectedIndex(0);
+
+    }
+
 }

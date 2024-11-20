@@ -240,7 +240,7 @@ public class VentasBO implements IVentasBO {
         ingrediente.setCantidad(ingredienteDTO.getCantidad());
         ingrediente.setNombre(ingredienteDTO.getNombre());
         ingrediente.setPrecio(ingredienteDTO.getPrecio());
-        ingrediente.setUnidadDeMedida(ingredienteDTO.getUnidadDeMedida());
+       
         return ingrediente;
     }
 
@@ -255,7 +255,7 @@ public class VentasBO implements IVentasBO {
         dtoIngrediente.setCantidad(ingrediente.getCantidad());
         dtoIngrediente.setNombre(ingrediente.getNombre());
         dtoIngrediente.setPrecio(ingrediente.getPrecio());
-        dtoIngrediente.setUnidadDeMedida(ingrediente.getUnidadDeMedida());
+        
         return dtoIngrediente;
     }
 }

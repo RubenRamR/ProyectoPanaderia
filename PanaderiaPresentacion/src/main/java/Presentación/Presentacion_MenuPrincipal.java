@@ -1,7 +1,7 @@
 package Presentación;
 
-
 import Control.ControlAgregarVenta;
+import Control.ControlGestionarInventario;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -11,31 +11,28 @@ import javax.swing.plaf.ColorUIResource;
  * @author joseq
  */
 public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
-    
-    
+
     ControlAgregarVenta control;
-    
-    
-    
+    private ControlGestionarInventario controlGesionarInventario;
 
     public static JDesktopPane JDesktopPane_menu;
 
     public Presentacion_MenuPrincipal() {
         initComponents();
         control = ControlAgregarVenta.getInstance();
-         this.setSize(new Dimension(1200, 700)); // Establecer tamaño de la ventana
+        controlGesionarInventario = new ControlGestionarInventario();
+
+        this.setSize(new Dimension(1200, 700)); // Establecer tamaño de la ventana
         this.setLocationRelativeTo(null); // Centrar la ventana
         this.setTitle("Menu Principal");
         this.setLayout(null); // Considerar usar un layout más apropiado si es necesario
         this.setResizable(false); // Deshabilitar el redimensionamiento de la ventana
-          JDesktopPane_menu = new JDesktopPane();
-        
-  // Cambiar el fondo del JDesktopPane a color café
+        JDesktopPane_menu = new JDesktopPane();
+
+        // Cambiar el fondo del JDesktopPane a color café
         JDesktopPane_menu.setBackground(new ColorUIResource(139, 69, 19)); // Color marrón (café)
 
-
-        
-        this.JDesktopPane_menu.setBounds(0, 0, 1200,700);
+        this.JDesktopPane_menu.setBounds(0, 0, 1200, 700);
         this.add(JDesktopPane_menu);
     }
 
@@ -153,10 +150,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
 
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
 
+        this.dispose();
+        control.mostrarProductosVenta();
 
- this.dispose();
- control.mostrarDatosClientes();
- 
     }//GEN-LAST:event_btnRegistrarVenta1ActionPerformed
 
     private void btnGestionDeGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeGastosActionPerformed
@@ -176,41 +172,15 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRealizarCobroActionPerformed
 
     private void btnGestionarInventario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarInventario1ActionPerformed
-        // TODO add your handling code here:
+        controlGesionarInventario.mostrarOpcionesGestion();
+        this.dispose();
     }//GEN-LAST:event_btnGestionarInventario1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Presentacion_MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Presentacion_MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Presentacion_MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Presentacion_MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+public void mostrarMenu() {
+       
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 new Presentacion_MenuPrincipal().setVisible(true);
+
             }
         });
     }
@@ -226,4 +196,6 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarVenta1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+
 }

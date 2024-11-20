@@ -4,15 +4,124 @@
  */
 package Presentacion.gestioninventarios;
 
+import Control.ControlGestionarInventario;
+import DTO.DTO_Ingrediente;
+import DTO.DTO_IngredienteDetalle;
+import DTO.DTO_Producto;
+import com.mycompany.panaderiaactualizarproducto.FuncionalidadActualizarProducto;
+import com.mycompany.panaderiaactualizarproducto.IFuncionalidadActualizarProducto;
+import com.mycompany.panaderiaconsultaringredientes.FuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 
 
 
 public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.swing.JFrame {
+    private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngrediente;
+    private IFuncionalidadActualizarProducto funcionalidadActualizarProducto;
+    private ControlGestionarInventario control;
 
   
     public Presentacion_DlgActualizarIngredientesSeleccionados() {
+        
+        initComponents();
+        funcionalidadConsultarIngrediente = new FuncionalidadConsultarIngredientes();
+        funcionalidadActualizarProducto = new FuncionalidadActualizarProducto();
+        control = ControlGestionarInventario.getInstance();
        
 
+    }
+    private void llenarTabla() {
+        limpiarTabla();
+        List<DTO_Ingrediente> listaIngredientes = new ArrayList<>();
+        List<DTO_IngredienteDetalle> ingredientesDetalleDTO = control.getProductoAActualizar().getIngredientes();
+        List<DTO_IngredienteDetalle> ingredientesOriginales = control.getProductoDTO().getIngredientes();
+        if (ingredientesDetalleDTO != null) {
+
+            for (int i = 0; i < ingredientesDetalleDTO.size(); i++) {
+                DTO_Ingrediente ingrediente = funcionalidadConsultarIngrediente.consultarIngredientePorNombre(new DTO_Ingrediente(ingredientesDetalleDTO.get(i).getNombre()));
+                ingredientesDetalleDTO.get(i).setIngredienteId(ingrediente.getId());
+                listaIngredientes.add(ingrediente);
+            }
+        }
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        for (int i = 0; i < listaIngredientes.size(); i++) {
+            if (i < ingredientesOriginales.size() && ingredientesOriginales.get(i) != null && ingredientesOriginales.get(i).getNombre().equals(listaIngredientes.get(i).getNombre())) {
+                modelo.addRow(new Object[]{listaIngredientes.get(i).getNombre(), ingredientesOriginales.get(i).getCantidad(), });
+            } else {
+                modelo.addRow(new Object[]{listaIngredientes.get(i).getNombre(), null});
+
+            }
+
+        }
+
+    }
+    
+    
+    private void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        modelo.setRowCount(0);
+
+        tableIngredientes.setModel(modelo);
+    }
+
+    private List<DTO_IngredienteDetalle> obtenerListaIngredientes() {
+        JTable tabla = tableIngredientes;
+        List<DTO_IngredienteDetalle> listaIngredientes = control.getProductoAActualizar().getIngredientes();
+        int numRows = tabla.getRowCount();
+
+        for (int fila = 0; fila < numRows; fila++) {
+            Object valorCelda = tabla.getValueAt(fila, 1);
+            DTO_IngredienteDetalle ingrediente = listaIngredientes.get(fila);
+            ingrediente.setCantidad(Float.valueOf(String.valueOf(valorCelda)));
+        }
+
+        return listaIngredientes;
+    }
+    
+     public void agregarListenerCambioCantidad() {
+        final int columnaCantidad = 1;
+        final int columnaUnidad = 2; 
+
+        tableIngredientes.getColumnModel().getColumn(columnaCantidad).setCellEditor(new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean stopCellEditing() {
+                try {
+                    JTextField textField = (JTextField) getComponent();
+                    String valorCelda = textField.getText();
+
+                    double numero = Double.parseDouble(valorCelda);
+
+                    if (numero <= 0) {
+                        JOptionPane.showMessageDialog(null, "El número debe ser mayor que 0", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
+
+                    int fila = tableIngredientes.getEditingRow();
+                    String unidad = (String) tableIngredientes.getValueAt(fila, columnaUnidad);
+
+                    if (unidad.equalsIgnoreCase("unidad") && valorCelda.contains(".")) {
+                        JOptionPane.showMessageDialog(null, "Las unidades no pueden tener decimales", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false; 
+                    }
+
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+
+                return super.stopCellEditing();
+            }
+        });
     }
 
    
@@ -64,7 +173,7 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
             tableIngredientes.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        btnCancelar.setBackground(new java.awt.Color(140, 220, 254));
+        btnCancelar.setBackground(new java.awt.Color(204, 153, 0));
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +185,7 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Ingrese las cantidades de cada ingrediente.");
 
-        btnAceptar.setBackground(new java.awt.Color(140, 220, 254));
+        btnAceptar.setBackground(new java.awt.Color(204, 153, 0));
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -124,11 +233,26 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-      
+      control.mostrarInvetarioProductos();
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        
+        List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
+
+        control.getProductoDTO().setIngredientes(ingredientesAgregados);
+
+        DTO_Producto producto = control.getProductoAActualizar();
+        System.out.println(producto.getId());
+        DTO_Producto productoAgregado = funcionalidadActualizarProducto.actualizarProducto(producto);
+
+        if (productoAgregado != null) {
+            JOptionPane.showMessageDialog(this, "Se ha actualizado el producto.");
+            control.mostrarInvetarioProductos();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se ha actualizado el producto.");
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
 
