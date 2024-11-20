@@ -151,7 +151,7 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
 
         this.dispose();
-        control.mostrarProductosVenta();
+        control.mostrarDatosClientes();
 
     }//GEN-LAST:event_btnRegistrarVenta1ActionPerformed
 
