@@ -4,13 +4,36 @@
  */
 package Presentacion.gestioninventarios;
 
-
-
+import Control.ControlGestionarInventario;
+import DTO.DTO_Producto;
+import com.mycompany.panaderiaconsultarproductos.FuncionalidadConsultarProductos;
+import com.mycompany.panaderiaconsultarproductos.IFuncionalidadConsultarProductos;
+import com.mycompany.panaderiaeliminarproducto.FuncionalidadEliminarProducto;
+import com.mycompany.panaderiaeliminarproducto.IFuncionalidadEliminarProducto;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
 
-   
-    
+    private ControlGestionarInventario controlGesionarInventario;
+    private IFuncionalidadConsultarProductos funcionalidadConsultarProductos;
+    private IFuncionalidadEliminarProducto funcionalidadEliminarProducto;
+
+    /**
+     * Creates new form Presentacion_DlgCatalogoProductos
+     */
+    public Presentacion_DlgDetalleProducto() {
+        initComponents();
+        controlGesionarInventario = ControlGestionarInventario.getInstance();
+        funcionalidadConsultarProductos = new FuncionalidadConsultarProductos();
+        funcionalidadEliminarProducto = new FuncionalidadEliminarProducto();
+        DTO_Producto producto = funcionalidadConsultarProductos.consultarProductoPorNombre(ControlGestionarInventario.getInstance().getProductoDTO().getNombre());
+        this.controlGesionarInventario.setProductoDTO(producto);
+        labelNombre.setText(producto.getNombre());
+        labelDescripcion.setText(producto.getDescripcion());
+        labelPrecio.setText(String.valueOf(producto.getPrecio()));
+        llenarTabla(producto);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -191,9 +214,10 @@ public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-  
+
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       
+        controlGesionarInventario.mostrarActualizarDatosDelProducto();
+        this.dispose();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void tableIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableIngredientesMouseClicked
@@ -201,13 +225,20 @@ public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_tableIngredientesMouseClicked
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+        controlGesionarInventario.mostrarInvetarioProductos();
+        controlGesionarInventario.setProductoDTO(null);
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-       
+        int response = JOptionPane.showConfirmDialog(this, "Estas seguro que deseas eliminar el producto" + controlGesionarInventario.getProductoDTO().getNombre());
+        if (response == JOptionPane.YES_OPTION) {
+            funcionalidadEliminarProducto.eliminarProducto(controlGesionarInventario.getProductoDTO());
+            controlGesionarInventario.mostrarInvetarioProductos();
+            controlGesionarInventario.setProductoDTO(null);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -226,4 +257,26 @@ public class Presentacion_DlgDetalleProducto extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable tableIngredientes;
     // End of variables declaration//GEN-END:variables
+
+    private void llenarTabla(DTO_Producto producto) {
+        limpiarTabla();
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        if (producto != null) {
+            producto.getIngredientes().forEach(t -> {
+                // Agregar la fila al modelo
+                modelo.addRow(new Object[]{t.getNombre(), t.getCantidad()});
+
+            });
+        }
+    }
+
+    private void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+        modelo.setRowCount(0);
+
+        tableIngredientes.setModel(modelo);
+    }
+
 }
