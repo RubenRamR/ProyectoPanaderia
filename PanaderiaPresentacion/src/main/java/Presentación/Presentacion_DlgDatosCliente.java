@@ -27,7 +27,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
     public Presentacion_DlgDatosCliente(java.awt.Frame parent, boolean modal) {
          super(parent, modal);
         control = ControlAgregarVenta.getInstance();
-        this.venta = control.getVenta();
+        this.venta = new DTO_Venta();
         setTitle("Datos del cliente");
         initComponents();
 
@@ -156,7 +156,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
             venta.setDireccionEntrega(direccion);
             control.setVenta(venta);
             this.dispose();
-            control.mostrarCobrarVenta();
+            control.mostrarAgregarPan();
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
