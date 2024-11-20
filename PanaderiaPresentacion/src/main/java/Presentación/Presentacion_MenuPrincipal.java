@@ -1,7 +1,7 @@
 package Presentación;
 
-
 import Control.ControlAgregarVenta;
+import Control.ControlGestionarInventario;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -11,31 +11,26 @@ import javax.swing.plaf.ColorUIResource;
  * @author joseq
  */
 public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
-    
-    
+
     ControlAgregarVenta control;
-    
-    
-    
+    private ControlGestionarInventario controlGesionarInventario;
 
     public static JDesktopPane JDesktopPane_menu;
 
     public Presentacion_MenuPrincipal() {
         initComponents();
         control = ControlAgregarVenta.getInstance();
-         this.setSize(new Dimension(1200, 700)); // Establecer tamaño de la ventana
+        this.setSize(new Dimension(1200, 700)); // Establecer tamaño de la ventana
         this.setLocationRelativeTo(null); // Centrar la ventana
         this.setTitle("Menu Principal");
         this.setLayout(null); // Considerar usar un layout más apropiado si es necesario
         this.setResizable(false); // Deshabilitar el redimensionamiento de la ventana
-          JDesktopPane_menu = new JDesktopPane();
-        
-  // Cambiar el fondo del JDesktopPane a color café
+        JDesktopPane_menu = new JDesktopPane();
+
+        // Cambiar el fondo del JDesktopPane a color café
         JDesktopPane_menu.setBackground(new ColorUIResource(139, 69, 19)); // Color marrón (café)
 
-
-        
-        this.JDesktopPane_menu.setBounds(0, 0, 1200,700);
+        this.JDesktopPane_menu.setBounds(0, 0, 1200, 700);
         this.add(JDesktopPane_menu);
     }
 
@@ -153,10 +148,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
 
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
 
+        this.dispose();
+        control.mostrarProductosVenta();
 
- this.dispose();
- control.mostrarProductosVenta();
- 
     }//GEN-LAST:event_btnRegistrarVenta1ActionPerformed
 
     private void btnGestionDeGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeGastosActionPerformed
@@ -176,7 +170,8 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRealizarCobroActionPerformed
 
     private void btnGestionarInventario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarInventario1ActionPerformed
-        // TODO add your handling code here:
+        controlGesionarInventario.mostrarOpcionesGestion();
+        this.dispose();
     }//GEN-LAST:event_btnGestionarInventario1ActionPerformed
 
     /**
