@@ -57,11 +57,9 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
         tableIngredientes = new javax.swing.JTable();
-        comboUnidad = new javax.swing.JComboBox<>();
         txtNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
@@ -109,8 +107,6 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         });
         scrollPane.setViewportView(tableIngredientes);
 
-        comboUnidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "gramos", "mililitros", "unidad" }));
-
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreKeyTyped(evt);
@@ -120,8 +116,6 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         jLabel1.setText("Nombre:");
 
         jLabel2.setText("Cantidad:");
-
-        jLabel3.setText("Unidad:");
 
         jLabel4.setText("Precio:");
 
@@ -221,21 +215,15 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
                                 .addComponent(btnEliminar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(comboUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel4))
-                                        .addGap(8, 8, 8)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnModificarCantidad)))
                         .addGap(56, 56, 56)
@@ -271,11 +259,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(57, 57, 57)
+                .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnActualizar)
@@ -293,7 +277,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
 
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (txtNombre.getText().isEmpty() || txtPrecio.getText().isEmpty() || comboUnidad.getSelectedItem().toString().isEmpty() || txtCantidad.getText().isEmpty()) {
+        if (txtNombre.getText().isEmpty() || txtPrecio.getText().isEmpty() ||  txtCantidad.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos deben estar llenos.");
             return;
         }
@@ -342,7 +326,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         int fila = tableIngredientes.rowAtPoint(evt.getPoint());
         txtNombre.setText(tableIngredientes.getValueAt(fila, 0).toString());
         txtCantidad.setText(tableIngredientes.getValueAt(fila, 1).toString());
-        comboUnidad.setSelectedItem(tableIngredientes.getValueAt(fila, 2).toString());
+        
         txtPrecio.setText(tableIngredientes.getValueAt(fila, 3).toString());
 
         btnActualizar.setEnabled(true);
@@ -457,10 +441,8 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificarCantidad;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JComboBox<String> comboUnidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane scrollPane;
@@ -500,7 +482,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
     private void limpiarCampos() {
         txtNombre.setText("");
         txtPrecio.setText("");
-        comboUnidad.setSelectedItem(0);
+        
         txtCantidad.setText("");
     }
 
@@ -516,7 +498,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         txtCantidad.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
-        comboUnidad.setSelectedIndex(0);
+       
 
     }
 

@@ -28,8 +28,8 @@ import org.bson.codecs.pojo.PojoCodecProvider;
  */
 public class Conexion<V, T> implements IConexion<T> {
 
-    private String nombreBaseDatos = "pasteleria";
-    private String cadenaConexion = "mongodb://127.0.0.1:27017";
+    private String nombreBaseDatos = "panaderia";
+    private String cadenaConexion = "mongodb://localhost:27017/";
     private final String nombreColeccion;
     private final Class<T> tipoBase;
 

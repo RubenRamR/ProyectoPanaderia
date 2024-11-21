@@ -30,23 +30,23 @@ import java.util.logging.Logger;
 
 /**
  *
- * 
+ *
  */
 public class VentasBO implements IVentasBO {
-    
+
     private IVentaDAO ventaDAO;
     private VentasConversiones conversor;
     private ProductosConversiones conversorp;
     private IIngredienteDAO ingredientesDAO;
     private IngredienteConversiones conversorIngrediente;
-    
+
     public VentasBO() {
         this.ventaDAO = new VentaDAO();
         this.conversor = new VentasConversiones();
         this.conversorp = new ProductosConversiones();
         ingredientesDAO = new IngredienteDAO();
         conversorIngrediente = new IngredienteConversiones();
-        
+
     }
 
     /**
@@ -56,19 +56,19 @@ public class VentasBO implements IVentasBO {
     public void agregarVenta(DTO_Venta venta) {
         try {
             ventaDAO.agregarVenta(conversor.convertirDTOAgregar(venta));
-//            for (DTO_DetalleVenta detalle : venta.getDetallesVenta()) {
-//                for (DTO_IngredienteDetalle ingrediente : detalle.getProducto().getIngredientes()) {
-//                    Ingrediente ingredienteConsultado = ingredientesDAO.consultarPorNombre(ingrediente.getNombre());
-//                    ingredienteConsultado.setCantidad(ingredienteConsultado.getCantidad() - ingrediente.getCantidad());
-//                    DTO_Ingrediente ingredienteDTO = new DTO_Ingrediente();
-//                    ingredienteDTO.setId(ingredienteConsultado.getId());
-//                    ingredienteDTO.setCantidad(ingredienteConsultado.getCantidad());
-//                    ingredienteDTO.setNombre(ingredienteConsultado.getNombre());
-//                    ingredienteDTO.setPrecio(ingredienteConsultado.getPrecio());
-//                    ingredienteDTO.setUnidadDeMedida(ingredienteConsultado.getUnidadDeMedida());
-//                    ingredientesDAO.actualizar(ConvertirDTOAIngrediente(ingredienteDTO));
-//                }
-//            }
+            for (DTO_DetalleVenta detalle : venta.getDetallesVenta()) {
+                for (DTO_IngredienteDetalle ingrediente : detalle.getProducto().getIngredientes()) {
+                    Ingrediente ingredienteConsultado = ingredientesDAO.consultarPorNombre(ingrediente.getNombre());
+
+                    DTO_Ingrediente ingredienteDTO = new DTO_Ingrediente();
+                    ingredienteDTO.setId(ingredienteConsultado.getId());
+                    ingredienteDTO.setCantidad(ingredienteConsultado.getCantidad());
+                    ingredienteDTO.setNombre(ingredienteConsultado.getNombre());
+                    ingredienteDTO.setPrecio(ingredienteConsultado.getPrecio());
+
+                    ingredientesDAO.actualizar(ConvertirDTOAIngrediente(ingredienteDTO));
+                }
+            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -188,13 +188,13 @@ public class VentasBO implements IVentasBO {
         try {
             List<String> ingredientesNombres = new ArrayList<>();
             List<DTO_IngredienteDetalle> ingredientesDetalles = producto.getIngredientes();
-            
+
             for (DTO_IngredienteDetalle ingredienteDetalle : ingredientesDetalles) {
                 ingredientesNombres.add(ingredienteDetalle.getNombre());
             }
-            
+
             List<Ingrediente> ingredientesConsultados = ingredientesDAO.consultarCantidadesIngredientesInventario(ingredientesNombres);
-            
+
             for (Ingrediente ingrediente : ingredientesConsultados) {
                 Optional<DTO_IngredienteDetalle> ingredienteDetalleConsultado = ingredientesDetalles.stream().filter(p -> p.getNombre().equalsIgnoreCase(ingrediente.getNombre())).findAny();
                 if (ingredienteDetalleConsultado.isPresent()) {
@@ -206,7 +206,7 @@ public class VentasBO implements IVentasBO {
                     return false;
                 }
             }
-            
+
             return true;
         } catch (PersistenciaException ex) {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,15 +219,7 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public Float calcularCantidadIngrediente(DTO_IngredienteDetalle ingredienteDetalle, String tamanio) {
-        if (tamanio.equalsIgnoreCase("Chico")) {
-            return ingredienteDetalle.getCantidad() * 1F;
-        } else if (tamanio.equalsIgnoreCase("Mediano")) {
-            return ingredienteDetalle.getCantidad() * 1.5F;
-            
-        } else if (tamanio.equalsIgnoreCase("Grande")) {
-            return ingredienteDetalle.getCantidad() * 1.7F;
-            
-        }
+        
         return 0f;
     }
 
@@ -240,7 +232,7 @@ public class VentasBO implements IVentasBO {
         ingrediente.setCantidad(ingredienteDTO.getCantidad());
         ingrediente.setNombre(ingredienteDTO.getNombre());
         ingrediente.setPrecio(ingredienteDTO.getPrecio());
-       
+
         return ingrediente;
     }
 
@@ -251,11 +243,11 @@ public class VentasBO implements IVentasBO {
     public DTO_Ingrediente convertirIngredienteADTO(Ingrediente ingrediente) {
         DTO_Ingrediente dtoIngrediente = new DTO_Ingrediente();
         dtoIngrediente.setId(ingrediente.getId());
-        
+
         dtoIngrediente.setCantidad(ingrediente.getCantidad());
         dtoIngrediente.setNombre(ingrediente.getNombre());
         dtoIngrediente.setPrecio(ingrediente.getPrecio());
-        
+
         return dtoIngrediente;
     }
 }
