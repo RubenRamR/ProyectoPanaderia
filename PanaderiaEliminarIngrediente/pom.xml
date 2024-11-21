@@ -27,4 +27,5 @@
         <maven.compiler.release>23</maven.compiler.release>
         <exec.mainClass>com.mycompany.panaderiaeliminaringrediente.PanaderiaEliminarIngrediente</exec.mainClass>
     </properties>
+    <name>S_PanaderiaEliminarIngrediente</name>
 </project>
