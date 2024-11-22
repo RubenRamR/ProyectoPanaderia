@@ -88,11 +88,11 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Cantidad", "Unidad", "Precio"
+                "Nombre", "Cantidad", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -326,8 +326,7 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         int fila = tableIngredientes.rowAtPoint(evt.getPoint());
         txtNombre.setText(tableIngredientes.getValueAt(fila, 0).toString());
         txtCantidad.setText(tableIngredientes.getValueAt(fila, 1).toString());
-        
-        txtPrecio.setText(tableIngredientes.getValueAt(fila, 3).toString());
+        txtPrecio.setText(tableIngredientes.getValueAt(fila, 2).toString());
 
         btnActualizar.setEnabled(true);
         btnModificarCantidad.setEnabled(true);
@@ -361,9 +360,6 @@ public class Presentacion_DlgInventarioIngredientes extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
         DTO_Ingrediente ingredientoDTO = new DTO_Ingrediente();
         ingredientoDTO.setNombre(txtBuscar.getText());
-//        ingredientoDTO.setPrecio(Float.parseFloat(txtPrecio.getText()));
-//        ingredientoDTO.setUnidadDeMedida(comboUnidad.getSelectedItem().toString());
-//        ingredientoDTO.setCantidad(Integer.parseInt(txtCantidad.getText()));
         List<DTO_Ingrediente> ingredienteConsultado = funcionalidadConsultarIngrediente.consultarIngrediente(ingredientoDTO);
         if (ingredienteConsultado != null) {
             ingredienteConsultado.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), t.getCantidad(), t.getPrecio()}));

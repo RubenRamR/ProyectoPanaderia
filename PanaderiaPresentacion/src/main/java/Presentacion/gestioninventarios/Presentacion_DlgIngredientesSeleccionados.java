@@ -20,17 +20,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
-
-
 public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFrame {
-    
+
     private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngrediente;
     private IFuncionalidadAgregarProducto funcionalidadAgregarProducto;
     private ControlGestionarInventario control;
 
-    
-     /**
+    /**
      * Creates new form Presentacion_DlgIngredientesSeleccionados
      */
     public Presentacion_DlgIngredientesSeleccionados() {
@@ -42,8 +38,8 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
         agregarListenerCambioCantidad();
 
     }
-        
-         private void llenarTabla() {
+
+    private void llenarTabla() {
         limpiarTabla();
         List<DTO_Ingrediente> listaIngredientes = new ArrayList<>();
         List<DTO_IngredienteDetalle> ingredientesDetalleDTO = control.getProductoDTO().getIngredientes();
@@ -70,8 +66,8 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
 
         tableIngredientes.setModel(modelo);
     }
-    
-     private List<DTO_IngredienteDetalle> obtenerListaIngredientes() {
+
+    private List<DTO_IngredienteDetalle> obtenerListaIngredientes() {
         JTable tabla = tableIngredientes;
         List<DTO_IngredienteDetalle> listaIngredientes = control.getProductoDTO().getIngredientes();
         int numRows = tabla.getRowCount();
@@ -88,10 +84,10 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
 
         return listaIngredientes;
     }
-     
-     public void agregarListenerCambioCantidad() {
-        final int columnaCantidad = 1; 
-        final int columnaUnidad = 2; 
+
+    public void agregarListenerCambioCantidad() {
+        final int columnaCantidad = 1;
+        final int columnaUnidad = 2;
 
         tableIngredientes.getColumnModel().getColumn(columnaCantidad).setCellEditor(new DefaultCellEditor(new JTextField()) {
             @Override
@@ -104,16 +100,16 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
 
                     if (numero <= 0) {
                         JOptionPane.showMessageDialog(null, "El número debe ser mayor que 0", "Error", JOptionPane.ERROR_MESSAGE);
-                        return false; 
+                        return false;
                     }
 
                     int fila = tableIngredientes.getEditingRow();
-                    String unidad = (String) tableIngredientes.getValueAt(fila, columnaUnidad);
-
-                    if (unidad.equalsIgnoreCase("unidad") && valorCelda.contains(".")) {
-                        JOptionPane.showMessageDialog(null, "Las unidades no pueden tener decimales", "Error", JOptionPane.ERROR_MESSAGE);
-                        return false; 
-                    }
+//                    String unidad = (String) tableIngredientes.getValueAt(fila, columnaUnidad);
+//
+//                    if (unidad.equalsIgnoreCase("unidad") && valorCelda.contains(".")) {
+//                        JOptionPane.showMessageDialog(null, "Las unidades no pueden tener decimales", "Error", JOptionPane.ERROR_MESSAGE);
+//                        return false; 
+//                    }
 
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -123,10 +119,8 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
                 return super.stopCellEditing();
             }
         });
-     }
-    
+    }
 
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -238,7 +232,7 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-         List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
+        List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
 
         if (ingredientesAgregados == null) {
             JOptionPane.showMessageDialog(this, "Las cantidades no pueden estar vacias.");

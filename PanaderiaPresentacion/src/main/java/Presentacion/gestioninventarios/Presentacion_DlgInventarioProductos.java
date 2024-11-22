@@ -156,7 +156,8 @@ public class Presentacion_DlgInventarioProductos extends javax.swing.JFrame {
 
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+        controlGesionarInventario.mostrarIngresarDatosDelProducto();
+        this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
 
