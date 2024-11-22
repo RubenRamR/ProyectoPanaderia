@@ -27,4 +27,5 @@
         <maven.compiler.release>23</maven.compiler.release>
         <exec.mainClass>com.mycompany.panaderiaconsultaringredientes.PanaderiaConsultarIngredientes</exec.mainClass>
     </properties>
+    <name>S_PanaderiaConsultarIngredientes</name>
 </project>

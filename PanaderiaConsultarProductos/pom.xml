@@ -32,4 +32,5 @@
         <maven.compiler.release>22</maven.compiler.release>
         <exec.mainClass>com.mycompany.panaderiaconsultarproductos.PanaderiaConsultarProductos</exec.mainClass>
     </properties>
+    <name>S_PanaderiaConsultarProductos</name>
 </project>
