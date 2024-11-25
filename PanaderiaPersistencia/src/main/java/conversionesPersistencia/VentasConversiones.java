@@ -137,6 +137,7 @@ public class VentasConversiones {
             detalleVentaMapeo.setProductoId(new ObjectId(detalleVenta.getProductoId()));
             detalleVentaMapeo.setImporte(detalleVenta.getImporte());
             detalleVentaMapeo.setPrecio(detalleVenta.getPrecio());
+            detallesVentaMapeo.add(detalleVentaMapeo);
             detalleVentaMapeo.setTamanhoProducto(detalleVenta.getTamanhoProducto());
             detallesVentaMapeo.add(detalleVentaMapeo);
         }
