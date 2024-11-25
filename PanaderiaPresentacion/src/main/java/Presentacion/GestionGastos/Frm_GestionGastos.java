@@ -4,6 +4,8 @@
  */
 package Presentacion.GestionGastos;
 
+import Presentación.Presentacion_MenuPrincipal;
+
 /**
  *
  * @author rramirez
@@ -26,21 +28,109 @@ public class Frm_GestionGastos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        LblGestionGastos = new javax.swing.JLabel();
+        LblTotGas = new javax.swing.JLabel();
+        LblTotIngr = new javax.swing.JLabel();
+        LblTG = new javax.swing.JLabel();
+        BtnRegresar = new javax.swing.JButton();
+        BtnVerIngresosMensuales = new javax.swing.JButton();
+        LblIngresos = new javax.swing.JLabel();
+        LblGastos1 = new javax.swing.JLabel();
+        LblGanancias = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        LblGestionGastos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        LblGestionGastos.setForeground(new java.awt.Color(0, 0, 0));
+        LblGestionGastos.setText("Gestion Gastos");
+        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 6, -1, -1));
+
+        LblTotGas.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        LblTotGas.setForeground(new java.awt.Color(0, 0, 0));
+        LblTotGas.setText("Total de Gastos:");
+        jPanel1.add(LblTotGas, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 85, -1, -1));
+
+        LblTotIngr.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        LblTotIngr.setForeground(new java.awt.Color(0, 0, 0));
+        LblTotIngr.setText("Total de Ingresos:");
+        jPanel1.add(LblTotIngr, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 135, -1, -1));
+
+        LblTG.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        LblTG.setForeground(new java.awt.Color(0, 0, 0));
+        LblTG.setText("GANANCIAS:");
+        jPanel1.add(LblTG, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 185, -1, -1));
+
+        BtnRegresar.setBackground(new java.awt.Color(255, 153, 0));
+        BtnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        BtnRegresar.setForeground(new java.awt.Color(0, 0, 0));
+        BtnRegresar.setText("Regresar");
+        BtnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRegresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BtnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 267, -1, -1));
+
+        BtnVerIngresosMensuales.setBackground(new java.awt.Color(255, 153, 0));
+        BtnVerIngresosMensuales.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        BtnVerIngresosMensuales.setForeground(new java.awt.Color(0, 0, 0));
+        BtnVerIngresosMensuales.setText("Ver Ingresos Mensuales");
+        BtnVerIngresosMensuales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnVerIngresosMensualesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BtnVerIngresosMensuales, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 267, -1, -1));
+
+        LblIngresos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LblIngresos.setForeground(new java.awt.Color(0, 0, 0));
+        LblIngresos.setText("$");
+        jPanel1.add(LblIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 67, 20));
+
+        LblGastos1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LblGastos1.setForeground(new java.awt.Color(0, 0, 0));
+        LblGastos1.setText("$");
+        jPanel1.add(LblGastos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 94, 67, 20));
+
+        LblGanancias.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LblGanancias.setForeground(new java.awt.Color(0, 0, 0));
+        LblGanancias.setText("$");
+        jPanel1.add(LblGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 67, 20));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("________________");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 80, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnVerIngresosMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerIngresosMensualesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnVerIngresosMensualesActionPerformed
+
+    private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed
+        // TODO add your handling code here:
+        Presentacion_MenuPrincipal menu = new Presentacion_MenuPrincipal();
+        menu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BtnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -85,5 +175,16 @@ public class Frm_GestionGastos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnRegresar;
+    private javax.swing.JButton BtnVerIngresosMensuales;
+    private javax.swing.JLabel LblGanancias;
+    private javax.swing.JLabel LblGastos1;
+    private javax.swing.JLabel LblGestionGastos;
+    private javax.swing.JLabel LblIngresos;
+    private javax.swing.JLabel LblTG;
+    private javax.swing.JLabel LblTotGas;
+    private javax.swing.JLabel LblTotIngr;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

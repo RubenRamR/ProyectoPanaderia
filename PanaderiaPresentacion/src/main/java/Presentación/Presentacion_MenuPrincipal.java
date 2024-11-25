@@ -2,6 +2,7 @@ package Presentación;
 
 import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;
+import Presentacion.GestionGastos.Frm_GestionGastos;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -157,6 +158,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
 
     private void btnGestionDeGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeGastosActionPerformed
         // TODO add your handling code here:
+        Frm_GestionGastos geGa = new Frm_GestionGastos();
+        geGa.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnGestionDeGastosActionPerformed
 
     private void btnHistorialDeVentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialDeVentas1ActionPerformed
@@ -175,8 +179,8 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
         controlGesionarInventario.mostrarOpcionesGestion();
         this.dispose();
     }//GEN-LAST:event_btnGestionarInventario1ActionPerformed
-public void mostrarMenu() {
-       
+    public void mostrarMenu() {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Presentacion_MenuPrincipal().setVisible(true);
@@ -196,6 +200,5 @@ public void mostrarMenu() {
     private javax.swing.JButton btnRegistrarVenta1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-
 
 }
