@@ -90,7 +90,7 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
     
      public void agregarListenerCambioCantidad() {
         final int columnaCantidad = 1;
-        final int columnaUnidad = 2; 
+    
 
         tableIngredientes.getColumnModel().getColumn(columnaCantidad).setCellEditor(new DefaultCellEditor(new JTextField()) {
             @Override
@@ -106,13 +106,7 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
                         return false;
                     }
 
-                    int fila = tableIngredientes.getEditingRow();
-                    String unidad = (String) tableIngredientes.getValueAt(fila, columnaUnidad);
-
-                    if (unidad.equalsIgnoreCase("unidad") && valorCelda.contains(".")) {
-                        JOptionPane.showMessageDialog(null, "Las unidades no pueden tener decimales", "Error", JOptionPane.ERROR_MESSAGE);
-                        return false; 
-                    }
+                  
 
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -146,20 +140,20 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
 
         tableIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Nombre", "Cantidad", "Medida"
+                "Nombre", "Cantidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -170,7 +164,6 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
         jScrollPane1.setViewportView(tableIngredientes);
         if (tableIngredientes.getColumnModel().getColumnCount() > 0) {
             tableIngredientes.getColumnModel().getColumn(0).setResizable(false);
-            tableIngredientes.getColumnModel().getColumn(2).setResizable(false);
         }
 
         btnCancelar.setBackground(new java.awt.Color(204, 153, 0));

@@ -44,7 +44,6 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
         List<DTO_Ingrediente> listaIngredientes = new ArrayList<>();
         List<DTO_IngredienteDetalle> ingredientesDetalleDTO = control.getProductoDTO().getIngredientes();
         if (ingredientesDetalleDTO != null) {
-
             for (int i = 0; i < ingredientesDetalleDTO.size(); i++) {
                 DTO_Ingrediente ingrediente = funcionalidadConsultarIngrediente.consultarIngredientePorNombre(new DTO_Ingrediente(ingredientesDetalleDTO.get(i).getNombre()));
                 ingredientesDetalleDTO.get(i).setIngredienteId(ingrediente.getId());
@@ -54,16 +53,13 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
         DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
 
         if (listaIngredientes != null) {
-            listaIngredientes.forEach(t -> modelo.addRow(new Object[]{t.getNombre(),}));
+            listaIngredientes.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), ""}));
         }
-
     }
 
     private void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
-
         modelo.setRowCount(0);
-
         tableIngredientes.setModel(modelo);
     }
 
@@ -74,12 +70,24 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
 
         for (int fila = 0; fila < numRows; fila++) {
             Object valorCelda = tabla.getValueAt(fila, 1);
-            DTO_IngredienteDetalle ingrediente = listaIngredientes.get(fila);
-            if (valorCelda == null) {
+            String cantidadStr = (valorCelda != null) ? String.valueOf(valorCelda).trim() : "";
+            if (cantidadStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todas las cantidades deben estar llenas.", "Error", JOptionPane.ERROR_MESSAGE);
                 return null;
             }
-            ingrediente.setCantidad(Float.valueOf(String.valueOf(valorCelda)));
 
+            try {
+                float cantidad = Float.parseFloat(String.valueOf(valorCelda).trim());
+                if (cantidad <= 0) {
+                    JOptionPane.showMessageDialog(this, "Todas las cantidades deben ser mayores a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+                DTO_IngredienteDetalle ingrediente = listaIngredientes.get(fila);
+                ingrediente.setCantidad(cantidad);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return null;
+            }
         }
 
         return listaIngredientes;
@@ -87,30 +95,24 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
 
     public void agregarListenerCambioCantidad() {
         final int columnaCantidad = 1;
-        final int columnaUnidad = 2;
 
         tableIngredientes.getColumnModel().getColumn(columnaCantidad).setCellEditor(new DefaultCellEditor(new JTextField()) {
             @Override
             public boolean stopCellEditing() {
                 try {
                     JTextField textField = (JTextField) getComponent();
-                    String valorCelda = textField.getText();
+                    String valorCelda = textField.getText().trim();
+
+                    if (valorCelda.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "El campo no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
 
                     double numero = Double.parseDouble(valorCelda);
-
                     if (numero <= 0) {
                         JOptionPane.showMessageDialog(null, "El número debe ser mayor que 0", "Error", JOptionPane.ERROR_MESSAGE);
                         return false;
                     }
-
-                    int fila = tableIngredientes.getEditingRow();
-//                    String unidad = (String) tableIngredientes.getValueAt(fila, columnaUnidad);
-//
-//                    if (unidad.equalsIgnoreCase("unidad") && valorCelda.contains(".")) {
-//                        JOptionPane.showMessageDialog(null, "Las unidades no pueden tener decimales", "Error", JOptionPane.ERROR_MESSAGE);
-//                        return false; 
-//                    }
-
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
                     return false;
@@ -232,30 +234,34 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
+   
+    // Confirmar edición activa
+    if (tableIngredientes.isEditing()) {
+        tableIngredientes.getCellEditor().stopCellEditing();
+    }
 
-        if (ingredientesAgregados == null) {
-            JOptionPane.showMessageDialog(this, "Las cantidades no pueden estar vacias.");
+    // Obtener los ingredientes
+    List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
 
-            return;
-        }
-        for (int i = 0; i < ingredientesAgregados.size(); i++) {
-            System.out.println(ingredientesAgregados.get(i).getIngredienteId());
-        }
+    if (ingredientesAgregados == null) {
+        // El mensaje ya es mostrado en `obtenerListaIngredientes`
+        return;
+    }
 
-        control.getProductoDTO().setIngredientes(ingredientesAgregados);
+    control.getProductoDTO().setIngredientes(ingredientesAgregados);
 
-        DTO_Producto producto = control.getProductoDTO();
+    DTO_Producto producto = control.getProductoDTO();
+    DTO_Producto productoAgregado = funcionalidadAgregarProducto.agregarProducto(producto);
 
-        DTO_Producto productoAgregado = funcionalidadAgregarProducto.agregarProducto(producto);
+    if (productoAgregado != null) {
+        JOptionPane.showMessageDialog(this, "Se ha agregado el producto.");
+        control.mostrarInvetarioProductos();
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se ha agregado el producto.");
+    }
 
-        if (productoAgregado != null) {
-            JOptionPane.showMessageDialog(this, "Se ha agregado el producto.");
-            control.mostrarInvetarioProductos();
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "No se ha agregado el producto.");
-        }
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
 
@@ -266,4 +272,5 @@ public class Presentacion_DlgIngredientesSeleccionados extends javax.swing.JFram
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableIngredientes;
     // End of variables declaration//GEN-END:variables
+
 }
