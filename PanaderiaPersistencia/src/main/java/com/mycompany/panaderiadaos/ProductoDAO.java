@@ -44,8 +44,9 @@ public class ProductoDAO implements IProductoDAO {
     @Override
     public Producto agregarProducto(Producto producto) throws PersistenciaException {
         MongoCollection<ProductoMapeo> coleccion = conexion.obtenerColeccion();
-        coleccion.insertOne(conversor.convertirProductoMapeo(producto));
-
+        ProductoMapeo productoMapeado = conversor.convertirProductoMapeo(producto);
+        coleccion.insertOne(productoMapeado);
+        producto.setId(productoMapeado.getId().toString());
         try {
             return producto;
         } catch (Exception e) {
