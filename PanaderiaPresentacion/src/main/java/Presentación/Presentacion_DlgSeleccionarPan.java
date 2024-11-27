@@ -10,6 +10,8 @@ import DTO.DTO_Direccion;
 import DTO.DTO_Producto;
 
 import DTO.DTO_Venta;
+import com.mycompany.panaderiaagregarproducto.FuncionalidadAgregarProducto;
+import com.mycompany.panaderiaagregarproducto.IFuncionalidadAgregarProducto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle.Control;
@@ -28,6 +30,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
     private List<DTO_DetalleVenta> detalleLista;
     float precio;
     int cantidadProducto;
+    IFuncionalidadAgregarProducto agregarProducto;
 
     /**
      * Creates new form Presentacion_DlgDatosCliente
@@ -37,6 +40,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         this.control = ControlAgregarVenta.getInstance();
         this.venta = control.getVenta();
         this.dtoProducto = dtoProducto;
+        this.agregarProducto = new FuncionalidadAgregarProducto();
         setTitle("Datos de seleccionar Pan");
         initComponents();
         datosIniciales();
@@ -166,6 +170,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         detalleVenta.setPrecio(precio);
         detalleVenta.setEspecificacion((String) cbIngredienteExtra.getSelectedItem());
         detalleVenta.setImporte(precio);
+        detalleVenta.setIdproducto(dtoProducto.getId());
         detalleLista.add(detalleVenta);
         venta.setMontoTotal(venta.getMontoTotal() + precio);
         venta.setDetallesVenta(detalleLista);

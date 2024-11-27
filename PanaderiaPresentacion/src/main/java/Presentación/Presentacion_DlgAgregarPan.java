@@ -243,10 +243,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnAgregarDonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDonaActionPerformed
-        DTO_Producto dona = new DTO_Producto();
-        dona.setNombre("Dona");
-        dona.setPrecio(10);
-        dona.setTamanio("10cm");
+        DTO_Producto dona = funcionalidadesProductos.consultarProductoPorNombre("Dona");
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, dona);
         control.getVenta().getDetallesVenta();
@@ -254,40 +251,28 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAgregarDonaActionPerformed
 
     private void btnAgregarOrejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarOrejaActionPerformed
-        DTO_Producto oreja = new DTO_Producto();
-        oreja.setNombre("Oreja");
-        oreja.setPrecio(8);
-        oreja.setTamanio("10cm");
+        DTO_Producto oreja = funcionalidadesProductos.consultarProductoPorNombre("Oreja");
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, oreja);
         control.getVenta().getDetallesVenta();
     }//GEN-LAST:event_btnAgregarOrejaActionPerformed
 
     private void btnAgregarCuernitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuernitoActionPerformed
-        DTO_Producto cuernito = new DTO_Producto();
-        cuernito.setNombre("Cuernitos");
-        cuernito.setPrecio(8);
-        cuernito.setTamanio("10cm");
+        DTO_Producto cuernito = funcionalidadesProductos.consultarProductoPorNombre("Cuernito");
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, cuernito);
         control.getVenta().getDetallesVenta();
     }//GEN-LAST:event_btnAgregarCuernitoActionPerformed
 
     private void btnAgregarCupcakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCupcakeActionPerformed
-        DTO_Producto Cupcake = new DTO_Producto();
-        Cupcake.setNombre("Cupcake");
-        Cupcake.setPrecio(15);
-        Cupcake.setTamanio("10cm");
+        DTO_Producto Cupcake = funcionalidadesProductos.consultarProductoPorNombre("Cupcake");
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, Cupcake);
         control.getVenta().getDetallesVenta();
     }//GEN-LAST:event_btnAgregarCupcakeActionPerformed
 
     private void btnAgregarConchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConchaActionPerformed
-        DTO_Producto concha = new DTO_Producto();
-        concha.setNombre("Concha");
-        concha.setPrecio(10);
-        concha.setTamanio("10cm");
+        DTO_Producto concha = funcionalidadesProductos.consultarProductoPorNombre("Concha");
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, concha);
         control.getVenta().getDetallesVenta();

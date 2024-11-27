@@ -259,7 +259,7 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
 
         if (respuesta == JOptionPane.YES_OPTION) {
             this.dispose();
-            control.mostrarProductosVenta();
+            control.mostrarDatosClientes();
 
         } else {
             this.dispose();
