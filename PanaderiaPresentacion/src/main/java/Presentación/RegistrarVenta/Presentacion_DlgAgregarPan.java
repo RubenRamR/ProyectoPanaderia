@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentación;
+package Presentación.RegistrarVenta;
 
 import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
@@ -104,9 +104,9 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, -1));
 
+        btnAgregar.setText("Aceptar");
         btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnAgregar.setText("Aceptar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);

@@ -12,9 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Interfaz IVentaDAO
- * Esta interfaz define los métodos para realizar operaciones relacionadas con
- * las ventas en la base de datos.
+ * Interfaz IVentaDAO Esta interfaz define los métodos para realizar operaciones
+ * relacionadas con las ventas en la base de datos.
  *
  */
 public interface IVentaDAO {
@@ -111,4 +110,6 @@ public interface IVentaDAO {
      * persistencia.
      */
     public List<Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<Producto> listaProductos) throws PersistenciaException;
+
+    public Float calcularIngresosTotales() throws PersistenciaException;
 }

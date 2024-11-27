@@ -13,7 +13,8 @@ import java.util.List;
  * @author joseq
  */
 public interface IFuncionalidadConsultarIngredientes {
-  List<DTO_Ingrediente> consultarIngredientes();
+
+    List<DTO_Ingrediente> consultarIngredientes();
 
     List<DTO_Ingrediente> consultarIngredientesFaltantes(DTO_Producto producto);
 
@@ -21,5 +22,4 @@ public interface IFuncionalidadConsultarIngredientes {
 
     public DTO_Ingrediente consultarIngredientePorNombre(DTO_Ingrediente ingrediente);
 
-   
 }

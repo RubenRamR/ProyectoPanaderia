@@ -242,4 +242,9 @@ public class VentaDAO implements IVentaDAO {
             throw new PersistenciaException("Error al consultar ventas con filtros: " + e.getMessage());
         }
     }
+    
+    @Override
+    public Float calcularIngresosTotales() throws PersistenciaException{
+        return Float.MAX_VALUE;
+    }
 }

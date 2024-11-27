@@ -4,7 +4,11 @@
  */
 package Presentacion.GestionGastos;
 
-import Presentación.Presentacion_MenuPrincipal;
+import Control.ControlAgregarVenta;
+import Presentacion.IngresosMensuales.FrmIngresosMensuales;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
+import com.mycompany.s_panaderiagestiongastos.FuncionalidadGestionGastos;
+import com.mycompany.s_panaderiagestiongastos.IFuncionalidadGestionGastos;
 
 /**
  *
@@ -12,11 +16,21 @@ import Presentación.Presentacion_MenuPrincipal;
  */
 public class Frm_GestionGastos extends javax.swing.JFrame {
 
+    IFuncionalidadGestionGastos funcionalidadGestionGastos;
+
     /**
      * Creates new form Frm_GestionGastos
      */
     public Frm_GestionGastos() {
         initComponents();
+        funcionalidadGestionGastos = new FuncionalidadGestionGastos();
+        cargarCampos();
+    }
+
+    public void cargarCampos() {
+        Float gastos = funcionalidadGestionGastos.calcularMontoTotal();
+        LblGastos1.setText("$" + String.format("%.2f", gastos));
+
     }
 
     /**
@@ -48,22 +62,22 @@ public class Frm_GestionGastos extends javax.swing.JFrame {
         LblGestionGastos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         LblGestionGastos.setForeground(new java.awt.Color(0, 0, 0));
         LblGestionGastos.setText("Gestion Gastos");
-        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 6, -1, -1));
+        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, -1));
 
-        LblTotGas.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        LblTotGas.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         LblTotGas.setForeground(new java.awt.Color(0, 0, 0));
         LblTotGas.setText("Total de Gastos:");
-        jPanel1.add(LblTotGas, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 85, -1, -1));
+        jPanel1.add(LblTotGas, new org.netbeans.lib.awtextra.AbsoluteConstraints(68, 80, 200, -1));
 
-        LblTotIngr.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        LblTotIngr.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         LblTotIngr.setForeground(new java.awt.Color(0, 0, 0));
         LblTotIngr.setText("Total de Ingresos:");
-        jPanel1.add(LblTotIngr, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 135, -1, -1));
+        jPanel1.add(LblTotIngr, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 130, 230, -1));
 
         LblTG.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         LblTG.setForeground(new java.awt.Color(0, 0, 0));
         LblTG.setText("GANANCIAS:");
-        jPanel1.add(LblTG, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 185, -1, -1));
+        jPanel1.add(LblTG, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 150, 40));
 
         BtnRegresar.setBackground(new java.awt.Color(255, 153, 0));
         BtnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -87,20 +101,20 @@ public class Frm_GestionGastos extends javax.swing.JFrame {
         });
         jPanel1.add(BtnVerIngresosMensuales, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 267, -1, -1));
 
-        LblIngresos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LblIngresos.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         LblIngresos.setForeground(new java.awt.Color(0, 0, 0));
         LblIngresos.setText("$");
-        jPanel1.add(LblIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 67, 20));
+        jPanel1.add(LblIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 67, 20));
 
-        LblGastos1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LblGastos1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         LblGastos1.setForeground(new java.awt.Color(0, 0, 0));
         LblGastos1.setText("$");
-        jPanel1.add(LblGastos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 94, 67, 20));
+        jPanel1.add(LblGastos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 80, 20));
 
-        LblGanancias.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LblGanancias.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         LblGanancias.setForeground(new java.awt.Color(0, 0, 0));
         LblGanancias.setText("$");
-        jPanel1.add(LblGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 67, 20));
+        jPanel1.add(LblGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 67, 20));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -127,12 +141,15 @@ public class Frm_GestionGastos extends javax.swing.JFrame {
 
     private void BtnVerIngresosMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerIngresosMensualesActionPerformed
         // TODO add your handling code here:
+        FrmIngresosMensuales fim = new FrmIngresosMensuales();
+        fim.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BtnVerIngresosMensualesActionPerformed
 
     private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed
         // TODO add your handling code here:
-        Presentacion_MenuPrincipal menu = new Presentacion_MenuPrincipal();
-        menu.setVisible(true);
+        ControlAgregarVenta c = new ControlAgregarVenta();
+        c.mostrarMenu();
         this.dispose();
     }//GEN-LAST:event_BtnRegresarActionPerformed
 
