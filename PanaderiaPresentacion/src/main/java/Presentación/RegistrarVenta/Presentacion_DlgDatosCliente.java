@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentación;
+package Presentación.RegistrarVenta;
 
 import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
@@ -56,7 +56,6 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
         campoTextoApellidoM = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 470));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -162,7 +161,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
          this.dispose();
-        control.mostrarProductosVenta();
+        control.mostrarMenu();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void campoTextoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTextoNombreActionPerformed

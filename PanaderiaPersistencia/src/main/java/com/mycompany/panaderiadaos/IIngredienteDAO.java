@@ -31,7 +31,6 @@ import java.util.List;
  *
  */
 public interface IIngredienteDAO {
-    
 
     /**
      * Agrega un nuevo ingrediente a la base de datos.
@@ -124,4 +123,7 @@ public interface IIngredienteDAO {
      */
     public List<Ingrediente> consultarIngredientesConStock() throws PersistenciaException;
 
+    public Float calcularMontoTotal() throws PersistenciaException;
+    
+    
 }

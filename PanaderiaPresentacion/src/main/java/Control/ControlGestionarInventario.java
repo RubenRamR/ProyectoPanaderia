@@ -13,7 +13,7 @@ import Presentacion.gestioninventarios.Presentacion_DlgIngresarDatosDelProducto;
 import Presentacion.gestioninventarios.Presentacion_DlgInventarioIngredientes;
 import Presentacion.gestioninventarios.Presentacion_DlgInventarioProductos;
 import Presentacion.gestioninventarios.Presentacion_DlgSeleccionOpcionGestion;
-import Presentación.Presentacion_MenuPrincipal;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
 
 /**
  *

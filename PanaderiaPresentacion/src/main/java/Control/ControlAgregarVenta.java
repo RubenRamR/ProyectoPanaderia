@@ -9,15 +9,15 @@ import DTO.DTO_DetalleVenta;
 import DTO.DTO_Direccion;
 import DTO.DTO_Producto;
 import DTO.DTO_Venta;
-import Presentación.Presentacion_DlgAgregarDireccion;
-import Presentación.Presentacion_DlgAgregarPan;
-import Presentación.Presentacion_DlgCobrarVenta;
-import Presentación.Presentacion_DlgConfirmacionPago;
-import Presentación.Presentacion_DlgDatosCliente;
-import Presentación.Presentacion_DlgDirecciones;
-import Presentación.Presentacion_DlgListaClientes;
-import Presentación.Presentacion_MenuPrincipal;
-import Presentación.Presentacion_ProductosVenta;
+import Presentación.RegistrarVenta.Presentacion_DlgAgregarDireccion;
+import Presentación.RegistrarVenta.Presentacion_DlgAgregarPan;
+import Presentación.RegistrarVenta.Presentacion_DlgCobrarVenta;
+import Presentación.RegistrarVenta.Presentacion_DlgConfirmacionPago;
+import Presentación.RegistrarVenta.Presentacion_DlgDatosCliente;
+import Presentación.RegistrarVenta.Presentacion_DlgDirecciones;
+import Presentación.RegistrarVenta.Presentacion_DlgListaClientes;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
+import Presentación.RegistrarVenta.Presentacion_ProductosVenta;
 import javax.swing.JFrame;
 
 /**

@@ -89,6 +89,7 @@ public interface IVentasBO {
      */
     public List<DTO_Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<DTO_Producto> listaProductos);
 
+    public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin);
     /**
      * Consulta las ventas realizadas en una fecha específica.
      *

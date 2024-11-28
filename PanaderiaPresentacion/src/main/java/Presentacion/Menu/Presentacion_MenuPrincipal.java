@@ -1,4 +1,4 @@
-package Presentación;
+package Presentacion.Menu;
 
 import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;

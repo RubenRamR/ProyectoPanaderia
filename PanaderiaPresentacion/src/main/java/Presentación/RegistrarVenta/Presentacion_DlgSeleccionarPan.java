@@ -2,19 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentación;
+package Presentación.RegistrarVenta;
 
 import Control.ControlAgregarVenta;
 import DTO.DTO_DetalleVenta;
 import DTO.DTO_Direccion;
+import DTO.DTO_Ingrediente;
+import DTO.DTO_IngredienteDetalle;
 import DTO.DTO_Producto;
 
 import DTO.DTO_Venta;
+import com.mycompany.panaderiaactualizaringrediente.FuncionalidadActualizarIngrediente;
+import com.mycompany.panaderiaactualizaringrediente.IFuncionalidadActualizarIngrediente;
 import com.mycompany.panaderiaagregarproducto.FuncionalidadAgregarProducto;
 import com.mycompany.panaderiaagregarproducto.IFuncionalidadAgregarProducto;
+import com.mycompany.panaderiaconsultaringredientes.FuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle.Control;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,6 +39,9 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
     float precio;
     int cantidadProducto;
     IFuncionalidadAgregarProducto agregarProducto;
+    IFuncionalidadActualizarIngrediente actualizarIngrediente;
+    private IFuncionalidadConsultarIngredientes funcionalidadesIngredientes;
+    
 
     /**
      * Creates new form Presentacion_DlgDatosCliente
@@ -41,6 +52,8 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         this.venta = control.getVenta();
         this.dtoProducto = dtoProducto;
         this.agregarProducto = new FuncionalidadAgregarProducto();
+        this.funcionalidadesIngredientes = new FuncionalidadConsultarIngredientes();
+        this.actualizarIngrediente = new FuncionalidadActualizarIngrediente();
         setTitle("Datos de seleccionar Pan");
         initComponents();
         datosIniciales();
@@ -172,6 +185,21 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         detalleVenta.setImporte(precio);
         detalleVenta.setIdproducto(dtoProducto.getId());
         detalleLista.add(detalleVenta);
+        List<DTO_IngredienteDetalle> ingredientes = dtoProducto.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            int calc;
+            int resta = (int) (imagi.getCantidad()*cantidadProducto);
+            calc = (pr.getCantidad() -resta);
+            pr.setCantidad(calc);
+            try {
+                actualizarIngrediente.actualizarIngrediente(pr);
+            } catch (Exception ex) {
+                Logger.getLogger(Presentacion_DlgSeleccionarPan.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         venta.setMontoTotal(venta.getMontoTotal() + precio);
         venta.setDetallesVenta(detalleLista);
         this.dispose();

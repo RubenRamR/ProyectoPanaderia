@@ -20,77 +20,124 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
-
-
 public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.swing.JFrame {
+
     private IFuncionalidadConsultarIngredientes funcionalidadConsultarIngrediente;
     private IFuncionalidadActualizarProducto funcionalidadActualizarProducto;
     private ControlGestionarInventario control;
 
-  
     public Presentacion_DlgActualizarIngredientesSeleccionados() {
-        
+
         initComponents();
         funcionalidadConsultarIngrediente = new FuncionalidadConsultarIngredientes();
         funcionalidadActualizarProducto = new FuncionalidadActualizarProducto();
         control = ControlGestionarInventario.getInstance();
-       
+        llenarTabla();
+        agregarListenerCambioCantidad(); // Añadimos el listener para validar la cantidad.
 
     }
-    private void llenarTabla() {
-        limpiarTabla();
-        List<DTO_Ingrediente> listaIngredientes = new ArrayList<>();
-        List<DTO_IngredienteDetalle> ingredientesDetalleDTO = control.getProductoAActualizar().getIngredientes();
-        List<DTO_IngredienteDetalle> ingredientesOriginales = control.getProductoDTO().getIngredientes();
-        if (ingredientesDetalleDTO != null) {
 
-            for (int i = 0; i < ingredientesDetalleDTO.size(); i++) {
-                DTO_Ingrediente ingrediente = funcionalidadConsultarIngrediente.consultarIngredientePorNombre(new DTO_Ingrediente(ingredientesDetalleDTO.get(i).getNombre()));
-                ingredientesDetalleDTO.get(i).setIngredienteId(ingrediente.getId());
-                listaIngredientes.add(ingrediente);
-            }
+     private void llenarTabla() {
+ limpiarTabla();
+
+        List<DTO_IngredienteDetalle> ingredientesDetalleDTO = control.getProductoAActualizar() != null
+                ? control.getProductoAActualizar().getIngredientes()
+                : null;
+
+        List<DTO_IngredienteDetalle> ingredientesOriginales = control.getProductoDTO() != null
+                ? control.getProductoDTO().getIngredientes()
+                : null;
+
+        if (ingredientesDetalleDTO == null || ingredientesDetalleDTO.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay ingredientes para mostrar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
         DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
 
-        for (int i = 0; i < listaIngredientes.size(); i++) {
-            if (i < ingredientesOriginales.size() && ingredientesOriginales.get(i) != null && ingredientesOriginales.get(i).getNombre().equals(listaIngredientes.get(i).getNombre())) {
-                modelo.addRow(new Object[]{listaIngredientes.get(i).getNombre(), ingredientesOriginales.get(i).getCantidad(), });
-            } else {
-                modelo.addRow(new Object[]{listaIngredientes.get(i).getNombre(), null});
+        for (DTO_IngredienteDetalle ingredienteDetalle : ingredientesDetalleDTO) {
+            try {
+                if (ingredienteDetalle.getNombre() == null || ingredienteDetalle.getNombre().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "El nombre del ingrediente es inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
 
+                DTO_Ingrediente ingrediente = funcionalidadConsultarIngrediente.consultarIngredientePorNombre(
+                        new DTO_Ingrediente(ingredienteDetalle.getNombre())
+                );
+
+                if (ingrediente == null) {
+                    JOptionPane.showMessageDialog(this, "Ingrediente no encontrado: " + ingredienteDetalle.getNombre(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+
+                ingredienteDetalle.setIngredienteId(ingrediente.getId());
+
+                Object cantidad = null;
+                if (ingredientesOriginales != null) {
+                    for (DTO_IngredienteDetalle original : ingredientesOriginales) {
+                        if (original.getNombre().equals(ingrediente.getNombre())) {
+                            cantidad = original.getCantidad();
+                            break;
+                        }
+                    }
+                }
+
+                modelo.addRow(new Object[]{ingrediente.getNombre(), cantidad});
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al consultar el ingrediente: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         }
-
     }
-    
-    
+
+
+
     private void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
-
         modelo.setRowCount(0);
-
-        tableIngredientes.setModel(modelo);
     }
 
     private List<DTO_IngredienteDetalle> obtenerListaIngredientes() {
-        JTable tabla = tableIngredientes;
-        List<DTO_IngredienteDetalle> listaIngredientes = control.getProductoAActualizar().getIngredientes();
-        int numRows = tabla.getRowCount();
+        List<DTO_IngredienteDetalle> listaIngredientes = control.getProductoAActualizar() != null
+                ? control.getProductoAActualizar().getIngredientes()
+                : null;
 
-        for (int fila = 0; fila < numRows; fila++) {
-            Object valorCelda = tabla.getValueAt(fila, 1);
-            DTO_IngredienteDetalle ingrediente = listaIngredientes.get(fila);
-            ingrediente.setCantidad(Float.valueOf(String.valueOf(valorCelda)));
+        if (listaIngredientes == null) {
+            listaIngredientes = new ArrayList<>();
+        }
+
+        for (int fila = 0; fila < tableIngredientes.getRowCount(); fila++) {
+            Object valorCelda = tableIngredientes.getValueAt(fila, 1);
+
+            if (valorCelda == null || valorCelda.toString().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todas las celdas deben tener un valor válido.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return null;
+            }
+
+            try {
+                float cantidad = Float.parseFloat(valorCelda.toString());
+                if (fila < listaIngredientes.size()) {
+                    listaIngredientes.get(fila).setCantidad(cantidad);
+                } else {
+                    DTO_IngredienteDetalle nuevoIngrediente = new DTO_IngredienteDetalle();
+                    nuevoIngrediente.setCantidad(cantidad);
+                    listaIngredientes.add(nuevoIngrediente);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser un número válido.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return null;
+            }
         }
 
         return listaIngredientes;
     }
-    
-     public void agregarListenerCambioCantidad() {
+
+    public void agregarListenerCambioCantidad() {
         final int columnaCantidad = 1;
-    
 
         tableIngredientes.getColumnModel().getColumn(columnaCantidad).setCellEditor(new DefaultCellEditor(new JTextField()) {
             @Override
@@ -106,8 +153,6 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
                         return false;
                     }
 
-                  
-
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
                     return false;
@@ -117,9 +162,6 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
             }
         });
     }
-
-   
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -226,19 +268,30 @@ public class Presentacion_DlgActualizarIngredientesSeleccionados extends javax.s
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-      control.mostrarInvetarioProductos();
+        control.mostrarInvetarioProductos();
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
+        if (tableIngredientes.isEditing()) {
+            tableIngredientes.getCellEditor().stopCellEditing();
+        }
 
-        control.getProductoDTO().setIngredientes(ingredientesAgregados);
+        List<DTO_IngredienteDetalle> ingredientesAgregados = obtenerListaIngredientes();
+        if (ingredientesAgregados == null) {
+            return;
+        }
 
         DTO_Producto producto = control.getProductoAActualizar();
-        System.out.println(producto.getId());
-        DTO_Producto productoAgregado = funcionalidadActualizarProducto.actualizarProducto(producto);
+        if (producto == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener el producto a actualizar.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        producto.setIngredientes(ingredientesAgregados);
+
+        DTO_Producto productoAgregado = funcionalidadActualizarProducto.actualizarProducto(producto);
         if (productoAgregado != null) {
             JOptionPane.showMessageDialog(this, "Se ha actualizado el producto.");
             control.mostrarInvetarioProductos();

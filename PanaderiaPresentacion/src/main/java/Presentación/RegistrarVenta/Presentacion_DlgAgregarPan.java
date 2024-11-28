@@ -2,12 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentación;
+package Presentación.RegistrarVenta;
 
 import Control.ControlAgregarVenta;
 import DTO.DTO_Cliente;
+import DTO.DTO_Ingrediente;
+import DTO.DTO_IngredienteDetalle;
 import DTO.DTO_Producto;
 import DTO.DTO_Venta;
+import com.mycompany.panaderiaconsultaringredientes.FuncionalidadConsultarIngredientes;
+import com.mycompany.panaderiaconsultaringredientes.IFuncionalidadConsultarIngredientes;
 import com.mycompany.panaderiaconsultarproductos.FuncionalidadConsultarProductos;
 import com.mycompany.panaderiaconsultarproductos.IFuncionalidadConsultarProductos;
 import java.awt.Image;
@@ -18,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +31,7 @@ import javax.swing.JButton;
 public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     private IFuncionalidadConsultarProductos funcionalidadesProductos;
+    private IFuncionalidadConsultarIngredientes funcionalidadesIngredientes;
     private ControlAgregarVenta control;
     private List<DTO_Producto> panes;
     DTO_Venta venta;
@@ -38,6 +44,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     public Presentacion_DlgAgregarPan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.funcionalidadesProductos = new FuncionalidadConsultarProductos();
+        this.funcionalidadesIngredientes = new FuncionalidadConsultarIngredientes();
         this.producto = producto;
         this.especificacion = especificacion;
         this.control = ControlAgregarVenta.getInstance();
@@ -104,9 +111,9 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, -1));
 
+        btnAgregar.setText("Aceptar");
         btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnAgregar.setText("Aceptar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -244,6 +251,16 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     private void btnAgregarDonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDonaActionPerformed
         DTO_Producto dona = funcionalidadesProductos.consultarProductoPorNombre("Dona");
+        List<DTO_IngredienteDetalle> ingredientes = dona.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()) {
+                JOptionPane.showMessageDialog(rootPane, "Out of Stock");
+                return;
+            }
+        }
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, dona);
         control.getVenta().getDetallesVenta();
@@ -252,6 +269,16 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     private void btnAgregarOrejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarOrejaActionPerformed
         DTO_Producto oreja = funcionalidadesProductos.consultarProductoPorNombre("Oreja");
+        List<DTO_IngredienteDetalle> ingredientes = oreja.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()) {
+                JOptionPane.showMessageDialog(rootPane, "Out of Stock");
+                return;
+            }
+        }
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, oreja);
         control.getVenta().getDetallesVenta();
@@ -259,6 +286,16 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     private void btnAgregarCuernitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuernitoActionPerformed
         DTO_Producto cuernito = funcionalidadesProductos.consultarProductoPorNombre("Cuernito");
+        List<DTO_IngredienteDetalle> ingredientes = cuernito.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()) {
+                JOptionPane.showMessageDialog(rootPane, "Out of Stock");
+                return;
+            }
+        }
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, cuernito);
         control.getVenta().getDetallesVenta();
@@ -266,6 +303,16 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     private void btnAgregarCupcakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCupcakeActionPerformed
         DTO_Producto Cupcake = funcionalidadesProductos.consultarProductoPorNombre("Cupcake");
+        List<DTO_IngredienteDetalle> ingredientes = Cupcake.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()) {
+                JOptionPane.showMessageDialog(rootPane, "Out of Stock");
+                return;
+            }
+        }
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, Cupcake);
         control.getVenta().getDetallesVenta();
@@ -273,6 +320,16 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     private void btnAgregarConchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConchaActionPerformed
         DTO_Producto concha = funcionalidadesProductos.consultarProductoPorNombre("Concha");
+        List<DTO_IngredienteDetalle> ingredientes = concha.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()) {
+                JOptionPane.showMessageDialog(rootPane, "Out of Stock");
+                return;
+            }
+        }
         this.dispose();
         Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, concha);
         control.getVenta().getDetallesVenta();

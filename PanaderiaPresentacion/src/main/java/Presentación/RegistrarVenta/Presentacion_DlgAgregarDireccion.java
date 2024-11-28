@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentación;
+package Presentación.RegistrarVenta;
 
 import Control.ControlAgregarVenta;
 import DTO.DTO_Direccion;
@@ -54,7 +54,6 @@ public class Presentacion_DlgAgregarDireccion extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(375, 355));
-        setPreferredSize(new java.awt.Dimension(375, 355));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N

@@ -6,8 +6,10 @@ package com.mycompany.panaderiaconsultaringredientes;
 
 import DTO.DTO_Ingrediente;
 import DTO.DTO_Producto;
+import com.mycompany.panaderianegocio.IIngredienteBO;
 import com.mycompany.panaderianegocio.IInventarioIngredientesBO;
 import com.mycompany.panaderianegocio.IProductosBO;
+import com.mycompany.panaderianegocio.IngredienteBO;
 import com.mycompany.panaderianegocio.InventarioIngredientesBO;
 import com.mycompany.panaderianegocio.ProductosBO;
 import java.util.List;
@@ -45,7 +47,5 @@ public class FuncionalidadConsultarIngredientes implements IFuncionalidadConsult
     @Override
     public DTO_Ingrediente consultarIngredientePorNombre(DTO_Ingrediente ingrediente) {
         return inventarioIngredientesBO.consultarIngredientePorNombre(ingrediente);
-
     }
-    
 }
