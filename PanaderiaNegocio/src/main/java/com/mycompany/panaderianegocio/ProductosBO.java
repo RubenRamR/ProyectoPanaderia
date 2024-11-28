@@ -175,25 +175,39 @@ public class ProductosBO implements IProductosBO {
      * {@inheritDoc}
      */
     @Override
-    public Producto convertirDTOAProducto(DTO_Producto producto) {
-        Float precio = 0F;
-        Producto productoNuevo = new Producto();
-        productoNuevo.setDescripcion(producto.getDescripcion());
-        if (producto.getId() != null) {
-            productoNuevo.setId(producto.getId());
-        }
-        productoNuevo.setNombre(producto.getNombre());
-        productoNuevo.setPrecio(producto.getPrecio());
+public Producto convertirDTOAProducto(DTO_Producto producto) {
+    Float precio = 0F;
+    Producto productoNuevo = new Producto();
+    productoNuevo.setDescripcion(producto.getDescripcion());
 
-        for (DTO_IngredienteDetalle ingredienteDetalle : producto.getIngredientes()) {
-            DTO_Ingrediente ingredienteConsultado = consultarIngredientePorNombre(ingredienteDetalle.getNombre());
+    if (producto.getId() != null) {
+        productoNuevo.setId(producto.getId());
+    }
+
+    productoNuevo.setNombre(producto.getNombre());
+    productoNuevo.setPrecio(producto.getPrecio());
+
+    for (DTO_IngredienteDetalle ingredienteDetalle : producto.getIngredientes()) {
+        // Consultar ingrediente por nombre
+        DTO_Ingrediente ingredienteConsultado = consultarIngredientePorNombre(ingredienteDetalle.getNombre());
+
+        // Verificar si el ingrediente fue encontrado
+        if (ingredienteConsultado != null) {
             precio += ingredienteConsultado.getPrecio() * ingredienteDetalle.getCantidad();
             ingredienteDetalle.setIngredienteId(ingredienteConsultado.getId());
             productoNuevo.addIngredienteDetalle(convertirDTOAIngredienteDetalle(ingredienteDetalle));
+        } else {
+            // Manejo de caso cuando el ingrediente no se encuentra
+            System.out.println("Ingrediente no encontrado: " + ingredienteDetalle.getNombre());
+            // Aquí puedes decidir qué hacer si no se encuentra el ingrediente, como lanzar una excepción o asignar un precio por defecto
+            // Ejemplo:
+            // precio += 0F; // Si prefieres no afectar el precio
         }
-        productoNuevo.setPrecio(precio + 50F);
-        return productoNuevo;
     }
+
+    productoNuevo.setPrecio(precio + 50F);
+    return productoNuevo;
+}
 
     /**
      * {@inheritDoc}
