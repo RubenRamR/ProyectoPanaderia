@@ -33,32 +33,32 @@ public class DlgFacturar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tblFacturar = new javax.swing.JTable();
+        btnAplicar = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         background.setBackground(new java.awt.Color(102, 102, 102));
 
+        jLabel1.setText("Facturar");
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Facturar");
 
         fechaInicioDP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 51)));
 
         fechaInicioDP1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 51)));
 
+        jLabel2.setText("Inicio");
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Inicio");
 
+        jLabel3.setText("Fin");
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Fin");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblFacturar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -69,19 +69,19 @@ public class DlgFacturar extends javax.swing.JFrame {
                 "Fecha", "Descripcion", "Total"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblFacturar);
 
-        jButton1.setBackground(new java.awt.Color(255, 153, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("Aplicar");
+        btnAplicar.setText("Aplicar");
+        btnAplicar.setBackground(new java.awt.Color(255, 153, 51));
+        btnAplicar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        jButton2.setBackground(new java.awt.Color(255, 153, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("Imprimir");
+        btnImprimir.setText("Imprimir");
+        btnImprimir.setBackground(new java.awt.Color(255, 153, 51));
+        btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
+        jButton3.setText("Regresar al Menu");
         jButton3.setBackground(new java.awt.Color(255, 153, 51));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setText("Regresar al Menu");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -110,10 +110,10 @@ public class DlgFacturar extends javax.swing.JFrame {
                                 .addComponent(fechaInicioDP, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(backgroundLayout.createSequentialGroup()
                                 .addGap(67, 67, 67)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(backgroundLayout.createSequentialGroup()
                                 .addGap(99, 99, 99)
-                                .addComponent(jButton1)))))
+                                .addComponent(btnAplicar)))))
                 .addGap(23, 23, 23))
         );
         backgroundLayout.setVerticalGroup(
@@ -136,9 +136,9 @@ public class DlgFacturar extends javax.swing.JFrame {
                     .addComponent(fechaInicioDP, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(32, 32, 32)
-                .addComponent(jButton1)
+                .addComponent(btnAplicar)
                 .addGap(76, 76, 76)
-                .addComponent(jButton2)
+                .addComponent(btnImprimir)
                 .addGap(169, 169, 169))
         );
 
@@ -193,15 +193,15 @@ public class DlgFacturar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton btnAplicar;
+    private javax.swing.JButton btnImprimir;
     private com.github.lgooddatepicker.components.DatePicker fechaInicioDP;
     private com.github.lgooddatepicker.components.DatePicker fechaInicioDP1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblFacturar;
     // End of variables declaration//GEN-END:variables
 }

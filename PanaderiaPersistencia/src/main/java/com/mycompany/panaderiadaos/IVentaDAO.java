@@ -112,4 +112,6 @@ public interface IVentaDAO {
     public List<Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<Producto> listaProductos) throws PersistenciaException;
 
     public Float calcularIngresosTotales() throws PersistenciaException;
+    
+    public List<Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) throws PersistenciaException;
 }

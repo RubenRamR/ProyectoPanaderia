@@ -247,4 +247,37 @@ public class VentaDAO implements IVentaDAO {
     public Float calcularIngresosTotales() throws PersistenciaException{
         return Float.MAX_VALUE;
     }
+    
+    @Override
+    public List<Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) throws PersistenciaException {
+        try {
+            MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+
+            List<Bson> filtros = new ArrayList<>();
+
+            if (clienteId != null && !clienteId.isEmpty()) {
+                filtros.add(eq("cliente._id", new ObjectId(clienteId)));
+            }
+
+            if (fechaInicio != null && fechaFin != null) {
+                Bson filtroRangoFechas = Filters.and(
+                        Filters.gte("fechaRegistro", fechaInicio),
+                        Filters.lte("fechaRegistro", fechaFin)
+                );
+                filtros.add(filtroRangoFechas);
+            }
+
+            Bson filtroFinal = Filters.and(filtros);
+
+            FindIterable<VentaMapeo> ventasFiltradas = coleccion.find(filtroFinal);
+            List<Venta> ventas = new ArrayList<>();
+            for (VentaMapeo venta : ventasFiltradas) {
+                ventas.add(conversor.convertirAVentaEntidad(venta));
+            }
+
+            return ventas;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al consultar ventas con filtros: " + e.getMessage());
+        }
+    }
 }
