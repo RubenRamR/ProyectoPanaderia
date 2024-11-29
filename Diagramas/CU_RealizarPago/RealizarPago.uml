@@ -3916,7 +3916,7 @@
 <XPD:REF name="Associations[0]">tF7JsLvRe0ylgKCRfAcWMgAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[2]" type="UMLClass" guid="Z+Cz7fLNvU2D8AUvQO/gawAA">
-<XPD:ATTR name="Name" type="string">LimiteFrm_RealizarCobro</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">LimiteFrm_RealizarCobro</XPD:ATTR>
 <XPD:REF name="Namespace">WCn7cG07oEKHhM/lrAagLgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">FIQtmlXm6ESTO/pLGkYiywAA</XPD:REF>
