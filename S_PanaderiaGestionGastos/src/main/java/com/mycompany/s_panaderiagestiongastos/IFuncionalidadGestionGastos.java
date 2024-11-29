@@ -11,4 +11,6 @@ package com.mycompany.s_panaderiagestiongastos;
 public interface IFuncionalidadGestionGastos {
 
     public Float calcularMontoTotal();
+    
+    public Float calcularIngresosTotales();
 }
