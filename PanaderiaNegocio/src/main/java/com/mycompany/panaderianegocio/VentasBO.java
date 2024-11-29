@@ -288,5 +288,12 @@ public class VentasBO implements IVentasBO {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0f;
+    public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
+        try {
+            return conversor.convertirListaADTO(ventaDAO.consultarVentasPorClienteFecha(clienteId, fechaInicio, fechaFin));
+        } catch (PersistenciaException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 }
