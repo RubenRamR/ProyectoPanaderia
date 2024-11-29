@@ -83,7 +83,7 @@ public class VentasConversiones {
      */
     public Venta convertirDTOAgregar(DTO_Venta ventaDTO) {
         Venta venta = new Venta();
-
+        venta.setId((ventaDTO.getID()));
         venta.setFechaEntrega(ventaDTO.getFechaEntrega());
         venta.setFechaRegistro(ventaDTO.getFechaRegistro());
         venta.setMontoTotal(ventaDTO.getMontoTotal());
@@ -135,7 +135,7 @@ public class VentasConversiones {
             detalleVentaDTO.setImporte(detalleVenta.getImporte());
             detalleVentaDTO.setPrecio(detalleVenta.getPrecio());
             detalleVentaDTO.setTamanhoProducto(detalleVentaDTO.getTamanhoProducto());
-            detalleVentaDTO.setProducto(conversorProductos.convertirProducto(detalleVenta.getProducto()));
+            
             detallesVenta.add(detalleVentaDTO);
         }
         dtoVenta.setDetallesVenta(detallesVenta);

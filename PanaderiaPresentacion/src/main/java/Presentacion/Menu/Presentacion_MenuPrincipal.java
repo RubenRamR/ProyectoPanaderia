@@ -3,6 +3,7 @@ package Presentacion.Menu;
 import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;
 import Presentacion.GestionGastos.Frm_GestionGastos;
+import Presentacion.RealizarCobro.DlgRealizarCobro;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -172,7 +173,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacturarActionPerformed
 
     private void btnRealizarCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCobroActionPerformed
-        // TODO add your handling code here:
+        DlgRealizarCobro realizarCobro = new DlgRealizarCobro();
+        realizarCobro.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRealizarCobroActionPerformed
 
     private void btnGestionarInventario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarInventario1ActionPerformed

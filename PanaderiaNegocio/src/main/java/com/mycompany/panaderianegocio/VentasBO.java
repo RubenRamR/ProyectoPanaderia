@@ -21,6 +21,7 @@ import DTO.DTO_Ingrediente;
 import DTO.DTO_IngredienteDetalle;
 import DTO.DTO_Producto;
 import DTO.DTO_Venta;
+import com.mycompany.panaderiadominioentidades.Venta;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -297,4 +298,48 @@ public class VentasBO implements IVentasBO {
             return null;
         }
     }
+
+    @Override
+    public DTO_Venta actualizarVenta(DTO_Venta venta) {
+        
+       try {
+           
+        // Convertir el DTO a entidad
+        Venta ventaConvertida = conversor.convertirDTOAgregar(venta);
+      
+        // Actualizar la venta en la base de datos
+        Venta ventaActualizada = ventaDAO.actualizarVenta(ventaConvertida);
+       
+        // Convertir la entidad actualizada nuevamente a DTO y retornarla
+        return conversor.convertirADTO(ventaActualizada);
+        
+    } catch (PersistenciaException ex) {
+        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al actualizar la venta: ", ex);
+        return null;
+    }
+    }
+
+    @Override
+    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) {
+         try {
+        List<Venta> ventas = ventaDAO.consultarVentasPendiente(pagina, cantidad);
+        return conversor.convertirListaADTO(ventas);
+    } catch (PersistenciaException ex) {
+        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al consultar ventas pendientes: ", ex);
+        return new ArrayList<>();
+    }
+    }
+
+    @Override
+    public DTO_Venta encontrarVentaPorId(String idVenta) {
+        try {
+        Venta venta = ventaDAO.encontrarVentaPorId(idVenta);
+        return conversor.convertirADTO(venta);
+    } catch (PersistenciaException ex) {
+        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar la venta por ID: ", ex);
+        return null;
+    }
+    }
+    
+    
 }
