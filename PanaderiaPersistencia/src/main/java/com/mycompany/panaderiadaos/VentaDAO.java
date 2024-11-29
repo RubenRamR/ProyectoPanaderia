@@ -5,6 +5,10 @@
 package com.mycompany.panaderiadaos;
 
 import Exceptions.PersistenciaException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
@@ -15,6 +19,7 @@ import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Updates;
 import com.mycompany.panaderiadominioentidades.Producto;
 import com.mycompany.panaderiadominioentidades.Venta;
 import com.mycompany.panaderiadominiosMapeo.VentaMapeo;
@@ -317,5 +322,82 @@ public class VentaDAO implements IVentaDAO {
         } catch (Exception e) {
             throw new PersistenciaException("Error al consultar ventas con filtros: " + e.getMessage());
         }
+    }
+    
+    /**
+ * Actualiza una venta existente en la base de datos.
+ *
+ * @param venta La venta con los datos actualizados.
+ * @throws PersistenciaException Si ocurre un error al intentar actualizar la venta.
+ */
+
+    @Override
+    public Venta  actualizarVenta(Venta venta) throws PersistenciaException {
+       MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+       
+
+    // Validar el ID antes de usar ObjectId
+    if (venta.getId() == null || !ObjectId.isValid(venta.getId())) {
+        throw new PersistenciaException("El ID de la venta es inválido: " + venta.getId());
+    }
+
+    // Crear el ObjectId a partir del ID validado
+    ObjectId objectId = new ObjectId(venta.getId());
+
+    try {
+        // Actualizar la venta en la base de datos
+        VentaMapeo ventaActualizado = coleccion.findOneAndReplace(
+            eq("_id", objectId),
+            conversor.convertirAVentaMapeo(venta)
+        );
+
+        // Convertir el resultado y retornarlo
+        return conversor.convertirAVentaEntidad(ventaActualizado);
+
+    } catch (Exception e) {
+            throw new PersistenciaException("Error al actualizar: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Venta> consultarVentasPendiente(int pagina, int cantidad) throws PersistenciaException {
+          try {
+        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+        List<Bson> filtros = new ArrayList<>();
+        filtros.add(eq("estado", "Pendiente")); // Filtro por estado pendiente
+
+        // Crear filtro final
+        Bson filtroFinal = Filters.and(filtros);
+
+        // Aplicar paginación con skip() y limit()
+        FindIterable<VentaMapeo> ventasFiltradas = coleccion.find(filtroFinal)
+                .skip((pagina - 1) * cantidad)
+                .limit(cantidad);
+
+        List<Venta> ventas = new ArrayList<>();
+        for (VentaMapeo venta : ventasFiltradas) {
+            ventas.add(conversor.convertirAVentaEntidad(venta));
+        }
+
+        return ventas;
+    } catch (Exception e) {
+        throw new PersistenciaException("Error al consultar ventas pendientes: " + e.getMessage());
+    }
+    }
+
+    @Override
+    public Venta encontrarVentaPorId(String idVenta) throws PersistenciaException {
+        try {
+        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+        VentaMapeo ventaMapeo = coleccion.find(eq("_id", new ObjectId(idVenta))).first();
+
+        if (ventaMapeo == null) {
+            throw new PersistenciaException("No se encontró la venta con el ID especificado.");
+        }
+
+        return conversor.convertirAVentaEntidad(ventaMapeo);
+    } catch (Exception e) {
+        throw new PersistenciaException("Error al buscar la venta por ID: " + e.getMessage());
+    }
     }
 }

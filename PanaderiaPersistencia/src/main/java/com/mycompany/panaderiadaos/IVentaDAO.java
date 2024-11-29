@@ -114,4 +114,10 @@ public interface IVentaDAO {
     public Float calcularIngresosTotales() throws PersistenciaException;
     
     public List<Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) throws PersistenciaException;
+    
+    public Venta actualizarVenta(Venta venta) throws PersistenciaException;
+    
+    public List<Venta> consultarVentasPendiente(int pagina, int cantidad) throws PersistenciaException;
+    
+    public Venta encontrarVentaPorId(String idVenta) throws PersistenciaException;
 }
