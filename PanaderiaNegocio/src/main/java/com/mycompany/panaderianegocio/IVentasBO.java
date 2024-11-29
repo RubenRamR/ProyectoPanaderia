@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * 
+ *
  */
 public interface IVentasBO {
 
@@ -134,10 +134,16 @@ public interface IVentasBO {
      * @return el DTO_Ingrediente convertido, o null si ocurre una excepción.
      */
     public DTO_Ingrediente convertirIngredienteADTO(Ingrediente ingrediente);
+
     
     public DTO_Venta actualizarVenta(DTO_Venta ventaDTO);
     
    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) ;
    
    public DTO_Venta encontrarVentaPorId(String idVenta);
+
+
+    public Float calcularIngresosTotales();
+
+
 }

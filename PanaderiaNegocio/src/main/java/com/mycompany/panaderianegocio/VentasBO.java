@@ -55,10 +55,13 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public void agregarVenta(DTO_Venta venta) {
-        try {
+        try
+        {
             ventaDAO.agregarVenta(conversor.convertirDTOAgregar(venta));
-            for (DTO_DetalleVenta detalle : venta.getDetallesVenta()) {
-                for (DTO_IngredienteDetalle ingrediente : detalle.getProducto().getIngredientes()) {
+            for (DTO_DetalleVenta detalle : venta.getDetallesVenta())
+            {
+                for (DTO_IngredienteDetalle ingrediente : detalle.getProducto().getIngredientes())
+                {
                     Ingrediente ingredienteConsultado = ingredientesDAO.consultarPorNombre(ingrediente.getNombre());
 
                     DTO_Ingrediente ingredienteDTO = new DTO_Ingrediente();
@@ -70,7 +73,8 @@ public class VentasBO implements IVentasBO {
                     ingredientesDAO.actualizar(ConvertirDTOAIngrediente(ingredienteDTO));
                 }
             }
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -80,9 +84,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFecha(Date fechaInicio, Date fechaFin) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorRangoFechas(fechaInicio, fechaFin));
-        } catch (PersistenciaException e) {
+        } catch (PersistenciaException e)
+        {
             System.out.println(e.getMessage());
             return null;
         }
@@ -93,9 +99,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentas() {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentas());
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -106,9 +114,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public DTO_Venta encontrarVenta(String idVenta) {
-        try {
+        try
+        {
             return conversor.convertirADTO(ventaDAO.encontrarVenta(idVenta));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -119,9 +129,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> ventasPorCliente(String clienteId) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.ventasPorCliente(clienteId));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -132,10 +144,12 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorProductos(List<DTO_Producto> listaProductos) {
-        try {
+        try
+        {
             List<Producto> productos = conversorp.convertirListaProductosEntidad(listaProductos);
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorProductos(productos));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -146,9 +160,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFechas(Date fechaInicio, Date fechaFin) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorRangoFechas(fechaInicio, fechaFin));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -159,10 +175,12 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<DTO_Producto> listaProductos) {
-        try {
+        try
+        {
             List<Producto> productos = conversorp.convertirListaProductosEntidad(listaProductos);
             return conversor.convertirListaADTO(ventaDAO.consultarVentasConFiltros(clienteId, fechaInicio, fechaFin, productos));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -173,9 +191,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorFecha(Date fecha) throws ConsultarVentasPorFechaException {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorFecha(fecha));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -186,30 +206,37 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public boolean consultarExistenciaIngredientesStock(DTO_Producto producto) {
-        try {
+        try
+        {
             List<String> ingredientesNombres = new ArrayList<>();
             List<DTO_IngredienteDetalle> ingredientesDetalles = producto.getIngredientes();
 
-            for (DTO_IngredienteDetalle ingredienteDetalle : ingredientesDetalles) {
+            for (DTO_IngredienteDetalle ingredienteDetalle : ingredientesDetalles)
+            {
                 ingredientesNombres.add(ingredienteDetalle.getNombre());
             }
 
             List<Ingrediente> ingredientesConsultados = ingredientesDAO.consultarCantidadesIngredientesInventario(ingredientesNombres);
 
-            for (Ingrediente ingrediente : ingredientesConsultados) {
+            for (Ingrediente ingrediente : ingredientesConsultados)
+            {
                 Optional<DTO_IngredienteDetalle> ingredienteDetalleConsultado = ingredientesDetalles.stream().filter(p -> p.getNombre().equalsIgnoreCase(ingrediente.getNombre())).findAny();
-                if (ingredienteDetalleConsultado.isPresent()) {
+                if (ingredienteDetalleConsultado.isPresent())
+                {
                     float cantidadNecesaria = calcularCantidadIngrediente(ingredienteDetalleConsultado.get(), producto.getTamanio());
-                    if (cantidadNecesaria > ingrediente.getCantidad()) {
+                    if (cantidadNecesaria > ingrediente.getCantidad())
+                    {
                         return false;
                     }
-                } else {
+                } else
+                {
                     return false;
                 }
             }
 
             return true;
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -220,7 +247,7 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public Float calcularCantidadIngrediente(DTO_IngredienteDetalle ingredienteDetalle, String tamanio) {
-        
+
         return 0f;
     }
 
@@ -253,6 +280,16 @@ public class VentasBO implements IVentasBO {
     }
 
     @Override
+    public Float calcularIngresosTotales() {
+        try
+        {
+            return ventaDAO.calcularIngresosTotales();
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0f;
+    }
     public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
         try {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorClienteFecha(clienteId, fechaInicio, fechaFin));

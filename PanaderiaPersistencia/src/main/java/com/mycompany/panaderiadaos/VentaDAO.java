@@ -13,6 +13,7 @@ import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
@@ -63,9 +64,11 @@ public class VentaDAO implements IVentaDAO {
     @Override
     public void eliminarVenta(Venta venta) throws PersistenciaException {
         MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
-        try {
+        try
+        {
             coleccion.deleteOne(Filters.eq("_id", new ObjectId(venta.getId())));
-        } catch (MongoException e) {
+        } catch (MongoException e)
+        {
             System.out.println(e.getMessage());
         }
 
@@ -83,7 +86,8 @@ public class VentaDAO implements IVentaDAO {
 
         FindIterable<VentaMapeo> ventasCliente = coleccion.find(filtroCliente);
         List<Venta> ventas = new ArrayList<>();
-        for (VentaMapeo venta : ventasCliente) {
+        for (VentaMapeo venta : ventasCliente)
+        {
             ventas.add(conversor.convertirAVentaEntidad(venta));
         }
         return ventas;
@@ -97,7 +101,8 @@ public class VentaDAO implements IVentaDAO {
         MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
         FindIterable<VentaMapeo> ventas = coleccion.find();
         List<Venta> ventasE = new ArrayList<>();
-        for (VentaMapeo venta : ventas) {
+        for (VentaMapeo venta : ventas)
+        {
             ventasE.add(conversor.convertirAVentaEntidad(venta));
         }
         return ventasE;
@@ -116,7 +121,8 @@ public class VentaDAO implements IVentaDAO {
 
         FindIterable<VentaMapeo> ventasPorRangoFechas = coleccion.find(filtroRangoFechas);
         List<Venta> ventas = new ArrayList<>();
-        for (VentaMapeo venta : ventasPorRangoFechas) {
+        for (VentaMapeo venta : ventasPorRangoFechas)
+        {
             ventas.add(conversor.convertirAVentaEntidad(venta));
         }
         return ventas;
@@ -132,7 +138,8 @@ public class VentaDAO implements IVentaDAO {
 
         FindIterable<VentaMapeo> ventasPorFecha = coleccion.find(filtro);
         List<Venta> ventas = new ArrayList<>();
-        for (VentaMapeo venta : ventasPorFecha) {
+        for (VentaMapeo venta : ventasPorFecha)
+        {
             ventas.add(conversor.convertirAVentaEntidad(venta));
         }
         return ventas;
@@ -143,7 +150,8 @@ public class VentaDAO implements IVentaDAO {
      */
     @Override
     public Venta encontrarVenta(String idVenta) throws PersistenciaException {
-        try {
+        try
+        {
             ObjectId objectIdVenta = new ObjectId(idVenta);
 
             MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
@@ -159,12 +167,14 @@ public class VentaDAO implements IVentaDAO {
             );
             AggregateIterable<VentaMapeo> resultados = coleccion.aggregate(pipeline);
             VentaMapeo ventaEncontrada = resultados.first();
-            if (ventaEncontrada == null) {
+            if (ventaEncontrada == null)
+            {
                 return null; // La venta no fue encontrada
             }
             Venta venta = conversor.convertirAVentaEntidadObjetos(ventaEncontrada);
             return venta;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e)
+        {
             throw new PersistenciaException("ID de venta no válido: " + idVenta);
         }
     }
@@ -174,7 +184,8 @@ public class VentaDAO implements IVentaDAO {
      */
     @Override
     public List<Venta> consultarVentasPorProductos(List<Producto> listaProductos) throws PersistenciaException {
-        try {
+        try
+        {
             List<ObjectId> idsProductos = listaProductos.stream()
                     .map(producto -> new ObjectId(producto.getId()))
                     .collect(Collectors.toList());
@@ -193,11 +204,13 @@ public class VentaDAO implements IVentaDAO {
 
             AggregateIterable<VentaMapeo> resultados = coleccion.aggregate(pipeline);
             List<Venta> ventas = new ArrayList<>();
-            for (VentaMapeo venta : resultados) {
+            for (VentaMapeo venta : resultados)
+            {
                 ventas.add(conversor.convertirAVentaEntidad(venta));
             }
             return ventas;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e)
+        {
             throw new PersistenciaException("Error al consultar ventas por productos: " + e.getMessage());
         }
     }
@@ -207,16 +220,19 @@ public class VentaDAO implements IVentaDAO {
      */
     @Override
     public List<Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<Producto> listaProductos) throws PersistenciaException {
-        try {
+        try
+        {
             MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
 
             List<Bson> filtros = new ArrayList<>();
 
-            if (clienteId != null && !clienteId.isEmpty()) {
+            if (clienteId != null && !clienteId.isEmpty())
+            {
                 filtros.add(eq("cliente._id", new ObjectId(clienteId)));
             }
 
-            if (fechaInicio != null && fechaFin != null) {
+            if (fechaInicio != null && fechaFin != null)
+            {
                 Bson filtroRangoFechas = Filters.and(
                         Filters.gte("fechaRegistro", fechaInicio),
                         Filters.lte("fechaRegistro", fechaFin)
@@ -226,7 +242,8 @@ public class VentaDAO implements IVentaDAO {
 
             // Filtro por productos
             List<ObjectId> idsProductos = null;
-            if (listaProductos != null && !listaProductos.isEmpty()) {
+            if (listaProductos != null && !listaProductos.isEmpty())
+            {
                 idsProductos = listaProductos.stream()
                         .map(producto -> new ObjectId(producto.getId()))
                         .collect(Collectors.toList());
@@ -238,19 +255,40 @@ public class VentaDAO implements IVentaDAO {
 
             FindIterable<VentaMapeo> ventasFiltradas = coleccion.find(filtroFinal);
             List<Venta> ventas = new ArrayList<>();
-            for (VentaMapeo venta : ventasFiltradas) {
+            for (VentaMapeo venta : ventasFiltradas)
+            {
                 ventas.add(conversor.convertirAVentaEntidad(venta));
             }
 
             return ventas;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new PersistenciaException("Error al consultar ventas con filtros: " + e.getMessage());
         }
     }
-    
+
     @Override
-    public Float calcularIngresosTotales() throws PersistenciaException{
-        return Float.MAX_VALUE;
+    public Float calcularIngresosTotales() throws PersistenciaException {
+        try
+        {
+            // Obtén la colección de ventas
+            MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+
+            // Obtén todas las ventas
+            List<VentaMapeo> ventas = coleccion.find().into(new ArrayList<>());
+
+            // Suma los montos totales de todas las ventas
+            Float ingresosTotales = 0f;
+            for (VentaMapeo venta : ventas)
+            {
+                ingresosTotales += venta.getMontoTotal(); // Sumar el monto total de cada venta
+            }
+
+            return ingresosTotales; // Devuelve la suma total
+        } catch (Exception e)
+        {
+            throw new PersistenciaException("Error al calcular los ingresos totales: ");
+        }
     }
     
     @Override
