@@ -266,14 +266,16 @@ public class VentasBO implements IVentasBO {
     public DTO_Venta actualizarVenta(DTO_Venta venta) {
         
        try {
+           
         // Convertir el DTO a entidad
         Venta ventaConvertida = conversor.convertirDTOAgregar(venta);
-        
+      
         // Actualizar la venta en la base de datos
         Venta ventaActualizada = ventaDAO.actualizarVenta(ventaConvertida);
-        
+       
         // Convertir la entidad actualizada nuevamente a DTO y retornarla
         return conversor.convertirADTO(ventaActualizada);
+        
     } catch (PersistenciaException ex) {
         Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al actualizar la venta: ", ex);
         return null;

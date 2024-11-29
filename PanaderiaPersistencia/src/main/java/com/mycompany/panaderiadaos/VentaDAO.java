@@ -296,12 +296,28 @@ public class VentaDAO implements IVentaDAO {
     @Override
     public Venta  actualizarVenta(Venta venta) throws PersistenciaException {
        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
-        VentaMapeo ventaActualizado = coleccion.findOneAndReplace(eq("_id", new ObjectId(venta.getId())), conversor.convertirAVentaMapeo(venta));
+       
 
-        try {
-            return conversor.convertirAVentaEntidad(ventaActualizado);
-        } catch (Exception e) {
-            throw new PersistenciaException("No se pudo actualizar el producto");
+    // Validar el ID antes de usar ObjectId
+    if (venta.getId() == null || !ObjectId.isValid(venta.getId())) {
+        throw new PersistenciaException("El ID de la venta es inválido: " + venta.getId());
+    }
+
+    // Crear el ObjectId a partir del ID validado
+    ObjectId objectId = new ObjectId(venta.getId());
+
+    try {
+        // Actualizar la venta en la base de datos
+        VentaMapeo ventaActualizado = coleccion.findOneAndReplace(
+            eq("_id", objectId),
+            conversor.convertirAVentaMapeo(venta)
+        );
+
+        // Convertir el resultado y retornarlo
+        return conversor.convertirAVentaEntidad(ventaActualizado);
+
+    } catch (Exception e) {
+            throw new PersistenciaException("Error al actualizar: " + e.getMessage());
         }
     }
 
