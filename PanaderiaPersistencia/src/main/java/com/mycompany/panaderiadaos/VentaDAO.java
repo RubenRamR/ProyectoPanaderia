@@ -5,6 +5,10 @@
 package com.mycompany.panaderiadaos;
 
 import Exceptions.PersistenciaException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
@@ -14,6 +18,7 @@ import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Updates;
 import com.mycompany.panaderiadominioentidades.Producto;
 import com.mycompany.panaderiadominioentidades.Venta;
 import com.mycompany.panaderiadominiosMapeo.VentaMapeo;
@@ -279,5 +284,54 @@ public class VentaDAO implements IVentaDAO {
         } catch (Exception e) {
             throw new PersistenciaException("Error al consultar ventas con filtros: " + e.getMessage());
         }
+    }
+    
+    /**
+ * Actualiza una venta existente en la base de datos.
+ *
+ * @param venta La venta con los datos actualizados.
+ * @throws PersistenciaException Si ocurre un error al intentar actualizar la venta.
+ */
+
+    @Override
+    public Venta  actualizarVenta(Venta venta) throws PersistenciaException {
+       MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+        VentaMapeo ventaActualizado = coleccion.findOneAndReplace(eq("_id", new ObjectId(venta.getId())), conversor.convertirAVentaMapeo(venta));
+
+        try {
+            return conversor.convertirAVentaEntidad(ventaActualizado);
+        } catch (Exception e) {
+            throw new PersistenciaException("No se pudo actualizar el producto");
+        }
+    }
+
+    @Override
+    public List<Venta> consultarVentasPendiente() throws PersistenciaException {
+        try {
+        // Obtener la colección de ventas desde la base de datos
+        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+
+        // Crear la lista de filtros
+        List<Bson> filtros = new ArrayList<>();
+
+        // Filtro para el estado "Pendiente"
+        filtros.add(eq("estado", "Pendiente"));
+
+        // Combinar los filtros con AND
+        Bson filtroFinal = Filters.and(filtros);
+
+        // Realizar la consulta con el filtro final
+        FindIterable<VentaMapeo> ventasFiltradas = coleccion.find(filtroFinal);
+
+        // Convertir las ventas filtradas a la lista de entidades Venta
+        List<Venta> ventas = new ArrayList<>();
+        for (VentaMapeo venta : ventasFiltradas) {
+            ventas.add(conversor.convertirAVentaEntidad(venta));
+        }
+
+        return ventas;
+    } catch (Exception e) {
+        throw new PersistenciaException("Error al consultar ventas con estado 'pagado': " + e.getMessage());
+    }
     }
 }
