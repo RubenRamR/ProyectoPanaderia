@@ -137,5 +137,7 @@ public interface IVentasBO {
     
     public DTO_Venta actualizarVenta(DTO_Venta ventaDTO);
     
-    public List<DTO_Venta> consultarVentasPendiente() ;
+   public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) ;
+   
+   public DTO_Venta encontrarVentaPorId(String idVenta);
 }

@@ -5,6 +5,7 @@
 package com.mycompany.s_panaderiarealizarpago;
 
 import DTO.DTO_Venta;
+import com.mycompany.panaderiadominioentidades.Venta;
 import java.util.List;
 
 /**
@@ -13,8 +14,10 @@ import java.util.List;
  */
 public interface IFuncionalidadRealizarPago {
     
-    public List<DTO_Venta> consultarVentasPendiente();
+    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad);
     
     public void actualizarVenta(DTO_Venta venta);
+    
+    public DTO_Venta encontrarVentaPorId(String idVenta);
     
 }

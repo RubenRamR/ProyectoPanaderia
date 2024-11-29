@@ -117,5 +117,7 @@ public interface IVentaDAO {
     
     public Venta actualizarVenta(Venta venta) throws PersistenciaException;
     
-    public List<Venta> consultarVentasPendiente() throws PersistenciaException;
+    public List<Venta> consultarVentasPendiente(int pagina, int cantidad) throws PersistenciaException;
+    
+    public Venta encontrarVentaPorId(String idVenta) throws PersistenciaException;
 }

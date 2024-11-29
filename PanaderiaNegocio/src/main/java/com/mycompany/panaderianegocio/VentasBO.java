@@ -281,16 +281,24 @@ public class VentasBO implements IVentasBO {
     }
 
     @Override
-    public List<DTO_Venta> consultarVentasPendiente() {
-        try {
-        // Consultar las ventas pagadas en el DAO
-        List<Venta> ventas = ventaDAO.consultarVentasPendiente();
-        
-        // Convertir las ventas a DTO y devolverlas
+    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) {
+         try {
+        List<Venta> ventas = ventaDAO.consultarVentasPendiente(pagina, cantidad);
         return conversor.convertirListaADTO(ventas);
     } catch (PersistenciaException ex) {
-        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al consultar ventas Pendiente: ", ex);
+        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al consultar ventas pendientes: ", ex);
         return new ArrayList<>();
+    }
+    }
+
+    @Override
+    public DTO_Venta encontrarVentaPorId(String idVenta) {
+        try {
+        Venta venta = ventaDAO.encontrarVentaPorId(idVenta);
+        return conversor.convertirADTO(venta);
+    } catch (PersistenciaException ex) {
+        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar la venta por ID: ", ex);
+        return null;
     }
     }
     

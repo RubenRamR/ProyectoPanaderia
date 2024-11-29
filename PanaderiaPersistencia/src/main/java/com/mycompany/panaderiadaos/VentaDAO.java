@@ -306,24 +306,20 @@ public class VentaDAO implements IVentaDAO {
     }
 
     @Override
-    public List<Venta> consultarVentasPendiente() throws PersistenciaException {
-        try {
-        // Obtener la colección de ventas desde la base de datos
+    public List<Venta> consultarVentasPendiente(int pagina, int cantidad) throws PersistenciaException {
+          try {
         MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
-
-        // Crear la lista de filtros
         List<Bson> filtros = new ArrayList<>();
+        filtros.add(eq("estado", "Pendiente")); // Filtro por estado pendiente
 
-        // Filtro para el estado "Pendiente"
-        filtros.add(eq("estado", "Pendiente"));
-
-        // Combinar los filtros con AND
+        // Crear filtro final
         Bson filtroFinal = Filters.and(filtros);
 
-        // Realizar la consulta con el filtro final
-        FindIterable<VentaMapeo> ventasFiltradas = coleccion.find(filtroFinal);
+        // Aplicar paginación con skip() y limit()
+        FindIterable<VentaMapeo> ventasFiltradas = coleccion.find(filtroFinal)
+                .skip((pagina - 1) * cantidad)
+                .limit(cantidad);
 
-        // Convertir las ventas filtradas a la lista de entidades Venta
         List<Venta> ventas = new ArrayList<>();
         for (VentaMapeo venta : ventasFiltradas) {
             ventas.add(conversor.convertirAVentaEntidad(venta));
@@ -331,7 +327,23 @@ public class VentaDAO implements IVentaDAO {
 
         return ventas;
     } catch (Exception e) {
-        throw new PersistenciaException("Error al consultar ventas con estado 'pagado': " + e.getMessage());
+        throw new PersistenciaException("Error al consultar ventas pendientes: " + e.getMessage());
+    }
+    }
+
+    @Override
+    public Venta encontrarVentaPorId(String idVenta) throws PersistenciaException {
+        try {
+        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+        VentaMapeo ventaMapeo = coleccion.find(eq("_id", new ObjectId(idVenta))).first();
+
+        if (ventaMapeo == null) {
+            throw new PersistenciaException("No se encontró la venta con el ID especificado.");
+        }
+
+        return conversor.convertirAVentaEntidad(ventaMapeo);
+    } catch (Exception e) {
+        throw new PersistenciaException("Error al buscar la venta por ID: " + e.getMessage());
     }
     }
 }

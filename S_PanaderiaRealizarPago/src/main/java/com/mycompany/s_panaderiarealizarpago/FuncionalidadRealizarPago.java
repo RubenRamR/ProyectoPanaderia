@@ -5,7 +5,9 @@
 package com.mycompany.s_panaderiarealizarpago;
 
 import DTO.DTO_Venta;
+
 import com.mycompany.panaderianegocio.IVentasBO;
+import com.mycompany.panaderianegocio.VentasBO;
 import java.util.List;
 
 /**
@@ -16,15 +18,15 @@ public class FuncionalidadRealizarPago implements IFuncionalidadRealizarPago{
     
     private IVentasBO ventabo;
 
-    public FuncionalidadRealizarPago(IVentasBO ventabo) {
-        this.ventabo = ventabo;
+    public FuncionalidadRealizarPago() {
+        this.ventabo = new VentasBO();
     }
     
     
 
     @Override
-    public List<DTO_Venta> consultarVentasPendiente() {
-        return ventabo.consultarVentasPendiente();
+    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) {
+        return ventabo.consultarVentasPendiente(pagina,cantidad);
         
     }
 
@@ -32,6 +34,11 @@ public class FuncionalidadRealizarPago implements IFuncionalidadRealizarPago{
     public void actualizarVenta(DTO_Venta venta) {
         ventabo.actualizarVenta(venta);
         
+    }
+
+    @Override
+    public DTO_Venta encontrarVentaPorId(String idVenta) {
+        return ventabo.encontrarVentaPorId(idVenta);
     }
     
 }

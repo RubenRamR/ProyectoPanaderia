@@ -4,19 +4,132 @@
  */
 package Presentacion.RealizarCobro;
 
+import DTO.DTO_Venta;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
+import com.mycompany.s_panaderiarealizarpago.FuncionalidadRealizarPago;
+import com.mycompany.s_panaderiarealizarpago.IFuncionalidadRealizarPago;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author adane
  */
 public class DlgRealizarCobro extends javax.swing.JFrame {
+    private final int Paguina = 1;
+    private final int Limite = 10;
+   
+    private IFuncionalidadRealizarPago funcionalidadRealizarPago;
 
     /**
      * Creates new form DlgRealizarCobro
      */
     public DlgRealizarCobro() {
         initComponents();
+        this.funcionalidadRealizarPago = new FuncionalidadRealizarPago();
+        this.metodosIniciales();
+    }
+    
+    
+    public void metodosIniciales() {
+        this.setTitle("Realizar Cobro ");
+        this.setResizable(false);
+        this.setSize(1280, 780);
+        this.setLocationRelativeTo(null);
+        this.cargarTablaPago();
+        this.pageStatus();
+
+    }
+    
+     private void addInfoTable(List<DTO_Venta> listaVenta) {
+        if (listaVenta == null) {
+            return;
+        }
+
+        DefaultTableModel tableModel = (DefaultTableModel) this.tblRealizarCobro.getModel();
+        listaVenta.forEach(column
+                -> {
+            Object[] row = new Object[5];
+            row[0] = column.getID();
+            row[1] = column.getCliente().getNombre();
+            row[2] = column.getDetallesVenta().get(1).getProducto().getNombre();
+            float pagado = (column.getMontoTotal())/2;
+            row[3] = pagado;
+            row[4] = column.getMontoTotal();
+
+            tableModel.addRow(row);
+        });
+    }
+    
+    
+     public void cargarTablaPago() {
+        
+            // Borrar registros previos antes de cargar los nuevos
+            borrarInfoTablaPago();
+
+            // Obtén solo los clientes necesarios para la página actual
+            List<DTO_Venta> listaVenta = funcionalidadRealizarPago.consultarVentasPendiente(Paguina,Limite);
+
+            //Agrega los registros paginados a la tabla
+            this.addInfoTable(listaVenta);
+            //Control de botones de navegación
+            btnLeft.setEnabled(Paguina > 1);
+
+        
+    }
+     
+     private void borrarInfoTablaPago() {
+        DefaultTableModel tableModel = (DefaultTableModel) this. tblRealizarCobro.getModel();
+        if (tableModel.getRowCount() > 0) {
+            for (int row = tableModel.getRowCount() - 1; row > -1; row--) {
+                tableModel.removeRow(row);
+            }
+        }
+    }
+     
+     private void leftButonStatus() {
+        if (Paguina > 1) {
+            btnLeft.setEnabled(true);
+            return;
+        }
+        btnLeft.setEnabled(false);
     }
 
+    private void rightButonStatus() {
+
+            btnRight.setEnabled(true);
+            if (this.funcionalidadRealizarPago.consultarVentasPendiente(Paguina + 1, Limite) == null
+                    || this.funcionalidadRealizarPago.consultarVentasPendiente(Paguina + 1, Limite).isEmpty()) {
+                btnRight.setEnabled(false);
+            }
+       
+    }
+    
+     public void pageStatus() {
+        String numeroPaguina = String.valueOf(Paguina);
+        if (numeroPaguina.length() == 1) {
+            numeroPaguina = "0" + numeroPaguina;
+        }
+
+        lblPagina.setText("Pagina " + numeroPaguina);
+        leftButonStatus();
+        rightButonStatus();
+    }
+     
+    private String getSelectedIdTablaPgo() {
+        int selectedIndex = this.tblRealizarCobro.getSelectedRow();
+        if (selectedIndex != -1) {
+            DefaultTableModel model = (DefaultTableModel) this.tblRealizarCobro.getModel();
+            int idIndexRow = 0;
+            String idSelectedDegree = (String) model.getValueAt(selectedIndex,
+                    idIndexRow);
+            return idSelectedDegree;
+        } else {
+            return null;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,9 +144,12 @@ public class DlgRealizarCobro extends javax.swing.JFrame {
         jlRealizarCobro1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblRealizarCobro = new javax.swing.JTable();
         jbPagar = new javax.swing.JButton();
         jbRegresar = new javax.swing.JButton();
+        btnLeft = new javax.swing.JButton();
+        btnRight = new javax.swing.JButton();
+        lblPagina = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,26 +159,26 @@ public class DlgRealizarCobro extends javax.swing.JFrame {
         jlRealizarCobro1.setText("Realizar Cobro");
         jlRealizarCobro1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblRealizarCobro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Id Venta", "Nombre Cliente", "Nombre Pan", "Ingrediente", "Deuda", "Total de compra"
+                "Id Venta", "Nombre Cliente", "Nombre Pan", "Deuda", "Total de compra"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true, true
+                false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblRealizarCobro);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -93,19 +209,21 @@ public class DlgRealizarCobro extends javax.swing.JFrame {
             }
         });
 
+        btnLeft.setText("<");
+
+        btnRight.setText(">");
+        btnRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRightActionPerformed(evt);
+            }
+        });
+
+        lblPagina.setText("Pagina");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(304, 304, 304)
-                        .addComponent(jlRealizarCobro))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlRealizarCobro1)
@@ -116,6 +234,22 @@ public class DlgRealizarCobro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(92, 92, 92))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(304, 304, 304)
+                        .addComponent(jlRealizarCobro))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(268, 268, 268)
+                        .addComponent(btnLeft)
+                        .addGap(89, 89, 89)
+                        .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83)
+                        .addComponent(btnRight)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +260,12 @@ public class DlgRealizarCobro extends javax.swing.JFrame {
                 .addComponent(jlRealizarCobro)
                 .addGap(29, 29, 29)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLeft)
+                    .addComponent(btnRight)
+                    .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -148,56 +287,62 @@ public class DlgRealizarCobro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPagarActionPerformed
-        // TODO add your handling code here:
+        if (this.getSelectedIdTablaPgo() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor selecciona una Venta", "Información", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Deseas pagar la venta seleccionada?", "Confirmar Pago", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Buscar la venta seleccionada
+            DTO_Venta DTOVenta = funcionalidadRealizarPago.encontrarVentaPorId(this.getSelectedIdTablaPgo());
+
+// Validar que la venta exista
+            if (DTOVenta == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró la venta seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Actualizar el estado de la venta a "Pagado"
+            DTOVenta.setEstado("Pagado");
+            funcionalidadRealizarPago.actualizarVenta(DTOVenta);
+            cargarTablaPago();
+
+// Confirmar al usuario que la operación fue exitosa
+            if ("Pagado".equals(DTOVenta.getEstado())) {  // Usar equals() para comparar cadenas
+                JOptionPane.showMessageDialog(this, "La venta ha sido marcada como 'Pagado'", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrió un error al actualizar la venta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
     }//GEN-LAST:event_jbPagarActionPerformed
 
     private void jbRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegresarActionPerformed
-        // TODO add your handling code here:
+        Presentacion_MenuPrincipal menu = new Presentacion_MenuPrincipal();
+        menu.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_jbRegresarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgRealizarCobro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgRealizarCobro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgRealizarCobro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgRealizarCobro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRightActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DlgRealizarCobro().setVisible(true);
-            }
-        });
-    }
+
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLeft;
+    private javax.swing.JButton btnRight;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbPagar;
     private javax.swing.JButton jbRegresar;
     private javax.swing.JLabel jlRealizarCobro;
     private javax.swing.JLabel jlRealizarCobro1;
+    private javax.swing.JLabel lblPagina;
+    private javax.swing.JTable tblRealizarCobro;
     // End of variables declaration//GEN-END:variables
 }
