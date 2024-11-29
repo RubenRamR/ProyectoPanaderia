@@ -3495,7 +3495,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="+MpF2/k5jkuHhcc7qs9hCQAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="hNm0lWgRY0Kf6QVuLGtVEQAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">LimiteFrm_RealizarCobro</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">LimiteFrm_RealizarCobro</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="5Laoj1ARQEmpK1gDmGi5nwAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
