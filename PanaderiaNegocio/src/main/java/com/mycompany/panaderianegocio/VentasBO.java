@@ -290,6 +290,7 @@ public class VentasBO implements IVentasBO {
         }
         return 0f;
     }
+    
     public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
         try {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorClienteFecha(clienteId, fechaInicio, fechaFin));

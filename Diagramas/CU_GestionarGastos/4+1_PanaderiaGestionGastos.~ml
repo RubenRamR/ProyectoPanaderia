@@ -5285,15 +5285,6 @@
 <XPD:OBJ name="OwnedElements[4]" type="UMLModel" guid="809a1rkqEUSl9WzxzNggQQAA">
 <XPD:ATTR name="Name" type="string">Physical View</XPD:ATTR>
 <XPD:REF name="Namespace">LIVeXpdL4kqplY/SbDoOSQAA</XPD:REF>
-<XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="OwnedDiagrams[0]" type="UMLDeploymentDiagram" guid="xe3Ee3xcG0mGdj+Rt4TwiAAA">
-<XPD:ATTR name="Name" type="string">Main</XPD:ATTR>
-<XPD:REF name="DiagramOwner">809a1rkqEUSl9WzxzNggQQAA</XPD:REF>
-<XPD:OBJ name="DiagramView" type="UMLDeploymentDiagramView" guid="QTcSwgDZbku7UqpPTq36TgAA">
-<XPD:REF name="Model">xe3Ee3xcG0mGdj+Rt4TwiAAA</XPD:REF>
-<XPD:REF name="Diagram">xe3Ee3xcG0mGdj+Rt4TwiAAA</XPD:REF>
-</XPD:OBJ>
-</XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:BODY>
