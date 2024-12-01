@@ -15,8 +15,6 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.mycompany.panaderiaconsultarproductos.FuncionalidadConsultarProductos;
-import com.mycompany.panaderiaconsultarproductos.IFuncionalidadConsultarProductos;
 import com.mycompany.s_panaderiahistorialventas.IFuncionalidadHistorialVentas;
 import com.mycompany.s_panaderiahistorialventas.FuncionalidadHistorialVentas;
 import java.io.FileNotFoundException;
@@ -41,7 +39,7 @@ import javax.swing.table.DefaultTableModel;
 public class DlgHistorialVentas extends javax.swing.JFrame {
     
     private IFuncionalidadHistorialVentas funcionalidadHistorialVentas;
-     private IFuncionalidadConsultarProductos consultarProductos;
+    
 
     /**
      * Creates new form DlgHistorialVentas
@@ -49,7 +47,6 @@ public class DlgHistorialVentas extends javax.swing.JFrame {
     public DlgHistorialVentas() {
         initComponents();
         this.funcionalidadHistorialVentas = new FuncionalidadHistorialVentas();
-        this.consultarProductos = new FuncionalidadConsultarProductos();
         this.metodosIniciales();
     }
     
@@ -83,7 +80,7 @@ public class DlgHistorialVentas extends javax.swing.JFrame {
             for (DTO_DetalleVenta detalle : column.getDetallesVenta()) {
                 if (detalle != null && detalle.getIdproducto() != null) {
                     // Consultar el producto usando el ID del detalle
-                    DTO_Producto producto = consultarProductos.consultarProducto(detalle.getIdproducto());
+                    DTO_Producto producto = funcionalidadHistorialVentas.consultarProducto(detalle.getIdproducto());
                     if (producto != null) {
                         // Agregar el nombre del producto al Set (evita duplicados)
                         productosSet.add(producto.getNombre());

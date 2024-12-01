@@ -5,6 +5,7 @@
 package com.mycompany.s_panaderiahistorialventas;
 
 
+import DTO.DTO_Producto;
 import DTO.DTO_Venta;
 import com.mycompany.panaderiadominioentidades.Venta;
 import java.util.Date;
@@ -16,5 +17,7 @@ import java.util.List;
 public interface IFuncionalidadHistorialVentas {
     
      public List<DTO_Venta> consultarVentasPorRangoFechas(Date fechaInicio, Date fechaFin);
+     
+      public DTO_Producto consultarProducto(String id);
     
 }
