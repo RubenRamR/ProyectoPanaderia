@@ -400,4 +400,21 @@ public class VentaDAO implements IVentaDAO {
         throw new PersistenciaException("Error al buscar la venta por ID: " + e.getMessage());
     }
     }
+
+    @Override
+    public List<Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) throws PersistenciaException {
+        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+        Bson filtroRangoFechas = Filters.and(
+                Filters.gte("fechaEntrega", fechaInicio),
+                Filters.lte("fechaEntrega", fechaFin)
+        );
+
+        FindIterable<VentaMapeo> ventasPorRangoFechas = coleccion.find(filtroRangoFechas);
+        List<Venta> ventas = new ArrayList<>();
+        for (VentaMapeo venta : ventasPorRangoFechas)
+        {
+            ventas.add(conversor.convertirAVentaEntidad(venta));
+        }
+        return ventas;
+    }
 }

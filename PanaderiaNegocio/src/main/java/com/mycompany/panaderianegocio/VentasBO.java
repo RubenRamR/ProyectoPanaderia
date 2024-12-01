@@ -291,6 +291,7 @@ public class VentasBO implements IVentasBO {
         return 0f;
     }
     
+    @Override
     public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
         try {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorClienteFecha(clienteId, fechaInicio, fechaFin));
@@ -340,6 +341,18 @@ public class VentasBO implements IVentasBO {
         Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar la venta por ID: ", ex);
         return null;
     }
+    }
+
+    @Override
+    public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) {
+        try
+        {
+            return conversor.convertirListaADTO(ventaDAO.consultarVentasPorRangoFechasEntrega(fechaInicio, fechaFin));
+        } catch (PersistenciaException ex)
+        {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
     
     
