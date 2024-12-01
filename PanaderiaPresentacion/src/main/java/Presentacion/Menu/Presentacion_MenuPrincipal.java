@@ -6,6 +6,7 @@ import Presentacion.Facturar.DlgElegirClienteFactura;
 import Presentacion.GestionGastos.Frm_GestionGastos;
 import Presentacion.HistorialVentas.DlgHistorialVentas;
 import Presentacion.RealizarCobro.DlgRealizarCobro;
+import Presentacion.enviarPedidos.DlgEnviarPedidos;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -145,7 +146,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRealizarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarEnvioActionPerformed
-        // TODO add your handling code here:
+        DlgEnviarPedidos enviarPedido = new DlgEnviarPedidos();
+        enviarPedido.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRealizarEnvioActionPerformed
 
     private void btnIngresosMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosMensualesActionPerformed

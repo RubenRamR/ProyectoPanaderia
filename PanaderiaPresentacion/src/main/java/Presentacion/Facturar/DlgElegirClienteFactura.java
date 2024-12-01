@@ -5,6 +5,7 @@
 package Presentacion.Facturar;
 
 import DTO.DTO_Cliente;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
 import com.mycompany.s_panaderiafacturar.FuncionalidadFacturar;
 import com.mycompany.s_panaderiafacturar.IFuncionalidadFacturar;
 import java.util.List;
@@ -68,9 +69,14 @@ public class DlgElegirClienteFactura extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblClientes);
 
-        jButton3.setText("Regresar al Menu");
         jButton3.setBackground(new java.awt.Color(255, 153, 51));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton3.setText("Regresar al Menu");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -125,6 +131,12 @@ public class DlgElegirClienteFactura extends javax.swing.JFrame {
         dlgFacturar.setVisible(true);
         
     }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Presentacion_MenuPrincipal menuPrincipal = new Presentacion_MenuPrincipal();
+        menuPrincipal.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();

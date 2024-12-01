@@ -144,6 +144,8 @@ public interface IVentasBO {
 
 
     public Float calcularIngresosTotales();
+    
+    public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin);
 
 
 }
