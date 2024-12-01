@@ -6,6 +6,8 @@ package Presentacion.IngresosMensuales;
 
 import Presentacion.GestionGastos.Frm_GestionGastos;
 import Presentacion.Menu.Presentacion_MenuPrincipal;
+import com.mycompany.s_panaderiagestioningresosmensuales.FuncionalidadIngresosMensuales;
+import com.mycompany.s_panaderiagestioningresosmensuales.IFuncionalidadIngresosMensuales;
 
 /**
  *
@@ -13,11 +15,20 @@ import Presentacion.Menu.Presentacion_MenuPrincipal;
  */
 public class FrmIngresosMensuales extends javax.swing.JFrame {
 
+    IFuncionalidadIngresosMensuales funcionalidadIngresosMensuales;
+
     /**
      * Creates new form FrmIngresosMensuales
      */
     public FrmIngresosMensuales() {
         initComponents();
+        funcionalidadIngresosMensuales = new FuncionalidadIngresosMensuales();
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
+        Float ingresos = funcionalidadIngresosMensuales.calcularIngresosTotales();
+        LblTotalIngresos.setText("Total:" + String.format("%.2f", ingresos));
     }
 
     /**
@@ -35,7 +46,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         TblIngresosM = new javax.swing.JTable();
         BtnRegresar = new javax.swing.JButton();
         BtnVerIngresosMensuales = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        LblTotalIngresos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,8 +104,11 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         });
         jPanel1.add(BtnVerIngresosMensuales, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 360, 240, 40));
 
-        jLabel1.setText("Total:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, -1, -1));
+        LblTotalIngresos.setBackground(new java.awt.Color(0, 0, 0));
+        LblTotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        LblTotalIngresos.setForeground(new java.awt.Color(0, 0, 0));
+        LblTotalIngresos.setText("Total:");
+        jPanel1.add(LblTotalIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,8 +184,8 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
     private javax.swing.JButton BtnRegresar;
     private javax.swing.JButton BtnVerIngresosMensuales;
     private javax.swing.JLabel LblGestionGastos;
+    private javax.swing.JLabel LblTotalIngresos;
     private javax.swing.JTable TblIngresosM;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
