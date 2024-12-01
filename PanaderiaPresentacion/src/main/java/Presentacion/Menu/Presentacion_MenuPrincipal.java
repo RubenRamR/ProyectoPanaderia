@@ -4,6 +4,7 @@ import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;
 import Presentacion.Facturar.DlgElegirClienteFactura;
 import Presentacion.GestionGastos.Frm_GestionGastos;
+import Presentacion.HistorialVentas.DlgHistorialVentas;
 import Presentacion.RealizarCobro.DlgRealizarCobro;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
@@ -166,7 +167,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionDeGastosActionPerformed
 
     private void btnHistorialDeVentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialDeVentas1ActionPerformed
-        // TODO add your handling code here:
+        DlgHistorialVentas dhv = new DlgHistorialVentas();
+        dhv.setVisible(true);
+        this.dispose();;
     }//GEN-LAST:event_btnHistorialDeVentas1ActionPerformed
 
     private void btnFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturarActionPerformed
