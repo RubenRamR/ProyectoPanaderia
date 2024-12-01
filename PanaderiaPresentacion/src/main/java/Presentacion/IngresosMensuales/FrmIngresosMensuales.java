@@ -108,7 +108,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         LblTotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         LblTotalIngresos.setForeground(new java.awt.Color(0, 0, 0));
         LblTotalIngresos.setText("Total:");
-        jPanel1.add(LblTotalIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
+        jPanel1.add(LblTotalIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 320, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
