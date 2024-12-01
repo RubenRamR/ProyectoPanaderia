@@ -2,6 +2,7 @@ package Presentacion.Menu;
 
 import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;
+import Presentacion.Facturar.DlgElegirClienteFactura;
 import Presentacion.GestionGastos.Frm_GestionGastos;
 import Presentacion.RealizarCobro.DlgRealizarCobro;
 import java.awt.Dimension;
@@ -169,7 +170,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHistorialDeVentas1ActionPerformed
 
     private void btnFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturarActionPerformed
-        // TODO add your handling code here:
+        DlgElegirClienteFactura factura = new DlgElegirClienteFactura();
+        factura.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnFacturarActionPerformed
 
     private void btnRealizarCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCobroActionPerformed

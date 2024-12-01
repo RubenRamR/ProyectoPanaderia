@@ -1889,7 +1889,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="uO7pqc8ddEqn523DeFpKjwAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="7ih2kViF8kCZdsl75kjkAgAA">
 <XPD:ATTR name="FontStyle" type="integer">4</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">Fachada_IFuncionalidadGestionGastos</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Fachada_FuncionalidadGestionGastos</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="Bg40yUJoJ0GnPlGYSo/MVAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -2885,7 +2885,7 @@
 <XPD:REF name="ReceivingStimuli[3]">K1TzM3bb0UWgRAxMiu7UtgAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="ParticipatingInstances[2]" type="UMLObject" guid="CYYGVg2ujUSk5N3RC/6ELAAA">
-<XPD:ATTR name="Name" type="string">Fachada_IFuncionalidadGestionGastos</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Fachada_FuncionalidadGestionGastos</XPD:ATTR>
 <XPD:REF name="CollaborationInstanceSet">qOLz0vKa20uWiKo4oinw7gAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
 <XPD:REF name="Views[0]">F6WnyhBLTka6+u9hzDOGswAA</XPD:REF>
@@ -5177,16 +5177,17 @@
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#OwnedElements" type="integer">9</XPD:ATTR>
+<XPD:ATTR name="#OwnedElements" type="integer">11</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLComponent" guid="yQqW16YglkqtrpX16nJWPAAA">
 <XPD:ATTR name="Name" type="string">Sistema Panaderia</XPD:ATTR>
 <XPD:REF name="Namespace">jAk6S2Umyk6kdw40esiMlwAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
 <XPD:REF name="Views[0]">flrg7TkWFU2+N6czLyWBBgAA</XPD:REF>
 <XPD:REF name="Views[1]">GmivYpM5WEiFhxtPZkrmSQAA</XPD:REF>
-<XPD:ATTR name="#ClientDependencies" type="integer">2</XPD:ATTR>
+<XPD:ATTR name="#ClientDependencies" type="integer">3</XPD:ATTR>
 <XPD:REF name="ClientDependencies[0]">SfNb+lhFEEqykmVjyFeBowAA</XPD:REF>
 <XPD:REF name="ClientDependencies[1]">7FHeWA+Cv0iCQ/+i0ZnE2gAA</XPD:REF>
+<XPD:REF name="ClientDependencies[2]">jrL5fM9Y8EKcEjzJ+JyGzQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[1]" type="UMLComponent" guid="Hdd8VQSaqUWcl7Qy1IlZMAAA">
 <XPD:ATTR name="Name" type="string">DTOs</XPD:ATTR>
@@ -5207,8 +5208,9 @@
 <XPD:REF name="Views[1]">pnMtENP5gkeiE+k/QKawtQAA</XPD:REF>
 <XPD:ATTR name="#ClientDependencies" type="integer">1</XPD:ATTR>
 <XPD:REF name="ClientDependencies[0]">n1j7YnAj2UOSfkmXaJuQhwAA</XPD:REF>
-<XPD:ATTR name="#SupplierDependencies" type="integer">1</XPD:ATTR>
+<XPD:ATTR name="#SupplierDependencies" type="integer">2</XPD:ATTR>
 <XPD:REF name="SupplierDependencies[0]">w0ibhJR5S0O88vkhEW19LAAA</XPD:REF>
+<XPD:REF name="SupplierDependencies[1]">jrL5fM9Y8EKcEjzJ+JyGzQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[3]" type="UMLComponent" guid="OmeOilHlvUalt3cU3+lJZwAA">
 <XPD:ATTR name="Name" type="string">S_PanaderiaGestionGastos</XPD:ATTR>
@@ -5276,6 +5278,20 @@
 <XPD:REF name="Views[1]">xsis7E7tL06/EgSAQrp0AAAA</XPD:REF>
 <XPD:REF name="Views[2]">lUgZR4cwGEuuYhp77kppuAAA</XPD:REF>
 <XPD:REF name="Views[3]">cHbW6COxQUWJIRXzkL+WvAAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[9]" type="UMLDependency" guid="jrL5fM9Y8EKcEjzJ+JyGzQAA">
+<XPD:REF name="Namespace">jAk6S2Umyk6kdw40esiMlwAA</XPD:REF>
+<XPD:REF name="Client">yQqW16YglkqtrpX16nJWPAAA</XPD:REF>
+<XPD:REF name="Supplier">hs+2KWF0CkuE3pGw8Yr3RQAA</XPD:REF>
+<XPD:ATTR name="#ClientDependencies" type="integer">1</XPD:ATTR>
+<XPD:REF name="ClientDependencies[0]">JebSg8ibaEWWEMHvdjZC4wAA</XPD:REF>
+<XPD:ATTR name="#SupplierDependencies" type="integer">1</XPD:ATTR>
+<XPD:REF name="SupplierDependencies[0]">JebSg8ibaEWWEMHvdjZC4wAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[10]" type="UMLDependency" guid="JebSg8ibaEWWEMHvdjZC4wAA">
+<XPD:REF name="Namespace">jAk6S2Umyk6kdw40esiMlwAA</XPD:REF>
+<XPD:REF name="Client">jrL5fM9Y8EKcEjzJ+JyGzQAA</XPD:REF>
+<XPD:REF name="Supplier">jrL5fM9Y8EKcEjzJ+JyGzQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[3]" type="UMLModel" guid="+tkD9ObSp0C1wrIYc8SfkwAA">
