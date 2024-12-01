@@ -18,7 +18,7 @@ public class PanaderiaPersistencia {
 
         try
         {
-            System.out.println(v.calcularIngresosTotales());
+            System.out.println(v.obtenerAniosVentas());
         } catch (PersistenciaException ex)
         {
             Logger.getLogger(PanaderiaPersistencia.class.getName()).log(Level.SEVERE, null, ex);

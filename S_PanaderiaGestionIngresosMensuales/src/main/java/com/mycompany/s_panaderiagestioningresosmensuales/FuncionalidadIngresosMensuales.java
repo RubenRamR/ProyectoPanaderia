@@ -5,6 +5,7 @@ package com.mycompany.s_panaderiagestioningresosmensuales;
 
 import com.mycompany.panaderianegocio.IVentasBO;
 import com.mycompany.panaderianegocio.VentasBO;
+import java.util.List;
 
 /**
  *
@@ -21,6 +22,11 @@ public class FuncionalidadIngresosMensuales implements IFuncionalidadIngresosMen
     @Override
     public Float calcularIngresosTotales() {
         return ventaBO.calcularIngresosTotales();
+    }
+
+    @Override
+    public List<Integer> obtenerAniosVentas() {
+        return ventaBO.obtenerAniosVentas();
     }
 
 }

@@ -4,6 +4,8 @@
  */
 package com.mycompany.s_panaderiagestioningresosmensuales;
 
+import java.util.List;
+
 /**
  *
  * @author rramirez
@@ -12,4 +14,5 @@ public interface IFuncionalidadIngresosMensuales {
 
     public Float calcularIngresosTotales();
 
+    public List<Integer> obtenerAniosVentas();
 }

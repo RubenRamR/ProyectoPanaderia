@@ -122,4 +122,6 @@ public interface IVentaDAO {
     public Venta encontrarVentaPorId(String idVenta) throws PersistenciaException;
     
     public List<Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) throws PersistenciaException;
+
+    public List<Integer> obtenerAniosVentas() throws PersistenciaException;
 }

@@ -292,10 +292,13 @@ public class VentasBO implements IVentasBO {
     }
     
     @Override
+
     public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorClienteFecha(clienteId, fechaInicio, fechaFin));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -303,45 +306,65 @@ public class VentasBO implements IVentasBO {
 
     @Override
     public DTO_Venta actualizarVenta(DTO_Venta venta) {
-        
-       try {
-           
-        // Convertir el DTO a entidad
-        Venta ventaConvertida = conversor.convertirDTOAgregar(venta);
-      
-        // Actualizar la venta en la base de datos
-        Venta ventaActualizada = ventaDAO.actualizarVenta(ventaConvertida);
-       
-        // Convertir la entidad actualizada nuevamente a DTO y retornarla
-        return conversor.convertirADTO(ventaActualizada);
-        
-    } catch (PersistenciaException ex) {
-        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al actualizar la venta: ", ex);
-        return null;
-    }
+
+        try
+        {
+
+            // Convertir el DTO a entidad
+            Venta ventaConvertida = conversor.convertirDTOAgregar(venta);
+
+            // Actualizar la venta en la base de datos
+            Venta ventaActualizada = ventaDAO.actualizarVenta(ventaConvertida);
+
+            // Convertir la entidad actualizada nuevamente a DTO y retornarla
+            return conversor.convertirADTO(ventaActualizada);
+
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al actualizar la venta: ", ex);
+            return null;
+        }
     }
 
     @Override
     public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) {
-         try {
-        List<Venta> ventas = ventaDAO.consultarVentasPendiente(pagina, cantidad);
-        return conversor.convertirListaADTO(ventas);
-    } catch (PersistenciaException ex) {
-        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al consultar ventas pendientes: ", ex);
-        return new ArrayList<>();
-    }
+        try
+        {
+            List<Venta> ventas = ventaDAO.consultarVentasPendiente(pagina, cantidad);
+            return conversor.convertirListaADTO(ventas);
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al consultar ventas pendientes: ", ex);
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public DTO_Venta encontrarVentaPorId(String idVenta) {
-        try {
-        Venta venta = ventaDAO.encontrarVentaPorId(idVenta);
-        return conversor.convertirADTO(venta);
-    } catch (PersistenciaException ex) {
-        Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar la venta por ID: ", ex);
+        try
+        {
+            Venta venta = ventaDAO.encontrarVentaPorId(idVenta);
+            return conversor.convertirADTO(venta);
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar la venta por ID: ", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Integer> obtenerAniosVentas() {
+        try
+        {
+            return ventaDAO.obtenerAniosVentas();
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar los años: ", ex);
+
+        }
         return null;
     }
-    }
+    
 
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) {
@@ -354,6 +377,5 @@ public class VentasBO implements IVentasBO {
             return null;
         }
     }
-    
-    
+  
 }

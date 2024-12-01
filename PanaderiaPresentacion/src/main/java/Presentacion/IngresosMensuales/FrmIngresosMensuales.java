@@ -8,6 +8,9 @@ import Presentacion.GestionGastos.Frm_GestionGastos;
 import Presentacion.Menu.Presentacion_MenuPrincipal;
 import com.mycompany.s_panaderiagestioningresosmensuales.FuncionalidadIngresosMensuales;
 import com.mycompany.s_panaderiagestioningresosmensuales.IFuncionalidadIngresosMensuales;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,9 +30,50 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
     }
 
     public void cargarDatos() {
+        cargarIngresos();
+        cargarTabla();
+        cargarCmbxAnios();
+    }
+
+    public void cargarIngresos() {
         Float ingresos = funcionalidadIngresosMensuales.calcularIngresosTotales();
         LblTotalIngresos.setText("Total:" + String.format("%.2f", ingresos));
     }
+    
+    public void cargarCmbxAnios(){
+        try {
+        // Obtén la lista de años de ventas desde la lógica de negocio (BO)
+        List<Integer> anios = funcionalidadIngresosMensuales.obtenerAniosVentas();
+        
+        // Crea el modelo de combo box y agrega los años a él
+        for (Integer anio : anios) {
+            CmbxAnios.addItem(anio.toString());
+        }
+
+    } catch (Exception e) {
+        System.err.println("Error al cargar los años en el combo box: " + e.getMessage());
+        // Manejo de errores según sea necesario
+    }
+    }
+    
+    private void cargarTabla() {
+//        limpiarTabla();
+//        List<DTO_Ingrediente> listaIngredientes = funcionalidadConsultarIngredientes.consultarIngredientes();
+//        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+
+//        if (listaIngredientes != null) {
+//            listaIngredientes.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), t.getCantidad(), t.getPrecio}));
+//        }
+
+    }
+
+//    private void limpiarTabla() {
+//        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+//
+//        modelo.setRowCount(0);
+//
+//        tableIngredientes.setModel(modelo);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,6 +91,8 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         BtnRegresar = new javax.swing.JButton();
         BtnVerIngresosMensuales = new javax.swing.JButton();
         LblTotalIngresos = new javax.swing.JLabel();
+        CmbxAnios = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +102,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         LblGestionGastos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         LblGestionGastos.setForeground(new java.awt.Color(0, 0, 0));
         LblGestionGastos.setText("Ingresos mensuales");
-        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 6, -1, -1));
+        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
         TblIngresosM.setBackground(new java.awt.Color(255, 255, 255));
         TblIngresosM.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -64,14 +110,25 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         TblIngresosM.setForeground(new java.awt.Color(0, 0, 0));
         TblIngresosM.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Año", "Mes", "Numero de ventas", "Total"
+                "Mes", "Numero de ventas", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -80,7 +137,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TblIngresosM);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, 224));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 410, 224));
 
         BtnRegresar.setBackground(new java.awt.Color(255, 153, 0));
         BtnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -108,7 +165,22 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         LblTotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         LblTotalIngresos.setForeground(new java.awt.Color(0, 0, 0));
         LblTotalIngresos.setText("Total:");
-        jPanel1.add(LblTotalIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 320, -1, -1));
+        jPanel1.add(LblTotalIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
+
+        CmbxAnios.setBackground(new java.awt.Color(255, 255, 255));
+        CmbxAnios.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        CmbxAnios.setForeground(new java.awt.Color(0, 0, 0));
+        CmbxAnios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbxAniosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CmbxAnios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 90, 30));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel1.setText("Año");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 50, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,6 +209,11 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         fim.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BtnVerIngresosMensualesActionPerformed
+
+    private void CmbxAniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbxAniosActionPerformed
+        // TODO add your handling code here:
+        //Cuando seleccione el año se actualiza la tabla por año
+    }//GEN-LAST:event_CmbxAniosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,9 +260,11 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnRegresar;
     private javax.swing.JButton BtnVerIngresosMensuales;
+    private javax.swing.JComboBox<String> CmbxAnios;
     private javax.swing.JLabel LblGestionGastos;
     private javax.swing.JLabel LblTotalIngresos;
     private javax.swing.JTable TblIngresosM;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
