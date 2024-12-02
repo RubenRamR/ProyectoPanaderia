@@ -21,7 +21,7 @@ public class Conexion<V, T> implements IConexion<T> {
     private String cadenaConexion = "mongodb://localhost:27017/";
     private final String nombreColeccion;
     private final Class<T> tipoBase;
-
+    
     /**
      * Constructor de la clase Conexion.
      * <p>

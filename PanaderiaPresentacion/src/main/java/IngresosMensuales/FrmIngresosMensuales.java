@@ -1,16 +1,17 @@
+package IngresosMensuales;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentacion.IngresosMensuales;
-
+import ConexionBD.ConexionMongoBD;
 import Presentacion.GestionGastos.Frm_GestionGastos;
 import Presentacion.Menu.Presentacion_MenuPrincipal;
 import com.mycompany.s_panaderiagestioningresosmensuales.FuncionalidadIngresosMensuales;
 import com.mycompany.s_panaderiagestioningresosmensuales.IFuncionalidadIngresosMensuales;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 
 /**
  *
@@ -20,61 +21,111 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
 
     IFuncionalidadIngresosMensuales funcionalidadIngresosMensuales;
 
+    ConexionMongoBD co = new ConexionMongoBD("localhost", 27017, "panaderia");
+
+    IFuncionalidadIngresosMensuales funcionalidadIngresosMensuales2 = new FuncionalidadIngresosMensuales(co.getColeccionVentas());
+    int anio;
+    int mes;
+
     /**
      * Creates new form FrmIngresosMensuales
      */
     public FrmIngresosMensuales() {
         initComponents();
         funcionalidadIngresosMensuales = new FuncionalidadIngresosMensuales();
+
         cargarDatos();
     }
 
     public void cargarDatos() {
-        cargarIngresos();
-        cargarTabla();
         cargarCmbxAnios();
+        cargarCmbxMes();
+        cargarTabla(2024, 11);
     }
 
-    public void cargarIngresos() {
-        Float ingresos = funcionalidadIngresosMensuales.calcularIngresosTotales();
-        LblTotalIngresos.setText("Total:" + String.format("%.2f", ingresos));
-    }
-    
-    public void cargarCmbxAnios(){
-        try {
-        // Obtén la lista de años de ventas desde la lógica de negocio (BO)
-        List<Integer> anios = funcionalidadIngresosMensuales.obtenerAniosVentas();
-        
-        // Crea el modelo de combo box y agrega los años a él
-        for (Integer anio : anios) {
-            CmbxAnios.addItem(anio.toString());
+    public void cargarCmbxAnios() {
+        try
+        {
+            List<Integer> anios = funcionalidadIngresosMensuales.obtenerAniosVentas();
+
+            for (Integer anio : anios)
+            {
+                CmbxAnios.addItem(anio.toString());
+            }
+
+        } catch (Exception e)
+        {
+            System.err.println("Error al cargar los años en el combo box: " + e.getMessage());
+            // Manejo de errores según sea necesario
         }
-
-    } catch (Exception e) {
-        System.err.println("Error al cargar los años en el combo box: " + e.getMessage());
-        // Manejo de errores según sea necesario
     }
-    }
-    
-    private void cargarTabla() {
-//        limpiarTabla();
-//        List<DTO_Ingrediente> listaIngredientes = funcionalidadConsultarIngredientes.consultarIngredientes();
-//        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
 
-//        if (listaIngredientes != null) {
-//            listaIngredientes.forEach(t -> modelo.addRow(new Object[]{t.getNombre(), t.getCantidad(), t.getPrecio}));
-//        }
+    public void cargarCmbxMes() {
+        try
+        {
+            // Obtén la lista de años de ventas desde la lógica de negocio (BO)
+            List<Integer> meses = funcionalidadIngresosMensuales.obtenerMesesVentas();
 
+            // Crea el modelo de combo box y agrega los años a él
+            for (Integer mes : meses)
+            {
+                CmbxMes.addItem(mes.toString());
+            }
+
+        } catch (Exception e)
+        {
+            System.err.println("Error al cargar los años en el combo box: " + e.getMessage());
+            // Manejo de errores según sea necesario
+        }
     }
+
+    private void cargarTabla(int anio, int mes) {
+    // Limpia la tabla para evitar acumulación de datos
+    DefaultTableModel modelo = (DefaultTableModel) TblIngresosM.getModel();
+    modelo.setRowCount(0); // Limpia las filas de la tabla
+
+    // Consulta los datos para el mes y año seleccionados
+    Document listaVentaMes = funcionalidadIngresosMensuales.consultarVentasPorMes(anio, mes);
+    System.out.println("Datos obtenidos de la consulta: " + listaVentaMes);
+
+    if (listaVentaMes != null && !listaVentaMes.isEmpty()) {
+        // Extrae los valores directamente del Document y maneja el tipo de dato de manera segura
+        Integer totalVentas = listaVentaMes.getInteger("totalVentas");
+        Object totalMontoObj = listaVentaMes.get("totalMonto"); // Obtiene como Object para determinar el tipo
+
+        if (totalVentas != null && totalMontoObj != null) {
+            // Verifica el tipo de totalMonto y convierte a Double si es necesario
+            Double totalMonto = null;
+            if (totalMontoObj instanceof Double) {
+                totalMonto = (Double) totalMontoObj;
+            } else if (totalMontoObj instanceof Integer) {
+                totalMonto = ((Integer) totalMontoObj).doubleValue();
+            }
+
+            if (totalMonto != null) {
+                // Agrega los valores a la tabla
+                modelo.addRow(new Object[] { totalVentas, totalMonto });
+            } else {
+                System.err.println("El valor de totalMonto no es un tipo esperado.");
+            }
+        } else {
+            System.err.println("El documento no contiene los datos esperados.");
+        }
+    } else {
+        System.err.println("El documento de ventas es nulo o vacío.");
+    }
+
+    TblIngresosM.setModel(modelo);
+}
+
 
 //    private void limpiarTabla() {
-//        DefaultTableModel modelo = (DefaultTableModel) tableIngredientes.getModel();
+//        DefaultTableModel modelo = (DefaultTableModel) TblIngresosM.getModel();
 //
 //        modelo.setRowCount(0);
 //
-//        tableIngredientes.setModel(modelo);
+//        TblIngresosM.setModel(modelo);
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,13 +137,14 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         LblGestionGastos = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TblIngresosM = new javax.swing.JTable();
         BtnRegresar = new javax.swing.JButton();
         BtnVerIngresosMensuales = new javax.swing.JButton();
-        LblTotalIngresos = new javax.swing.JLabel();
         CmbxAnios = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        CmbxMes = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TblIngresosM = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,41 +155,6 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         LblGestionGastos.setForeground(new java.awt.Color(0, 0, 0));
         LblGestionGastos.setText("Ingresos mensuales");
         jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
-
-        TblIngresosM.setBackground(new java.awt.Color(255, 255, 255));
-        TblIngresosM.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        TblIngresosM.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        TblIngresosM.setForeground(new java.awt.Color(0, 0, 0));
-        TblIngresosM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Mes", "Numero de ventas", "Total"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(TblIngresosM);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 410, 224));
 
         BtnRegresar.setBackground(new java.awt.Color(255, 153, 0));
         BtnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -161,12 +178,6 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         });
         jPanel1.add(BtnVerIngresosMensuales, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 360, 240, 40));
 
-        LblTotalIngresos.setBackground(new java.awt.Color(0, 0, 0));
-        LblTotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        LblTotalIngresos.setForeground(new java.awt.Color(0, 0, 0));
-        LblTotalIngresos.setText("Total:");
-        jPanel1.add(LblTotalIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
-
         CmbxAnios.setBackground(new java.awt.Color(255, 255, 255));
         CmbxAnios.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         CmbxAnios.setForeground(new java.awt.Color(0, 0, 0));
@@ -181,6 +192,38 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 153, 0));
         jLabel1.setText("Año");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 50, 30));
+
+        CmbxMes.setBackground(new java.awt.Color(255, 255, 255));
+        CmbxMes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        CmbxMes.setForeground(new java.awt.Color(0, 0, 0));
+        CmbxMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbxMesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CmbxMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 90, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel2.setText("Mes");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 50, 30));
+
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+
+        TblIngresosM.setBackground(new java.awt.Color(255, 255, 255));
+        TblIngresosM.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        TblIngresosM.setForeground(new java.awt.Color(0, 0, 0));
+        TblIngresosM.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Numero de Ventas", "Monto Total"
+            }
+        ));
+        jScrollPane1.setViewportView(TblIngresosM);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 420, 220));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -212,8 +255,38 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
 
     private void CmbxAniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbxAniosActionPerformed
         // TODO add your handling code here:
-        //Cuando seleccione el año se actualiza la tabla por año
+        if (CmbxAnios.getSelectedItem() != null && CmbxMes.getSelectedItem() != null)
+        {
+            try
+            {
+                anio = Integer.parseInt(CmbxAnios.getSelectedItem().toString());
+                mes = Integer.parseInt(CmbxMes.getSelectedItem().toString());
+
+                cargarTabla(anio, mes);
+            } catch (NumberFormatException ex)
+            {
+                System.err.println("Error al convertir valores de ComboBox: " + ex.getMessage());
+            }
+        }
+
     }//GEN-LAST:event_CmbxAniosActionPerformed
+
+    private void CmbxMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbxMesActionPerformed
+        // TODO add your handling code here:
+        if (CmbxAnios.getSelectedItem() != null && CmbxMes.getSelectedItem() != null)
+        {
+            try
+            {
+                anio = Integer.parseInt(CmbxAnios.getSelectedItem().toString());
+                mes = Integer.parseInt(CmbxMes.getSelectedItem().toString());
+
+                cargarTabla(anio, mes);
+            } catch (NumberFormatException ex)
+            {
+                System.err.println("Error al convertir valores de ComboBox: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_CmbxMesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,10 +334,11 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
     private javax.swing.JButton BtnRegresar;
     private javax.swing.JButton BtnVerIngresosMensuales;
     private javax.swing.JComboBox<String> CmbxAnios;
+    private javax.swing.JComboBox<String> CmbxMes;
     private javax.swing.JLabel LblGestionGastos;
-    private javax.swing.JLabel LblTotalIngresos;
     private javax.swing.JTable TblIngresosM;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

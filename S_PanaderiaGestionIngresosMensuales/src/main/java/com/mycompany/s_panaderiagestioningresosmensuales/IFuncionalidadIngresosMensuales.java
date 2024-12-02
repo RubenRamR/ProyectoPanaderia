@@ -5,6 +5,7 @@
 package com.mycompany.s_panaderiagestioningresosmensuales;
 
 import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -12,7 +13,9 @@ import java.util.List;
  */
 public interface IFuncionalidadIngresosMensuales {
 
-    public Float calcularIngresosTotales();
-
     public List<Integer> obtenerAniosVentas();
+    
+    public Document consultarVentasPorMes(int anio, int mes);
+    
+    public List<Integer> obtenerMesesVentas();
 }

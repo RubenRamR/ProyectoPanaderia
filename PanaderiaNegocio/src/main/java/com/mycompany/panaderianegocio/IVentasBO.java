@@ -13,6 +13,7 @@ import DTO.DTO_Producto;
 import DTO.DTO_Venta;
 import java.util.Date;
 import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -143,9 +144,12 @@ public interface IVentasBO {
     public DTO_Venta encontrarVentaPorId(String idVenta);
 
     public Float calcularIngresosTotales();
-    
+
     public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin);
 
     public List<Integer> obtenerAniosVentas();
 
+    public Document consultarVentasPorMes(int anio, int mes);
+    
+    public List<Integer> obtenerMesesVentas();
 }

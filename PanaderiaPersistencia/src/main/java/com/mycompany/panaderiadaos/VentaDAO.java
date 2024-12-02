@@ -15,6 +15,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.BsonField;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
@@ -25,17 +26,26 @@ import com.mycompany.panaderiadominioentidades.Producto;
 import com.mycompany.panaderiadominioentidades.Venta;
 import com.mycompany.panaderiadominiosMapeo.VentaMapeo;
 import conversionesPersistencia.VentasConversiones;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -48,11 +58,15 @@ public class VentaDAO implements IVentaDAO {
 
     private IConexion conexion;
     private VentasConversiones conversor;
+    private MongoCollection<Document> coleccion;
 
     public VentaDAO() {
         conexion = new Conexion("ventas", VentaMapeo.class);
         conversor = new VentasConversiones();
+    }
 
+    public VentaDAO(MongoCollection<Document> coleccion) {
+        this.coleccion = coleccion;
     }
 
     /**
@@ -423,28 +437,32 @@ public class VentaDAO implements IVentaDAO {
 
     @Override
     public List<Integer> obtenerAniosVentas() throws PersistenciaException {
-       List<Integer> anios = new ArrayList<>();
-    try {
-        MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
-        
-        // Utiliza una proyección para obtener solo el campo de `fechaEntrega` de los documentos
-        List<VentaMapeo> resultados = coleccion.find()
-            .projection(Projections.fields(Projections.include("fechaEntrega")))
-            .into(new ArrayList<>());
-        
-        for (VentaMapeo venta: coleccion.find()) {
-            Date fechaEntrega = venta.getFechaRegistro();
-            if (fechaEntrega != null) {
-                int anio = fechaEntrega.toInstant().atZone(ZoneId.systemDefault()).getYear();
-                if (!anios.contains(anio)) {
-                    anios.add(anio);
+        List<Integer> anios = new ArrayList<>();
+        try
+        {
+            MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+
+            List<VentaMapeo> resultados = coleccion.find()
+                    .projection(Projections.fields(Projections.include("fechaRegistro")))
+                    .into(new ArrayList<>());
+
+            for (VentaMapeo venta : coleccion.find())
+            {
+                Date fechaRegistro = venta.getFechaRegistro();
+                if (fechaRegistro != null)
+                {
+                    int anio = fechaRegistro.toInstant().atZone(ZoneId.systemDefault()).getYear();
+                    if (!anios.contains(anio))
+                    {
+                        anios.add(anio);
+                    }
                 }
             }
+        } catch (Exception e)
+        {
+            throw new PersistenciaException("Error al obtener los años de las ventas");
         }
-    } catch (Exception e) {
-        throw new PersistenciaException("Error al obtener los años de las ventas");
-    }
-    return anios;
+        return anios;
     }
 
     @Override
@@ -463,4 +481,55 @@ public class VentaDAO implements IVentaDAO {
         }
         return ventas;
     }
+
+    @Override
+    public Document consultarVentasPorMes(int anio, int mes) {
+        // Crear las fechas de inicio y fin del mes
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(anio, mes - 1, 1, 0, 0, 0);
+        Date fechaInicio = calendar.getTime();
+        calendar.set(Calendar.MONTH, mes); // Primer día del siguiente mes
+        Date fechaFin = calendar.getTime();
+
+        // Crear el pipeline de consulta
+        Document match = new Document("$match", new Document("fechaRegistro",
+                new Document("$gte", fechaInicio).append("$lt", fechaFin)));
+        Document group = new Document("$group", new Document("_id", null)
+                .append("totalVentas", new Document("$sum", 1))
+                .append("totalMonto", new Document("$sum", "$montoTotal")));
+
+        AggregateIterable<Document> resultado = coleccion.aggregate(Arrays.asList(match, group));
+        return resultado.first(); // Retorna el primer documento o null si no hay resultados
+    }
+
+    @Override
+    public List<Integer> obtenerMesesVentas() throws PersistenciaException {
+        List<Integer> meses = new ArrayList<>();
+        try
+        {
+            MongoCollection<VentaMapeo> coleccion = conexion.obtenerColeccion();
+
+            List<VentaMapeo> resultados = coleccion.find()
+                    .projection(Projections.fields(Projections.include("fechaRegistro")))
+                    .into(new ArrayList<>());
+
+            for (VentaMapeo venta : coleccion.find())
+            {
+                Date fechaRegistro = venta.getFechaRegistro();
+                if (fechaRegistro != null)
+                {
+                    int mes = fechaRegistro.toInstant().atZone(ZoneId.systemDefault()).getMonthValue();
+                    if (!meses.contains(mes))
+                    {
+                        meses.add(mes);
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            throw new PersistenciaException("Error al obtener los meses de las ventas");
+        }
+        return meses;
+    }
+
 }

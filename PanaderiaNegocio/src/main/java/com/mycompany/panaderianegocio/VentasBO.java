@@ -21,6 +21,7 @@ import DTO.DTO_Ingrediente;
 import DTO.DTO_IngredienteDetalle;
 import DTO.DTO_Producto;
 import DTO.DTO_Venta;
+import com.mongodb.client.MongoCollection;
 import com.mycompany.panaderiadominioentidades.Venta;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bson.Document;
 
 /**
  *
@@ -36,6 +38,7 @@ import java.util.logging.Logger;
 public class VentasBO implements IVentasBO {
 
     private IVentaDAO ventaDAO;
+    private IVentaDAO vD;
     private VentasConversiones conversor;
     private ProductosConversiones conversorp;
     private IIngredienteDAO ingredientesDAO;
@@ -48,6 +51,10 @@ public class VentasBO implements IVentasBO {
         ingredientesDAO = new IngredienteDAO();
         conversorIngrediente = new IngredienteConversiones();
 
+    }
+
+    public VentasBO(MongoCollection<Document> coleccion) {
+        this.vD = new VentaDAO(coleccion);
     }
 
     /**
@@ -290,7 +297,7 @@ public class VentasBO implements IVentasBO {
         }
         return 0f;
     }
-    
+
     @Override
 
     public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
@@ -364,7 +371,6 @@ public class VentasBO implements IVentasBO {
         }
         return null;
     }
-    
 
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) {
@@ -377,5 +383,22 @@ public class VentasBO implements IVentasBO {
             return null;
         }
     }
-  
+
+    @Override
+    public Document consultarVentasPorMes(int anio, int mes) {
+        return vD.consultarVentasPorMes(anio, mes);
+    }
+
+    @Override
+    public List<Integer> obtenerMesesVentas() {
+        try
+        {
+            return ventaDAO.obtenerMesesVentas();
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
