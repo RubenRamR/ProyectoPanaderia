@@ -33,13 +33,14 @@ public class FuncionalidadIngresosMensuales implements IFuncionalidadIngresosMen
         return ventaBO.obtenerAniosVentas();
     }
 
-    public Document consultarVentasPorMes(int anio, int mes) {
-        return vBO.consultarVentasPorMes(anio, mes);
-    }
-
     @Override
     public List<Integer> obtenerMesesVentas() {
         return ventaBO.obtenerMesesVentas();
+    }
+
+    @Override
+    public Document consultarVentasPorMes(int anio, int mes) {
+        return vBO.consultarVentasPorMes(anio, mes);
     }
 
 }

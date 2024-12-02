@@ -14,8 +14,9 @@ import org.bson.Document;
 public interface IFuncionalidadIngresosMensuales {
 
     public List<Integer> obtenerAniosVentas();
-    
-    public Document consultarVentasPorMes(int anio, int mes);
-    
+
     public List<Integer> obtenerMesesVentas();
+
+    public Document consultarVentasPorMes(int anio, int mes);
+
 }
