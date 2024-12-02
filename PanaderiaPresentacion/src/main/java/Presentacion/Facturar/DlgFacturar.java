@@ -6,6 +6,7 @@ package Presentacion.Facturar;
 
 import DTO.DTO_Cliente;
 import DTO.DTO_Venta;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.FontFactory;
@@ -261,6 +262,9 @@ public class DlgFacturar extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        Presentacion_MenuPrincipal pm = new Presentacion_MenuPrincipal();
+        pm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void limpiarTabla() {

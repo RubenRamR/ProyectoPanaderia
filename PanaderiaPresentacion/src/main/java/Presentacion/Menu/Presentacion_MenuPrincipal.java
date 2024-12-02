@@ -2,6 +2,7 @@ package Presentacion.Menu;
 
 import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;
+import Panaderia.IngresosMensuales.FrmIngresosMensuales;
 import Presentacion.Facturar.DlgElegirClienteFactura;
 import Presentacion.GestionGastos.Frm_GestionGastos;
 import Presentacion.HistorialVentas.DlgHistorialVentas;
@@ -153,6 +154,9 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
 
     private void btnIngresosMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosMensualesActionPerformed
         // TODO add your handling code here:
+        FrmIngresosMensuales fim = new FrmIngresosMensuales();
+        fim.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnIngresosMensualesActionPerformed
 
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
