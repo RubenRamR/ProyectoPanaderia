@@ -243,7 +243,7 @@
 <XPD:REF name="Diagram">bmsLh0bVdEWpDJM8LAazyAAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#OwnedElements" type="integer">5</XPD:ATTR>
+<XPD:ATTR name="#OwnedElements" type="integer">7</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLModel" guid="TbrxuAYBYUmcLSKqbEf3PwAA">
 <XPD:ATTR name="Name" type="string">Modelo de analisis</XPD:ATTR>
 <XPD:REF name="Namespace">JGF1jYNQf0K2foBHwzFL6wAA</XPD:REF>
@@ -13965,7 +13965,15 @@
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[4]" type="UMLModel" guid="zSLTVYnynk6BRtMe++zTawAA">
+<XPD:OBJ name="OwnedElements[4]" type="UMLModel" guid="f+Yy6icBv0OqkRfgfcQFFQAA">
+<XPD:ATTR name="Name" type="string">ArquitecturaAnalisis</XPD:ATTR>
+<XPD:REF name="Namespace">JGF1jYNQf0K2foBHwzFL6wAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[5]" type="UMLModel" guid="C9CxIe6cBkWiT1fLJrasQwAA">
+<XPD:ATTR name="Name" type="string">ModeloArquitectonico</XPD:ATTR>
+<XPD:REF name="Namespace">JGF1jYNQf0K2foBHwzFL6wAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[6]" type="UMLModel" guid="zSLTVYnynk6BRtMe++zTawAA">
 <XPD:ATTR name="Name" type="string">VistaDeComponentes</XPD:ATTR>
 <XPD:REF name="Namespace">JGF1jYNQf0K2foBHwzFL6wAA</XPD:REF>
 <XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
