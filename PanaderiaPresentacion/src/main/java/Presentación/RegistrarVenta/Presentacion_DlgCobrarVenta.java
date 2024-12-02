@@ -55,6 +55,11 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JDialog{
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, -1, -1));
 
         comboBoxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "50%", "100%" }));
+        comboBoxCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxCantidadActionPerformed(evt);
+            }
+        });
         getContentPane().add(comboBoxCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -102,7 +107,7 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JDialog{
     }//GEN-LAST:event_comboBoxPagoActionPerformed
 
     private void aceptarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarbtnActionPerformed
-        if (comboBoxPago.getSelectedItem().toString().equals("Anticipo del 50%")) {
+        if (comboBoxCantidad.getSelectedItem().toString().equals("50%")) {
             venta.setEstado("Pendiente");
         } else {
             venta.setEstado("Pagado");
@@ -111,6 +116,10 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JDialog{
         this.dispose();
         control.mostrarConfirmacionPago();
     }//GEN-LAST:event_aceptarbtnActionPerformed
+
+    private void comboBoxCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxCantidadActionPerformed
 
     
 

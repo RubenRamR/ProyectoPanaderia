@@ -14,3 +14,10 @@
 /PanaderiaAgregarIngrediente/target/
 /PanaderiaActualizarIngrediente/target/
 /PanaderiaDTOs/target/
+
+/S_PanaderiaRealizarPago/target/
+
+/S_PanaderiaFacturar/target/
+
+/S_PanaderiaGestionIngresosMensuales/target/
+/S_PanaderiaHistorialVentas/target/

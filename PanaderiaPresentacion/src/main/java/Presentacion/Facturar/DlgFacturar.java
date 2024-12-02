@@ -4,17 +4,45 @@
  */
 package Presentacion.Facturar;
 
+import DTO.DTO_Cliente;
+import DTO.DTO_Venta;
+import Presentacion.Menu.Presentacion_MenuPrincipal;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.mycompany.s_panaderiafacturar.FuncionalidadFacturar;
+import com.mycompany.s_panaderiafacturar.IFuncionalidadFacturar;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author NaderCroft
  */
 public class DlgFacturar extends javax.swing.JFrame {
 
+    DTO_Cliente cliente;
+    private IFuncionalidadFacturar facturar;
     /**
      * Creates new form DlgFacturar
      */
-    public DlgFacturar() {
+    public DlgFacturar(DTO_Cliente cliente) {
         initComponents();
+        this.cliente = cliente;
+        this.facturar = new FuncionalidadFacturar();
     }
 
     /**
@@ -28,37 +56,37 @@ public class DlgFacturar extends javax.swing.JFrame {
 
         background = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        fechaInicioDP = new com.github.lgooddatepicker.components.DatePicker();
-        fechaInicioDP1 = new com.github.lgooddatepicker.components.DatePicker();
+        fechaFin = new com.github.lgooddatepicker.components.DatePicker();
+        fechaInicio = new com.github.lgooddatepicker.components.DatePicker();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tblFacturar = new javax.swing.JTable();
+        btnAplicar = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         background.setBackground(new java.awt.Color(102, 102, 102));
 
+        jLabel1.setText("Facturar");
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Facturar");
 
-        fechaInicioDP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 51)));
+        fechaFin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 51)));
 
-        fechaInicioDP1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 51)));
+        fechaInicio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 51)));
 
+        jLabel2.setText("Inicio");
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Inicio");
 
+        jLabel3.setText("Fin");
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Fin");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblFacturar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -69,19 +97,34 @@ public class DlgFacturar extends javax.swing.JFrame {
                 "Fecha", "Descripcion", "Total"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblFacturar);
 
-        jButton1.setBackground(new java.awt.Color(255, 153, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("Aplicar");
+        btnAplicar.setText("Aplicar");
+        btnAplicar.setBackground(new java.awt.Color(255, 153, 51));
+        btnAplicar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAplicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 153, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("Imprimir");
+        btnImprimir.setText("Imprimir");
+        btnImprimir.setBackground(new java.awt.Color(255, 153, 51));
+        btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
 
+        jButton3.setText("Regresar al Menu");
         jButton3.setBackground(new java.awt.Color(255, 153, 51));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setText("Regresar al Menu");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -102,18 +145,18 @@ public class DlgFacturar extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fechaInicioDP1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(backgroundLayout.createSequentialGroup()
                                 .addGap(23, 23, 23)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fechaInicioDP, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(backgroundLayout.createSequentialGroup()
                                 .addGap(67, 67, 67)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(backgroundLayout.createSequentialGroup()
                                 .addGap(99, 99, 99)
-                                .addComponent(jButton1)))))
+                                .addComponent(btnAplicar)))))
                 .addGap(23, 23, 23))
         );
         backgroundLayout.setVerticalGroup(
@@ -129,16 +172,16 @@ public class DlgFacturar extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGap(129, 129, 129)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaInicioDP1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaInicioDP, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(32, 32, 32)
-                .addComponent(jButton1)
+                .addComponent(btnAplicar)
                 .addGap(76, 76, 76)
-                .addComponent(jButton2)
+                .addComponent(btnImprimir)
                 .addGap(169, 169, 169))
         );
 
@@ -156,52 +199,118 @@ public class DlgFacturar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgFacturar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgFacturar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgFacturar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgFacturar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
+        if (fechaInicio.getDate() == null || fechaFin.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "No se selecciono ninguna fecha.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        //</editor-fold>
+        llenarTabla();
+        
+    }//GEN-LAST:event_btnAplicarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DlgFacturar().setVisible(true);
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(this);
+        if (x == JFileChooser.APPROVE_OPTION) {
+            path = j.getSelectedFile().getPath();
+        }
+
+        if (path.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se seleccionó ninguna carpeta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Document doc = new Document();
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(String.format("%s/ReporteFacturacion.pdf", path)));
+            doc.open();
+
+            // Descripción de los filtros
+            doc.add(new Paragraph("Panaderia BuenSabor", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 32)));
+            doc.add(new Paragraph("Reporte de Facturacion", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16)));
+            doc.add(new Paragraph("Filtros Aplicados:", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+            doc.add(new Paragraph("Fechas: " + fechaInicio.getText() + " a " + fechaFin.getText()));
+            doc.add(new Paragraph("\n")); // Espacio en blanco
+
+            // Tabla
+            PdfPTable tbl = new PdfPTable(3);
+            tbl.addCell("Fecha");
+            tbl.addCell("Descripcion");
+            tbl.addCell("Total");
+            for (int i = 0; i < tblFacturar.getRowCount(); i++) {
+                String fecha = tblFacturar.getValueAt(i, 0).toString();
+                String descripcion = tblFacturar.getValueAt(i, 1).toString();
+                String total = tblFacturar.getValueAt(i, 2).toString();
+                tbl.addCell(fecha);
+                tbl.addCell(descripcion);
+                tbl.addCell(total);
             }
-        });
+
+            doc.add(tbl);
+            JOptionPane.showMessageDialog(this, "Se imprimió con éxito el documento!");
+
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al crear el archivo PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (DocumentException ex) {
+            Logger.getLogger(DlgFacturar.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            doc.close(); // Asegúrate de cerrar el documento en el bloque finally
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Presentacion_MenuPrincipal pm = new Presentacion_MenuPrincipal();
+        pm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tblFacturar.getModel();
+
+        modelo.setRowCount(0);
+
+        tblFacturar.setModel(modelo);
+    }
+    private String convertLocalDateToString(LocalDate date) {
+        if (date == null) {
+            throw new IllegalArgumentException("The date cannot be null.");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
+    }
+    private void llenarTabla() {
+        limpiarTabla();
+        LocalDate fechaInicioLocal = this.fechaInicio.getDate();
+        LocalDate fechaFinLocal = this.fechaFin.getDate();
+        Date fechaInicio = Date.from(fechaInicioLocal.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Date fechaFin = Date.from(fechaFinLocal.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        List<DTO_Venta> listaVenta = facturar.consultarVentasPorClienteFecha(cliente.getID(),fechaInicio,fechaFin);
+        DefaultTableModel modelo = (DefaultTableModel) tblFacturar.getModel();
+
+        if (listaVenta != null) {
+            listaVenta.forEach(t -> {
+                // Agregar la fila al modelo
+                modelo.addRow(new Object[]{t.getFechaRegistro(),t.getEstado(), t.getMontoTotal()});
+
+            });
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
-    private com.github.lgooddatepicker.components.DatePicker fechaInicioDP;
-    private com.github.lgooddatepicker.components.DatePicker fechaInicioDP1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAplicar;
+    private javax.swing.JButton btnImprimir;
+    private com.github.lgooddatepicker.components.DatePicker fechaFin;
+    private com.github.lgooddatepicker.components.DatePicker fechaInicio;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblFacturar;
     // End of variables declaration//GEN-END:variables
 }

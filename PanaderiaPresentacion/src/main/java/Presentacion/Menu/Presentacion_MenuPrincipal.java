@@ -2,7 +2,12 @@ package Presentacion.Menu;
 
 import Control.ControlAgregarVenta;
 import Control.ControlGestionarInventario;
+import Panaderia.IngresosMensuales.FrmIngresosMensuales;
+import Presentacion.Facturar.DlgElegirClienteFactura;
 import Presentacion.GestionGastos.Frm_GestionGastos;
+import Presentacion.HistorialVentas.DlgHistorialVentas;
+import Presentacion.RealizarCobro.DlgRealizarCobro;
+import Presentacion.enviarPedidos.DlgEnviarPedidos;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.ColorUIResource;
@@ -142,11 +147,16 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRealizarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarEnvioActionPerformed
-        // TODO add your handling code here:
+        DlgEnviarPedidos enviarPedido = new DlgEnviarPedidos();
+        enviarPedido.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRealizarEnvioActionPerformed
 
     private void btnIngresosMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosMensualesActionPerformed
         // TODO add your handling code here:
+        FrmIngresosMensuales fim = new FrmIngresosMensuales();
+        fim.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnIngresosMensualesActionPerformed
 
     private void btnRegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVenta1ActionPerformed
@@ -164,15 +174,21 @@ public class Presentacion_MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionDeGastosActionPerformed
 
     private void btnHistorialDeVentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialDeVentas1ActionPerformed
-        // TODO add your handling code here:
+        DlgHistorialVentas dhv = new DlgHistorialVentas();
+        dhv.setVisible(true);
+        this.dispose();;
     }//GEN-LAST:event_btnHistorialDeVentas1ActionPerformed
 
     private void btnFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturarActionPerformed
-        // TODO add your handling code here:
+        DlgElegirClienteFactura factura = new DlgElegirClienteFactura();
+        factura.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnFacturarActionPerformed
 
     private void btnRealizarCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCobroActionPerformed
-        // TODO add your handling code here:
+        DlgRealizarCobro realizarCobro = new DlgRealizarCobro();
+        realizarCobro.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRealizarCobroActionPerformed
 
     private void btnGestionarInventario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarInventario1ActionPerformed

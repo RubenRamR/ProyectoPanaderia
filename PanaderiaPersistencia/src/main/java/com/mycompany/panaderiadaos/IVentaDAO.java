@@ -7,9 +7,13 @@ package com.mycompany.panaderiadaos;
 import Exceptions.PersistenciaException;
 import com.mycompany.panaderiadominioentidades.Producto;
 import com.mycompany.panaderiadominioentidades.Venta;
+import com.mycompany.panaderiadominiosMapeo.VentaMapeo;
+import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import org.bson.Document;
 
 /**
  * Interfaz IVentaDAO Esta interfaz define los métodos para realizar operaciones
@@ -112,4 +116,21 @@ public interface IVentaDAO {
     public List<Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<Producto> listaProductos) throws PersistenciaException;
 
     public Float calcularIngresosTotales() throws PersistenciaException;
+
+    public List<Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) throws PersistenciaException;
+
+    public Venta actualizarVenta(Venta venta) throws PersistenciaException;
+
+    public List<Venta> consultarVentasPendiente(int pagina, int cantidad) throws PersistenciaException;
+
+    public Venta encontrarVentaPorId(String idVenta) throws PersistenciaException;
+
+    public List<Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) throws PersistenciaException;
+
+    public List<Integer> obtenerAniosVentas() throws PersistenciaException;
+
+    public Document consultarVentasPorMes(int anio, int mes);
+
+    public List<Integer> obtenerMesesVentas() throws PersistenciaException;
+
 }

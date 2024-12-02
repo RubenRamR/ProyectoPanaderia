@@ -161,7 +161,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
          this.dispose();
-        control.mostrarProductosVenta();
+        control.mostrarMenu();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void campoTextoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTextoNombreActionPerformed

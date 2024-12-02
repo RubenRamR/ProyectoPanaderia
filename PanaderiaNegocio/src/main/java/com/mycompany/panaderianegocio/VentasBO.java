@@ -21,12 +21,15 @@ import DTO.DTO_Ingrediente;
 import DTO.DTO_IngredienteDetalle;
 import DTO.DTO_Producto;
 import DTO.DTO_Venta;
+import com.mongodb.client.MongoCollection;
+import com.mycompany.panaderiadominioentidades.Venta;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bson.Document;
 
 /**
  *
@@ -35,6 +38,7 @@ import java.util.logging.Logger;
 public class VentasBO implements IVentasBO {
 
     private IVentaDAO ventaDAO;
+    private IVentaDAO vD;
     private VentasConversiones conversor;
     private ProductosConversiones conversorp;
     private IIngredienteDAO ingredientesDAO;
@@ -49,15 +53,22 @@ public class VentasBO implements IVentasBO {
 
     }
 
+    public VentasBO(MongoCollection<Document> coleccion) {
+        this.vD = new VentaDAO(coleccion);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void agregarVenta(DTO_Venta venta) {
-        try {
+        try
+        {
             ventaDAO.agregarVenta(conversor.convertirDTOAgregar(venta));
-            for (DTO_DetalleVenta detalle : venta.getDetallesVenta()) {
-                for (DTO_IngredienteDetalle ingrediente : detalle.getProducto().getIngredientes()) {
+            for (DTO_DetalleVenta detalle : venta.getDetallesVenta())
+            {
+                for (DTO_IngredienteDetalle ingrediente : detalle.getProducto().getIngredientes())
+                {
                     Ingrediente ingredienteConsultado = ingredientesDAO.consultarPorNombre(ingrediente.getNombre());
 
                     DTO_Ingrediente ingredienteDTO = new DTO_Ingrediente();
@@ -69,7 +80,8 @@ public class VentasBO implements IVentasBO {
                     ingredientesDAO.actualizar(ConvertirDTOAIngrediente(ingredienteDTO));
                 }
             }
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -79,9 +91,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFecha(Date fechaInicio, Date fechaFin) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorRangoFechas(fechaInicio, fechaFin));
-        } catch (PersistenciaException e) {
+        } catch (PersistenciaException e)
+        {
             System.out.println(e.getMessage());
             return null;
         }
@@ -92,9 +106,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentas() {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentas());
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -105,9 +121,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public DTO_Venta encontrarVenta(String idVenta) {
-        try {
+        try
+        {
             return conversor.convertirADTO(ventaDAO.encontrarVenta(idVenta));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -118,9 +136,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> ventasPorCliente(String clienteId) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.ventasPorCliente(clienteId));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -131,10 +151,12 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorProductos(List<DTO_Producto> listaProductos) {
-        try {
+        try
+        {
             List<Producto> productos = conversorp.convertirListaProductosEntidad(listaProductos);
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorProductos(productos));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -145,9 +167,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFechas(Date fechaInicio, Date fechaFin) {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorRangoFechas(fechaInicio, fechaFin));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -158,10 +182,12 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<DTO_Producto> listaProductos) {
-        try {
+        try
+        {
             List<Producto> productos = conversorp.convertirListaProductosEntidad(listaProductos);
             return conversor.convertirListaADTO(ventaDAO.consultarVentasConFiltros(clienteId, fechaInicio, fechaFin, productos));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -172,9 +198,11 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public List<DTO_Venta> consultarVentasPorFecha(Date fecha) throws ConsultarVentasPorFechaException {
-        try {
+        try
+        {
             return conversor.convertirListaADTO(ventaDAO.consultarVentasPorFecha(fecha));
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -185,30 +213,37 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public boolean consultarExistenciaIngredientesStock(DTO_Producto producto) {
-        try {
+        try
+        {
             List<String> ingredientesNombres = new ArrayList<>();
             List<DTO_IngredienteDetalle> ingredientesDetalles = producto.getIngredientes();
 
-            for (DTO_IngredienteDetalle ingredienteDetalle : ingredientesDetalles) {
+            for (DTO_IngredienteDetalle ingredienteDetalle : ingredientesDetalles)
+            {
                 ingredientesNombres.add(ingredienteDetalle.getNombre());
             }
 
             List<Ingrediente> ingredientesConsultados = ingredientesDAO.consultarCantidadesIngredientesInventario(ingredientesNombres);
 
-            for (Ingrediente ingrediente : ingredientesConsultados) {
+            for (Ingrediente ingrediente : ingredientesConsultados)
+            {
                 Optional<DTO_IngredienteDetalle> ingredienteDetalleConsultado = ingredientesDetalles.stream().filter(p -> p.getNombre().equalsIgnoreCase(ingrediente.getNombre())).findAny();
-                if (ingredienteDetalleConsultado.isPresent()) {
+                if (ingredienteDetalleConsultado.isPresent())
+                {
                     float cantidadNecesaria = calcularCantidadIngrediente(ingredienteDetalleConsultado.get(), producto.getTamanio());
-                    if (cantidadNecesaria > ingrediente.getCantidad()) {
+                    if (cantidadNecesaria > ingrediente.getCantidad())
+                    {
                         return false;
                     }
-                } else {
+                } else
+                {
                     return false;
                 }
             }
 
             return true;
-        } catch (PersistenciaException ex) {
+        } catch (PersistenciaException ex)
+        {
             Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -219,7 +254,7 @@ public class VentasBO implements IVentasBO {
      */
     @Override
     public Float calcularCantidadIngrediente(DTO_IngredienteDetalle ingredienteDetalle, String tamanio) {
-        
+
         return 0f;
     }
 
@@ -250,4 +285,120 @@ public class VentasBO implements IVentasBO {
 
         return dtoIngrediente;
     }
+
+    @Override
+    public Float calcularIngresosTotales() {
+        try
+        {
+            return ventaDAO.calcularIngresosTotales();
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0f;
+    }
+
+    @Override
+
+    public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin) {
+        try
+        {
+            return conversor.convertirListaADTO(ventaDAO.consultarVentasPorClienteFecha(clienteId, fechaInicio, fechaFin));
+        } catch (PersistenciaException ex)
+        {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public DTO_Venta actualizarVenta(DTO_Venta venta) {
+
+        try
+        {
+
+            // Convertir el DTO a entidad
+            Venta ventaConvertida = conversor.convertirDTOAgregar(venta);
+
+            // Actualizar la venta en la base de datos
+            Venta ventaActualizada = ventaDAO.actualizarVenta(ventaConvertida);
+
+            // Convertir la entidad actualizada nuevamente a DTO y retornarla
+            return conversor.convertirADTO(ventaActualizada);
+
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al actualizar la venta: ", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) {
+        try
+        {
+            List<Venta> ventas = ventaDAO.consultarVentasPendiente(pagina, cantidad);
+            return conversor.convertirListaADTO(ventas);
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al consultar ventas pendientes: ", ex);
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public DTO_Venta encontrarVentaPorId(String idVenta) {
+        try
+        {
+            Venta venta = ventaDAO.encontrarVentaPorId(idVenta);
+            return conversor.convertirADTO(venta);
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar la venta por ID: ", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Integer> obtenerAniosVentas() {
+        try
+        {
+            return ventaDAO.obtenerAniosVentas();
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, "Error al buscar los años: ", ex);
+
+        }
+        return null;
+    }
+
+    @Override
+    public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin) {
+        try
+        {
+            return conversor.convertirListaADTO(ventaDAO.consultarVentasPorRangoFechasEntrega(fechaInicio, fechaFin));
+        } catch (PersistenciaException ex)
+        {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Document consultarVentasPorMes(int anio, int mes) {
+        return vD.consultarVentasPorMes(anio, mes);
+    }
+
+    @Override
+    public List<Integer> obtenerMesesVentas() {
+        try
+        {
+            return ventaDAO.obtenerMesesVentas();
+        } catch (PersistenciaException ex)
+        {
+            Logger.getLogger(VentasBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
