@@ -13,6 +13,7 @@ import DTO.DTO_Producto;
 import DTO.DTO_Venta;
 import java.util.Date;
 import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -90,6 +91,7 @@ public interface IVentasBO {
     public List<DTO_Venta> consultarVentasConFiltros(String clienteId, Date fechaInicio, Date fechaFin, List<DTO_Producto> listaProductos);
 
     public List<DTO_Venta> consultarVentasPorClienteFecha(String clienteId, Date fechaInicio, Date fechaFin);
+
     /**
      * Consulta las ventas realizadas en una fecha específica.
      *
@@ -135,17 +137,19 @@ public interface IVentasBO {
      */
     public DTO_Ingrediente convertirIngredienteADTO(Ingrediente ingrediente);
 
-    
     public DTO_Venta actualizarVenta(DTO_Venta ventaDTO);
-    
-   public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad) ;
-   
-   public DTO_Venta encontrarVentaPorId(String idVenta);
 
+    public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad);
+
+    public DTO_Venta encontrarVentaPorId(String idVenta);
 
     public Float calcularIngresosTotales();
-    
+
     public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin);
 
+    public List<Integer> obtenerAniosVentas();
 
+    public Document consultarVentasPorMes(int anio, int mes);
+    
+    public List<Integer> obtenerMesesVentas();
 }

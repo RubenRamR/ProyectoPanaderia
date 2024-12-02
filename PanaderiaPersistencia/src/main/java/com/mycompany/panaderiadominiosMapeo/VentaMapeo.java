@@ -22,6 +22,9 @@ public class VentaMapeo {
     private List<DetalleVentaMapeo> detallesVenta;
     private DireccionMapeo direccionEntrega;
     private ClienteMapeo cliente;
+    private Integer numeroVentas;
+
+    
 
     /**
      * Constructor sin parámetros.
@@ -219,6 +222,14 @@ public class VentaMapeo {
     public void setDireccionEntrega(DireccionMapeo direccionEntrega) {
         this.direccionEntrega = direccionEntrega;
     }
+    
+    public Integer getNumeroVentas() {
+        return numeroVentas;
+    }
+
+    public void setNumeroVentas(Integer numeroVentas) {
+        this.numeroVentas = numeroVentas;
+    }
 
     /**
      * Devuelve una representación en cadena de la venta, incluyendo sus
@@ -231,4 +242,5 @@ public class VentaMapeo {
         return "Venta{" + "id=" + id + ", montoTotal=" + montoTotal + ", fechaEntrega=" + fechaEntrega + ", fechaRegistro=" + fechaRegistro + ", Cliente=" +"{"+cliente.getId()+cliente.getNombre()+" "+cliente.getApellidoP()+"}"  + ", detallesVenta=" + detallesVenta + ", direccionEntrega=" + direccionEntrega + '}';
     }
 
+    
 }

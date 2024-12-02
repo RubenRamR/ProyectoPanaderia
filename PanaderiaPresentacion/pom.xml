@@ -108,19 +108,29 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>S_PanaderiaGestionIngresosMensuales</artifactId>
+            <artifactId>S_PanaderiaEnviarPedido</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>S_PanaderiaEnviarPedido</artifactId>
+            <artifactId>S_PanaderiaHistorialVentas</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>S_PanaderiaHistorialVentas</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>S_PanaderiaGestionIngresosMensuales</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
         <exec.mainClass>com.mycompany.panaderiapresentacion.PanaderiaPresentacion</exec.mainClass>
     </properties>
 </project>

@@ -4,8 +4,8 @@
  */
 package Presentacion.GestionGastos;
 
+import IngresosMensuales.FrmIngresosMensuales;
 import Control.ControlAgregarVenta;
-import Presentacion.IngresosMensuales.FrmIngresosMensuales;
 import Presentacion.Menu.Presentacion_MenuPrincipal;
 import com.mycompany.s_panaderiagestiongastos.FuncionalidadGestionGastos;
 import com.mycompany.s_panaderiagestiongastos.IFuncionalidadGestionGastos;
