@@ -154,7 +154,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         LblGestionGastos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         LblGestionGastos.setForeground(new java.awt.Color(0, 0, 0));
         LblGestionGastos.setText("Ingresos mensuales");
-        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
+        jPanel1.add(LblGestionGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, -1, -1));
 
         BtnRegresar.setBackground(new java.awt.Color(255, 153, 0));
         BtnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -165,7 +165,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
                 BtnRegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(BtnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+        jPanel1.add(BtnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
 
         BtnVerIngresosMensuales.setBackground(new java.awt.Color(255, 153, 0));
         BtnVerIngresosMensuales.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -176,7 +176,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
                 BtnVerIngresosMensualesActionPerformed(evt);
             }
         });
-        jPanel1.add(BtnVerIngresosMensuales, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 360, 240, 40));
+        jPanel1.add(BtnVerIngresosMensuales, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 240, 40));
 
         CmbxAnios.setBackground(new java.awt.Color(255, 255, 255));
         CmbxAnios.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -223,7 +223,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TblIngresosM);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 420, 220));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 420, 80));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,7 +233,7 @@ public class FrmIngresosMensuales extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
