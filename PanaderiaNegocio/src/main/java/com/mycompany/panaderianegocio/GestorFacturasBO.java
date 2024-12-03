@@ -43,7 +43,18 @@ public class GestorFacturasBO implements IGestorFacturasBO {
     }
 
     /**
-     * {@inheritDoc}
+     * Guarda una nueva factura en el sistema.
+     *
+     * <p>
+     * Este método recibe un objeto {@link DTO_Factura}, lo convierte a una
+     * entidad {@link Factura}, lo guarda utilizando el DAO y luego convierte la
+     * entidad guardada nuevamente a un DTO {@link DTO_Factura} antes de
+     * devolverla.</p>
+     *
+     * @param factura El objeto {@link DTO_Factura} que contiene la información
+     * de la factura a guardar.
+     * @return El objeto {@link DTO_Factura} que representa la factura guardada,
+     * o {@code null} si ocurrió un error.
      */
     @Override
     public DTO_Factura guardarFactura(DTO_Factura factura) {
@@ -60,7 +71,15 @@ public class GestorFacturasBO implements IGestorFacturasBO {
     }
 
     /**
-     * {@inheritDoc}
+     * Consulta todas las facturas disponibles en el sistema.
+     *
+     * <p>
+     * Este método obtiene una lista de todas las facturas almacenadas en la
+     * base de datos y las convierte en una lista de objetos {@link DTO_Factura}
+     * para su uso en la capa de presentación.</p>
+     *
+     * @return Una lista de objetos {@link DTO_Factura} que representan todas
+     * las facturas disponibles. Si ocurre un error, devuelve {@code null}.
      */
     @Override
     public List<DTO_Factura> consultarFacturas() {
@@ -75,7 +94,17 @@ public class GestorFacturasBO implements IGestorFacturasBO {
     }
 
     /**
-     * {@inheritDoc}
+     * Elimina una factura del sistema.
+     *
+     * <p>
+     * Este método recibe un objeto {@link DTO_Factura}, lo convierte a una
+     * entidad {@link Factura}, y luego lo elimina de la base de datos mediante
+     * el DAO.</p>
+     *
+     * @param factura El objeto {@link DTO_Factura} que representa la factura a
+     * eliminar.
+     * @throws PersistenciaException Si ocurre un error al intentar eliminar la
+     * factura desde la base de datos.
      */
     @Override
     public void eliminarFactura(DTO_Factura factura) throws PersistenciaException {
@@ -87,7 +116,20 @@ public class GestorFacturasBO implements IGestorFacturasBO {
     }
 
     /**
-     * {@inheritDoc}
+     * Consulta las facturas dentro de un rango de fechas específico.
+     *
+     * <p>
+     * Este método obtiene las facturas cuyo campo de fecha se encuentra dentro
+     * del rango proporcionado (desde {@code desde} hasta {@code hasta}) y las
+     * convierte a una lista de objetos {@link DTO_Factura}.</p>
+     *
+     * @param desde La fecha de inicio del rango.
+     * @param hasta La fecha de fin del rango.
+     * @return Una lista de objetos {@link DTO_Factura} que representan las
+     * facturas dentro del rango de fechas. Si ocurre un error, devuelve
+     * {@code null}.
+     * @throws PersistenciaException Si ocurre un error al consultar las
+     * facturas desde la base de datos.
      */
     @Override
     public List<DTO_Factura> consultarFacturasPorRangoFechas(Date desde, Date hasta) throws PersistenciaException {
@@ -100,7 +142,20 @@ public class GestorFacturasBO implements IGestorFacturasBO {
     }
 
     /**
-     * {@inheritDoc}
+     * Obtiene las facturas asociadas a una lista de ventas.
+     *
+     * <p>
+     * Este método recibe una lista de objetos {@link DTO_Venta}, los convierte
+     * en entidades {@link Venta}, y luego consulta las facturas asociadas a
+     * esas ventas. Finalmente, las convierte de nuevo a objetos
+     * {@link DTO_Factura}.</p>
+     *
+     * @param ventas Una lista de objetos {@link DTO_Venta} que representan las
+     * ventas relacionadas con las facturas.
+     * @return Una lista de objetos {@link DTO_Factura} asociadas a las ventas
+     * proporcionadas. Si ocurre un error, devuelve {@code null}.
+     * @throws PersistenciaException Si ocurre un error al consultar las
+     * facturas desde la base de datos.
      */
     @Override
     public List<DTO_Factura> facturasPorListaVentas(List<DTO_Venta> ventas) throws PersistenciaException {
@@ -114,7 +169,24 @@ public class GestorFacturasBO implements IGestorFacturasBO {
     }
 
     /**
-     * {@inheritDoc}
+     * Consulta las facturas con filtros aplicados sobre una lista de ventas y
+     * un rango de fechas.
+     *
+     * <p>
+     * Este método consulta las facturas que coinciden con los filtros
+     * especificados: una lista de ventas y un rango de fechas (desde
+     * {@code desde} hasta {@code hasta}), y las convierte en objetos
+     * {@link DTO_Factura}.</p>
+     *
+     * @param ventas Una lista de objetos {@link DTO_Venta} que representan las
+     * ventas relacionadas con las facturas.
+     * @param desde La fecha de inicio del rango.
+     * @param hasta La fecha de fin del rango.
+     * @return Una lista de objetos {@link DTO_Factura} que representan las
+     * facturas filtradas según los criterios especificados. Si ocurre un error,
+     * devuelve {@code null}.
+     * @throws PersistenciaException Si ocurre un error al consultar las
+     * facturas desde la base de datos.
      */
     @Override
     public List<DTO_Factura> consultarFacturasConFiltros(List<DTO_Venta> ventas, Date desde, Date hasta) throws PersistenciaException {

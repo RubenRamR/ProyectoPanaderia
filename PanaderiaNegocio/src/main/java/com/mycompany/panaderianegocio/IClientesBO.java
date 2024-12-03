@@ -7,7 +7,10 @@ package com.mycompany.panaderianegocio;
 import DTO.DTO_Cliente;
 import java.util.List;
 
-
+/**
+ * Clase de tipo intefaz que implementa los metodos de ClientesDAO
+ * @author Nadercroft
+ */
 public interface IClientesBO {
 
     /**

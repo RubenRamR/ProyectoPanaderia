@@ -14,8 +14,8 @@ import DTO.DTO_Producto;
 import java.util.List;
 
 /**
- *
- * 
+ * Clase de tipo interfaz que implementa metodos de ProductosDAO
+ * @author Ruben
  */
 public interface IProductosBO {
 

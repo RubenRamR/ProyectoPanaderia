@@ -9,17 +9,28 @@ import com.mycompany.panaderianegocio.IInventarioIngredientesBO;
 import com.mycompany.panaderianegocio.InventarioIngredientesBO;
 
 /**
- *
+ * Clase del subsistema que agrega un ingrediente
  * @author joseq
  */
 public class FuncionalidadAgregarIngrediente implements IFuncionalidadAgregarIngrediente{
-    
+    /**
+     * Objeto de negocio inventario Ingredientes
+     */
     private IInventarioIngredientesBO inventarioIngredientesBO;
 
+    /**
+     * Constructor que inicializa el InventarioIngredienteBO
+     */
     public FuncionalidadAgregarIngrediente() {
         inventarioIngredientesBO = new InventarioIngredientesBO();
     }
 
+    /**
+         * Agrega un ingrediente
+         * @param ingrediente DTO del ingrediente
+         * @return El ingrediente agregado
+         * @throws Exception Por si ocurre un error
+         */
     @Override
     public DTO_Ingrediente agregarIngrediente(DTO_Ingrediente ingrediente) throws Exception {
 

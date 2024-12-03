@@ -7,10 +7,20 @@ package ActualizarCliente;
 import DTO.DTO_Cliente;
 
 /**
- *
+ * Interfaz del subsistema FuncionalidadActualizarCliente
  * @author joseq
  */
 public interface IFuncionalidadActualizarCliente {
+    /**
+     * Actualiza el cliente
+     * @param cliente DTO del cliente
+     * @return regresa el cliente actualizado
+     */
       public DTO_Cliente actualizarCliente(DTO_Cliente cliente);
+      /**
+       * Actualzia el cliente con rfc
+       * @param cliente DTO del cliente
+       * @return Cliente actualizado
+       */
     public DTO_Cliente actualizarClienteConRfc(DTO_Cliente cliente);
 }

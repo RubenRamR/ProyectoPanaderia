@@ -8,6 +8,8 @@ import DTO.DTO_Venta;
 import Presentacion.Menu.Presentacion_MenuPrincipal;
 import com.mycompany.s_panaderiaenviarpedido.FuncionalidadEnviarPedidos;
 import com.mycompany.s_panaderiaenviarpedido.IFuncionalidadEnviarPedido;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -44,7 +46,7 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPedidos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnRegresarMenu = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         fechaInicio = new com.github.lgooddatepicker.components.DatePicker();
         jButton4 = new javax.swing.JButton();
@@ -77,13 +79,13 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("Regresar Al Menu");
-        jButton1.setBackground(new java.awt.Color(255, 153, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresarMenu.setText("Regresar Al Menu");
+        btnRegresarMenu.setBackground(new java.awt.Color(255, 153, 51));
+        btnRegresarMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnRegresarMenu.setToolTipText("");
+        btnRegresarMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRegresarMenuActionPerformed(evt);
             }
         });
 
@@ -115,7 +117,7 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1)
+                    .addComponent(btnRegresarMenu)
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel1)))
@@ -153,7 +155,7 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
                         .addGap(25, 25, 25)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jButton1)
+                .addComponent(btnRegresarMenu)
                 .addGap(17, 17, 17))
         );
 
@@ -176,6 +178,12 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se selecciono ninguna fecha.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        String fechaFinal = convertLocalDateToString(fechaFin.getDate());
+        if (!esFechaValida(fechaFinal)) {
+            JOptionPane.showMessageDialog(this, "No se puede seleccionar una fecha superior a la de hoy", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         llenarTabla();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -200,47 +208,12 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tblPedidosMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRegresarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarMenuActionPerformed
         Presentacion_MenuPrincipal menuPrincipal = new Presentacion_MenuPrincipal();
         menuPrincipal.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnRegresarMenuActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgEnviarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgEnviarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgEnviarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgEnviarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DlgEnviarPedidos().setVisible(true);
-            }
-        });
-    }
     
     private void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblPedidos.getModel();
@@ -249,6 +222,21 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
 
         tblPedidos.setModel(modelo);
     }
+    /**
+     * Convierte un objeto {@link LocalDate} a una cadena de texto con el
+     * formato "yyyy-MM-dd".
+     *
+     * <p>
+     * Este método toma un objeto {@link LocalDate}, lo valida para asegurarse
+     * de que no es nulo, y lo convierte en una cadena de texto que representa
+     * la fecha en el formato "yyyy-MM-dd".</p>
+     *
+     * @param date La fecha que se va a convertir a una cadena. No puede ser
+     * nula.
+     * @return Una cadena de texto que representa la fecha en el formato
+     * "yyyy-MM-dd".
+     * @throws IllegalArgumentException Si el parámetro {@code date} es nulo.
+     */
     private String convertLocalDateToString(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("The date cannot be null.");
@@ -275,12 +263,49 @@ public class DlgEnviarPedidos extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Valida si una fecha proporcionada como cadena de texto no es posterior a
+     * la fecha actual.
+     *
+     * <p>
+     * Este método toma una fecha en formato {@code "yyyy-MM-dd"} (como cadena
+     * de texto), intenta convertirla a un objeto {@link Date}, y valida que la
+     * fecha no sea posterior al día de hoy.</p>
+     *
+     * @param fechaStr La fecha en formato {@code "yyyy-MM-dd"} que se va a
+     * validar.
+     * @return {@code true} si la fecha proporcionada no es posterior a la fecha
+     * actual; {@code false} si la fecha es posterior a hoy o si el formato de
+     * la fecha es inválido.
+     */
+    public boolean esFechaValida(String fechaStr) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        formatoFecha.setLenient(false); // Desactiva la validación leniente
+
+        try {
+            // Convertimos la fecha proporcionada (String) a un objeto Date
+            Date fechaIngresada = formatoFecha.parse(fechaStr);
+
+            // Obtenemos la fecha actual
+            Date fechaHoy = new Date();
+
+            // Comparamos las fechas
+            if (fechaIngresada.after(fechaHoy)) {
+                return false; // La fecha ingresada es posterior al día de hoy
+            }
+
+            return true; // La fecha ingresada es válida (no posterior a hoy)
+        } catch (ParseException e) {
+            return false; // Si ocurre un error en el formato de la fecha
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton btnRegresarMenu;
     private com.github.lgooddatepicker.components.DatePicker fechaFin;
     private com.github.lgooddatepicker.components.DatePicker fechaInicio;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

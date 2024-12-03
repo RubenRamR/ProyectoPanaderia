@@ -7,10 +7,15 @@ package com.mycompany.panaderiaeliminarproducto;
 import DTO.DTO_Producto;
 
 /**
- *
+ * Interfaz del subsistema Eliminar producto
  * @author joseq
  */
 public interface IFuncionalidadEliminarProducto {
-     public boolean eliminarProducto(DTO_Producto producto);
+    /**
+     * Elimina un producto
+     * @param producto DTO del producto
+     * @return El producto eliminado
+     */ 
+    public boolean eliminarProducto(DTO_Producto producto);
     
 }

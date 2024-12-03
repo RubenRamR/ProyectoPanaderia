@@ -9,7 +9,7 @@ import DTO.DTO_Reporte;
 import java.util.List;
 
 /**
- *
+ * Clase de tipo interfaz que implementa los metodos de ReportesDAO
  * 
  */
 public interface IReportesBO {

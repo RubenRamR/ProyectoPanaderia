@@ -10,7 +10,10 @@ import DTO.DTO_Venta;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Clase de tipo interfaz que implementa los metodos del subsistema GestorFacturasBO
+ * @author NaderCroft
+ */
 public interface IGestorFacturasBO {
 
     /**

@@ -16,7 +16,7 @@ import java.util.List;
 import org.bson.Document;
 
 /**
- *
+ * Interfaz para las ventas
  *
  */
 public interface IVentasBO {
@@ -137,19 +137,59 @@ public interface IVentasBO {
      */
     public DTO_Ingrediente convertirIngredienteADTO(Ingrediente ingrediente);
 
+    /**
+     * Metodo que actualiza un objeto de tipo Venta
+     * @param ventaDTO La venta a actualizar
+     * @return La venta actualizada
+     */
     public DTO_Venta actualizarVenta(DTO_Venta ventaDTO);
 
+    /**
+     * Trae una lista de todos las ventas pendientes con paginacion
+     * @param pagina La pagina a meter como filtro
+     * @param cantidad la cantidad a poner en la tabla
+     * @return La lista de las ventas con paginacion
+     */
     public List<DTO_Venta> consultarVentasPendiente(int pagina, int cantidad);
 
+    /**
+     * Regresa una venta singular que coincida con el id de la venta 
+     * @param idVenta El id de la venta a conseguir
+     * @return La venta que coincida con el id, null si no la encuentra
+     */
     public DTO_Venta encontrarVentaPorId(String idVenta);
 
+    /**
+     * Calcula el monto total de los ingresos
+     * @return Regresa el monto de los ingresos
+     */
     public Float calcularIngresosTotales();
 
+    /**
+     * Consulta las ventas que esten en el rango de las fechas dadas
+     * @param fechaInicio La fecha inicial
+     * @param fechaFin La fecha final
+     * @return Las ventas que esten dentro del rango
+     */
     public List<DTO_Venta> consultarVentasPorRangoFechasEntrega(Date fechaInicio, Date fechaFin);
 
+    /**
+     * Obtiene los años de las ventas
+     * @return Regresa el año de todas las ventas
+     */
     public List<Integer> obtenerAniosVentas();
 
+    /**
+     * Consulta todas las ventas por el mes dado
+     * @param anio El año del filtro
+     * @param mes El mes del filtro
+     * @return Regresa un documento de las ventas que estan dentro de los filtros
+     */
     public Document consultarVentasPorMes(int anio, int mes);
     
+    /**
+     * Metodo que obtiene una lista tipo Integer de las ventas de los meses
+     * @return Lista tipo Integer de las ventas
+     */
     public List<Integer> obtenerMesesVentas();
 }

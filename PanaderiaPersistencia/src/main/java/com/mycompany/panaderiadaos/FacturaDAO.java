@@ -26,7 +26,10 @@ import java.util.stream.Collectors;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-
+/**
+ * Clase de tipo DAO para las facturas
+ * 
+ */
 public class FacturaDAO implements IFacturaDAO {
     
 

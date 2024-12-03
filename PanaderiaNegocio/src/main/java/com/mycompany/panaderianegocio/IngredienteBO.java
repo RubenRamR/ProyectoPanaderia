@@ -11,17 +11,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * BO de Ingredientes
  * @author rramirez
  */
 public class IngredienteBO implements IIngredienteBO {
 
     IIngredienteDAO ingredienteDAO;
 
+    /**
+     * Constructor de la clase
+     */
     public IngredienteBO() {
         ingredienteDAO = new IngredienteDAO();
     }
 
+    /**
+     * Metodo que calcula el monto total de los ingredientes
+     * @return Monto total de los ingredientes
+     */
     @Override
     public Float calcularMontoTotal() {
         try

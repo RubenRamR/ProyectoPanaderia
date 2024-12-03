@@ -32,6 +32,7 @@ public class ControlAgregarVenta {
     private DTO_DetalleVenta detalleVenta;
     private boolean nuevaDireccion;
     private String ventanaAnterior;
+    private int dona=0,oreja=0,cuernito=0,cupcake=0,concha=0;
 
     public ControlAgregarVenta() {
         this.producto = producto;
@@ -125,6 +126,46 @@ public class ControlAgregarVenta {
 
     public void setDetalleVenta(DTO_DetalleVenta detalleVenta) {
         this.detalleVenta = detalleVenta;
+    }
+
+    public int getDona() {
+        return dona;
+    }
+
+    public void setDona(int dona) {
+        this.dona = dona;
+    }
+
+    public int getOreja() {
+        return oreja;
+    }
+
+    public void setOreja(int oreja) {
+        this.oreja = oreja;
+    }
+
+    public int getCuernito() {
+        return cuernito;
+    }
+
+    public void setCuernito(int cuernito) {
+        this.cuernito = cuernito;
+    }
+
+    public int getCupcake() {
+        return cupcake;
+    }
+
+    public void setCupcake(int cupcake) {
+        this.cupcake = cupcake;
+    }
+
+    public int getConcha() {
+        return concha;
+    }
+
+    public void setConcha(int concha) {
+        this.concha = concha;
     }
 
     

@@ -25,7 +25,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
      * Creates new form Presentacion_DlgDatosCliente
      */
     public Presentacion_DlgDatosCliente(java.awt.Frame parent, boolean modal) {
-         super(parent, modal);
+        super(parent, modal);
         control = ControlAgregarVenta.getInstance();
         this.venta = new DTO_Venta();
         setTitle("Datos del cliente");
@@ -121,17 +121,20 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
- if (campoTextoNombre.getText().isEmpty() || campoTextoApellidoP.getText().isEmpty()
+        if (campoTextoNombre.getText().isEmpty() || campoTextoApellidoP.getText().isEmpty()
                 || campoTextoApellidoM.getText().isEmpty() || campoTextoTelefono.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if (!esNumeroEntero(campoTextoTelefono.getText())) {
-            JOptionPane.showMessageDialog(this, "El teléfono debe ser un número entero.", "Teléfono inválido", JOptionPane.WARNING_MESSAGE);
+        if (!esValido(campoTextoTelefono.getText())) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe ser de 7 digitos y con caracteres validos.", "Teléfono inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        if (!soloLetrasYEspacios(campoTextoNombre.getText()) || !soloLetrasYEspacios(campoTextoApellidoM.getText()) || !soloLetrasYEspacios(campoTextoApellidoP.getText())) {
+            JOptionPane.showMessageDialog(this, "Los campos de texto deben incluir solo letras(Excluyendo el telefono).", "Texto inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         DTO_Cliente cliente = new DTO_Cliente();
         cliente.setNombre(this.campoTextoNombre.getText());
         cliente.setApellidoP(this.campoTextoApellidoP.getText());
@@ -159,8 +162,9 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-         this.dispose();
+        this.dispose();
         control.mostrarMenu();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
@@ -184,15 +188,21 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
- private boolean esNumeroEntero(String texto) {
-        try {
-            Integer.parseInt(texto);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+       
+    public boolean esValido(String texto) {
+        // Comprobamos que el texto no sea nulo y tenga exactamente 7 caracteres
+        if (texto != null && texto.length() == 10) {
+            // Verificamos que todos los caracteres sean dígitos
+            return texto.matches("\\d{10}");
         }
+        return false;
     }
 
-
-
+    public boolean soloLetrasYEspacios(String texto) {
+        // Comprobamos que el texto no sea nulo y que contenga solo letras y espacios
+        if (texto != null && texto.matches("[a-zA-Z ]+")) {
+            return true;
+        }
+        return false;
+    }
 }

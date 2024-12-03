@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import static java.time.temporal.TemporalQueries.localDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -52,15 +53,47 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         setTitle("Agregar pan a la venta");
         initComponents();
         cargarTextoCantidad();
-        this.panes = funcionalidadesProductos.consultarProductos();
-//        desplegarPasteles(panes);
+        this.panes = new ArrayList();
+        cargarListaDeProductos();
+        cargarComboBox();
         setVisible(true);
 
     }
 
     private void cargarTextoCantidad() {
         txtCantidadTotal.setText(String.valueOf(control.getVenta().getMontoTotal()));
+        this.cargarNumerosCantidad();
     }
+    
+    private void cargarNumerosCantidad(){
+        txtDonaCantidad.setText(String.valueOf(control.getDona()));
+        txtOrejaCantidad.setText(String.valueOf(control.getOreja()));
+        txtCuernitoCantidad.setText(String.valueOf(control.getCuernito()));
+        txtCupcakeCantidad.setText(String.valueOf(control.getCupcake()));
+        txtConchaCantidad.setText(String.valueOf(control.getConcha()));
+    }
+    
+    private void cargarListaDeProductos(){
+        List<DTO_Producto> pLista = funcionalidadesProductos.consultarProductos();
+        for (DTO_Producto imagi : pLista) {
+            if (!imagi.getNombre().equalsIgnoreCase("dona") && !imagi.getNombre().equalsIgnoreCase("oreja") && !imagi.getNombre().equalsIgnoreCase("cuernito")
+                    && !imagi.getNombre().equalsIgnoreCase("cupcake") && !imagi.getNombre().equalsIgnoreCase("concha")) {
+                panes.add(imagi);
+            }
+        }
+    }
+    
+    private void cargarComboBox(){
+        if (panes != null) {
+        List<DTO_Producto> pLista = panes;
+        for (DTO_Producto imagi : pLista) {
+            cbPanes.addItem(imagi.getNombre());
+        }
+}
+    }
+    
+
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -95,6 +128,9 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         btnAgregarConcha = new javax.swing.JButton();
         txtTotal = new javax.swing.JLabel();
         txtCantidadTotal = new javax.swing.JTextField();
+        btnAgregarNuevoPan = new javax.swing.JButton();
+        cbPanes = new javax.swing.JComboBox<>();
+        txtNuevosPanes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -111,15 +147,15 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, -1));
 
-        btnAgregar.setText("Aceptar");
         btnAgregar.setBackground(new java.awt.Color(204, 153, 0));
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnAgregar.setText("Aceptar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 450, -1, -1));
+        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 450, -1, -1));
 
         btnCancelar.setBackground(new java.awt.Color(204, 153, 0));
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -129,8 +165,9 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, -1, -1));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 450, -1, -1));
 
+        btnDona.setIcon(new javax.swing.ImageIcon("C:\\Users\\NaderCroft\\Documents\\GitHub\\ProyectoPanaderia\\PanaderiaPresentacion\\src\\main\\java\\Imagenes\\dona.png")); // NOI18N
         btnDona.setMaximumSize(new java.awt.Dimension(250, 250));
         btnDona.setMinimumSize(new java.awt.Dimension(250, 250));
         jPanel1.add(btnDona);
@@ -148,18 +185,22 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         });
         getContentPane().add(btnAgregarDona, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
 
+        btnCupcake.setIcon(new javax.swing.ImageIcon("C:\\Users\\NaderCroft\\Documents\\GitHub\\ProyectoPanaderia\\PanaderiaPresentacion\\src\\main\\java\\Imagenes\\cupcake.png")); // NOI18N
         jPanel2.add(btnCupcake);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 110, 120));
 
+        btnOreja.setIcon(new javax.swing.ImageIcon("C:\\Users\\NaderCroft\\Documents\\GitHub\\ProyectoPanaderia\\PanaderiaPresentacion\\src\\main\\java\\Imagenes\\oreja.jpg")); // NOI18N
         jPanel3.add(btnOreja);
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 110, 120));
 
+        btnCuernito.setIcon(new javax.swing.ImageIcon("C:\\Users\\NaderCroft\\Documents\\GitHub\\ProyectoPanaderia\\PanaderiaPresentacion\\src\\main\\java\\Imagenes\\cuernito.png")); // NOI18N
         jPanel4.add(btnCuernito);
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 110, 120));
 
+        btnConcha.setIcon(new javax.swing.ImageIcon("C:\\Users\\NaderCroft\\Documents\\GitHub\\ProyectoPanaderia\\PanaderiaPresentacion\\src\\main\\java\\Imagenes\\concha.png")); // NOI18N
         jPanel5.add(btnConcha);
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 110, 120));
@@ -237,6 +278,21 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         txtCantidadTotal.setText("0");
         getContentPane().add(txtCantidadTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 340, 160, 30));
 
+        btnAgregarNuevoPan.setText("Agregar");
+        btnAgregarNuevoPan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarNuevoPanActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAgregarNuevoPan, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, -1, -1));
+
+        cbPanes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nada" }));
+        getContentPane().add(cbPanes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 200, 40));
+
+        txtNuevosPanes.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        txtNuevosPanes.setText("Nuevos Panes!!!");
+        getContentPane().add(txtNuevosPanes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -302,8 +358,8 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAgregarCuernitoActionPerformed
 
     private void btnAgregarCupcakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCupcakeActionPerformed
-        DTO_Producto Cupcake = funcionalidadesProductos.consultarProductoPorNombre("Cupcake");
-        List<DTO_IngredienteDetalle> ingredientes = Cupcake.getIngredientes();
+        DTO_Producto cupcake = funcionalidadesProductos.consultarProductoPorNombre("Cupcake");
+        List<DTO_IngredienteDetalle> ingredientes = cupcake.getIngredientes();
         for (DTO_IngredienteDetalle imagi : ingredientes) {
             DTO_Ingrediente pr = new DTO_Ingrediente();
             pr.setNombre(imagi.getNombre());
@@ -314,7 +370,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
             }
         }
         this.dispose();
-        Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, Cupcake);
+        Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, cupcake);
         control.getVenta().getDetallesVenta();
     }//GEN-LAST:event_btnAgregarCupcakeActionPerformed
 
@@ -339,6 +395,27 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnAgregarNuevoPanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarNuevoPanActionPerformed
+        if (cbPanes.getSelectedItem().toString() == "Nada") {
+            JOptionPane.showMessageDialog(this, "Seleccione un pan valido", "Pan inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        DTO_Producto extra = funcionalidadesProductos.consultarProductoPorNombre(cbPanes.getSelectedItem().toString());
+        List<DTO_IngredienteDetalle> ingredientes = extra.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()) {
+                JOptionPane.showMessageDialog(rootPane, "Out of Stock");
+                return;
+            }
+        }
+        this.dispose();
+        Presentacion_DlgSeleccionarPan seleccion = new Presentacion_DlgSeleccionarPan(null, true, extra);
+        control.getVenta().getDetallesVenta();
+    }//GEN-LAST:event_btnAgregarNuevoPanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -346,6 +423,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     private javax.swing.JButton btnAgregarCuernito;
     private javax.swing.JButton btnAgregarCupcake;
     private javax.swing.JButton btnAgregarDona;
+    private javax.swing.JButton btnAgregarNuevoPan;
     private javax.swing.JButton btnAgregarOreja;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConcha;
@@ -353,6 +431,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     private javax.swing.JButton btnCupcake;
     private javax.swing.JButton btnDona;
     private javax.swing.JButton btnOreja;
+    private javax.swing.JComboBox<String> cbPanes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -370,6 +449,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
     private javax.swing.JLabel txtCuernitoCantidad;
     private javax.swing.JLabel txtCupcakeCantidad;
     private javax.swing.JLabel txtDonaCantidad;
+    private javax.swing.JLabel txtNuevosPanes;
     private javax.swing.JLabel txtOrejaCantidad;
     private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
