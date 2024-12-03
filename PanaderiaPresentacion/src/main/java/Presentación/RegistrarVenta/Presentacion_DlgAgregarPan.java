@@ -52,6 +52,7 @@ public class Presentacion_DlgAgregarPan extends javax.swing.JDialog {
         this.venta = control.getVenta();
         setTitle("Agregar pan a la venta");
         initComponents();
+        this.setLocationRelativeTo(null);
         cargarTextoCantidad();
         this.panes = new ArrayList();
         cargarListaDeProductos();

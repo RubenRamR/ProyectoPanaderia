@@ -56,6 +56,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         this.actualizarIngrediente = new FuncionalidadActualizarIngrediente();
         setTitle("Datos de seleccionar Pan");
         initComponents();
+        this.setLocationRelativeTo(null);
         datosIniciales();
         setVisible(true);
     }
