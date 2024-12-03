@@ -133,7 +133,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         });
         getContentPane().add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
 
-        cbIngredienteExtra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nada", "Chocolate", "Babaria", "Nuez", "Almendras", "Chispas de Chocolate", "Cajeta" }));
+        cbIngredienteExtra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nada" }));
         getContentPane().add(cbIngredienteExtra, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -202,6 +202,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         }
         venta.setMontoTotal(venta.getMontoTotal() + precio);
         venta.setDetallesVenta(detalleLista);
+        cargarNumeros();
         this.dispose();
         control.mostrarAgregarPan();
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -226,6 +227,19 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
 
     private void btnMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasActionPerformed
         // TODO add your handling code here:
+        if (cantidadProducto != 0) {
+        DTO_Producto extra = dtoProducto;
+        List<DTO_IngredienteDetalle> ingredientes = extra.getIngredientes();
+        for (DTO_IngredienteDetalle imagi : ingredientes) {
+            DTO_Ingrediente pr = new DTO_Ingrediente();
+            pr.setNombre(imagi.getNombre());
+            pr = funcionalidadesIngredientes.consultarIngredientePorNombre(pr);
+            if (pr.getCantidad()<imagi.getCantidad()*(cantidadProducto+1)) {
+                JOptionPane.showMessageDialog(rootPane, "Nomas existen "+cantidadProducto+" "+ dtoProducto.getNombre()+" Disponibles");
+                return;
+            }
+        }
+    }
         btnMenos.setEnabled(true);
         cantidadProducto++;
         precio += dtoProducto.getPrecio();
@@ -237,6 +251,24 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         this.cargarCantidadTotal();
     }//GEN-LAST:event_btnMasActionPerformed
 
+    public void cargarNumeros(){
+        if (dtoProducto.getNombre().equalsIgnoreCase("dona")) {
+            control.setDona(cantidadProducto);
+        }else
+        if (dtoProducto.getNombre().equalsIgnoreCase("cuernito")) {
+            control.setCuernito(cantidadProducto);
+        }else
+        if (dtoProducto.getNombre().equalsIgnoreCase("cupcake")) {
+            control.setCupcake(cantidadProducto);
+        }else
+        if (dtoProducto.getNombre().equalsIgnoreCase("oreja")) {
+            control.setOreja(cantidadProducto);
+        }else
+        if (dtoProducto.getNombre().equalsIgnoreCase("concha")) {
+            control.setConcha(cantidadProducto);
+        }    
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

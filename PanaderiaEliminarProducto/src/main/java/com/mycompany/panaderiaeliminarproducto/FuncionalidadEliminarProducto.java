@@ -9,17 +9,27 @@ import com.mycompany.panaderianegocio.IProductosBO;
 import com.mycompany.panaderianegocio.ProductosBO;
 
 /**
- *
+ * Clase subsistema que permite eliminar un producto
  * @author joseq
  */
 public class FuncionalidadEliminarProducto implements IFuncionalidadEliminarProducto {
-    
+    /**
+     * Objeto negocio del producto
+     */
      private IProductosBO productoBO;
 
+     /**
+      * Constructor que inicializa el productoBO
+      */
     public FuncionalidadEliminarProducto() {
         this.productoBO = new ProductosBO();
     }
 
+    /**
+     * Elimina un producto
+     * @param producto DTO del producto
+     * @return El producto eliminado
+     */
     @Override
     public boolean eliminarProducto(DTO_Producto producto) {
         return productoBO.eliminarProducto(producto);

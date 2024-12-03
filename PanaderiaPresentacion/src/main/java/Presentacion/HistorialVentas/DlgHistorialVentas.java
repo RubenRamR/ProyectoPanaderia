@@ -19,8 +19,11 @@ import com.mycompany.s_panaderiahistorialventas.IFuncionalidadHistorialVentas;
 import com.mycompany.s_panaderiahistorialventas.FuncionalidadHistorialVentas;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -300,7 +303,11 @@ public class DlgHistorialVentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se selecciono ninguna fecha.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        String fechaFinal = convertLocalDateToString(dpDiaFin.getDate());
+        if (!esFechaValida(fechaFinal)) {
+            JOptionPane.showMessageDialog(this, "No se puede seleccionar una fecha superior a la de hoy", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Date fechaInicio = Date.from(dpDiaInicio.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date fechaFin = Date.from(dpDiaFin.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
        
@@ -374,7 +381,67 @@ public class DlgHistorialVentas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-   
+   /**
+     * Convierte un objeto {@link LocalDate} a una cadena de texto con el
+     * formato "yyyy-MM-dd".
+     *
+     * <p>
+     * Este método toma un objeto {@link LocalDate}, lo valida para asegurarse
+     * de que no es nulo, y lo convierte en una cadena de texto que representa
+     * la fecha en el formato "yyyy-MM-dd".</p>
+     *
+     * @param date La fecha que se va a convertir a una cadena. No puede ser
+     * nula.
+     * @return Una cadena de texto que representa la fecha en el formato
+     * "yyyy-MM-dd".
+     * @throws IllegalArgumentException Si el parámetro {@code date} es nulo.
+     */
+    private String convertLocalDateToString(LocalDate date) {
+        if (date == null) {
+            throw new IllegalArgumentException("The date cannot be null.");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
+    }
+    
+    /**
+     * Valida si una fecha proporcionada como cadena de texto no es posterior a
+     * la fecha actual.
+     *
+     * <p>
+     * Este método toma una fecha en formato {@code "yyyy-MM-dd"} (como cadena
+     * de texto), intenta convertirla a un objeto {@link Date}, y valida que la
+     * fecha no sea posterior al día de hoy.</p>
+     *
+     * @param fechaStr La fecha en formato {@code "yyyy-MM-dd"} que se va a
+     * validar.
+     * @return {@code true} si la fecha proporcionada no es posterior a la fecha
+     * actual; {@code false} si la fecha es posterior a hoy o si el formato de
+     * la fecha es inválido.
+     */
+    public boolean esFechaValida(String fechaStr) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        formatoFecha.setLenient(false); // Desactiva la validación leniente
+
+        try {
+            // Convertimos la fecha proporcionada (String) a un objeto Date
+            Date fechaIngresada = formatoFecha.parse(fechaStr);
+
+            // Obtenemos la fecha actual
+            Date fechaHoy = new Date();
+
+            // Comparamos las fechas
+            if (fechaIngresada.after(fechaHoy)) {
+                return false; // La fecha ingresada es posterior al día de hoy
+            }
+
+            return true; // La fecha ingresada es válida (no posterior a hoy)
+        } catch (ParseException e) {
+            return false; // Si ocurre un error en el formato de la fecha
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerar;

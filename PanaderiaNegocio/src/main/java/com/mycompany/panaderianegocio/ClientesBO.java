@@ -122,6 +122,11 @@ public class ClientesBO implements IClientesBO {
         }
     }
 
+    /**
+     * Actualiza un cliente en una venta especifica
+     * @param cliente la DTO del cliente
+     * @return El cliente actualizado, o null si ocurre una excepcion
+     */
     @Override
     public DTO_Cliente actualizarClienteEnVentas(DTO_Cliente cliente) {
 

@@ -7,11 +7,16 @@ package com.mycompany.panaderiaagregaringrediente;
 import DTO.DTO_Ingrediente;
 
 /**
- *
+ * Interfaz del subsistema Agregar Ingrediente
  * @author joseq
  */
 public interface IFuncionalidadAgregarIngrediente {
     
-    
+        /**
+         * Agrega un ingrediente
+         * @param ingrediente DTO del ingrediente
+         * @return El ingrediente agregado
+         * @throws Exception Por si ocurre un error
+         */
         public DTO_Ingrediente agregarIngrediente(DTO_Ingrediente ingrediente) throws Exception;
 }

@@ -17,6 +17,8 @@ import com.mycompany.s_panaderiafacturar.FuncionalidadFacturar;
 import com.mycompany.s_panaderiafacturar.IFuncionalidadFacturar;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +38,7 @@ public class DlgFacturar extends javax.swing.JFrame {
 
     DTO_Cliente cliente;
     private IFuncionalidadFacturar facturar;
+
     /**
      * Creates new form DlgFacturar
      */
@@ -64,7 +67,7 @@ public class DlgFacturar extends javax.swing.JFrame {
         tblFacturar = new javax.swing.JTable();
         btnAplicar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnRegresarMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,12 +120,12 @@ public class DlgFacturar extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Regresar al Menu");
-        jButton3.setBackground(new java.awt.Color(255, 153, 51));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresarMenu.setText("Regresar al Menu");
+        btnRegresarMenu.setBackground(new java.awt.Color(255, 153, 51));
+        btnRegresarMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnRegresarMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnRegresarMenuActionPerformed(evt);
             }
         });
 
@@ -132,7 +135,7 @@ public class DlgFacturar extends javax.swing.JFrame {
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRegresarMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addContainerGap(54, Short.MAX_VALUE)
@@ -167,7 +170,7 @@ public class DlgFacturar extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(btnRegresarMenu)
                 .addGap(42, 42, 42))
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGap(129, 129, 129)
@@ -204,8 +207,13 @@ public class DlgFacturar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se selecciono ninguna fecha.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        String fechaFinal = convertLocalDateToString(fechaFin.getDate());
+        if (!esFechaValida(fechaFinal)) {
+            JOptionPane.showMessageDialog(this, "No se puede seleccionar una fecha superior a la de hoy", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         llenarTabla();
-        
+
     }//GEN-LAST:event_btnAplicarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -260,12 +268,12 @@ public class DlgFacturar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnRegresarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarMenuActionPerformed
         // TODO add your handling code here:
         Presentacion_MenuPrincipal pm = new Presentacion_MenuPrincipal();
         pm.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnRegresarMenuActionPerformed
 
     private void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblFacturar.getModel();
@@ -274,6 +282,22 @@ public class DlgFacturar extends javax.swing.JFrame {
 
         tblFacturar.setModel(modelo);
     }
+
+    /**
+     * Convierte un objeto {@link LocalDate} a una cadena de texto con el
+     * formato "yyyy-MM-dd".
+     *
+     * <p>
+     * Este método toma un objeto {@link LocalDate}, lo valida para asegurarse
+     * de que no es nulo, y lo convierte en una cadena de texto que representa
+     * la fecha en el formato "yyyy-MM-dd".</p>
+     *
+     * @param date La fecha que se va a convertir a una cadena. No puede ser
+     * nula.
+     * @return Una cadena de texto que representa la fecha en el formato
+     * "yyyy-MM-dd".
+     * @throws IllegalArgumentException Si el parámetro {@code date} es nulo.
+     */
     private String convertLocalDateToString(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("The date cannot be null.");
@@ -282,21 +306,59 @@ public class DlgFacturar extends javax.swing.JFrame {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return date.format(formatter);
     }
+
     private void llenarTabla() {
         limpiarTabla();
         LocalDate fechaInicioLocal = this.fechaInicio.getDate();
         LocalDate fechaFinLocal = this.fechaFin.getDate();
         Date fechaInicio = Date.from(fechaInicioLocal.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         Date fechaFin = Date.from(fechaFinLocal.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        List<DTO_Venta> listaVenta = facturar.consultarVentasPorClienteFecha(cliente.getID(),fechaInicio,fechaFin);
+        List<DTO_Venta> listaVenta = facturar.consultarVentasPorClienteFecha(cliente.getID(), fechaInicio, fechaFin);
         DefaultTableModel modelo = (DefaultTableModel) tblFacturar.getModel();
 
         if (listaVenta != null) {
             listaVenta.forEach(t -> {
                 // Agregar la fila al modelo
-                modelo.addRow(new Object[]{t.getFechaRegistro(),t.getEstado(), t.getMontoTotal()});
+                modelo.addRow(new Object[]{t.getFechaRegistro(), t.getEstado(), t.getMontoTotal()});
 
             });
+        }
+    }
+
+    /**
+     * Valida si una fecha proporcionada como cadena de texto no es posterior a
+     * la fecha actual.
+     *
+     * <p>
+     * Este método toma una fecha en formato {@code "yyyy-MM-dd"} (como cadena
+     * de texto), intenta convertirla a un objeto {@link Date}, y valida que la
+     * fecha no sea posterior al día de hoy.</p>
+     *
+     * @param fechaStr La fecha en formato {@code "yyyy-MM-dd"} que se va a
+     * validar.
+     * @return {@code true} si la fecha proporcionada no es posterior a la fecha
+     * actual; {@code false} si la fecha es posterior a hoy o si el formato de
+     * la fecha es inválido.
+     */
+    public boolean esFechaValida(String fechaStr) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        formatoFecha.setLenient(false); // Desactiva la validación leniente
+
+        try {
+            // Convertimos la fecha proporcionada (String) a un objeto Date
+            Date fechaIngresada = formatoFecha.parse(fechaStr);
+
+            // Obtenemos la fecha actual
+            Date fechaHoy = new Date();
+
+            // Comparamos las fechas
+            if (fechaIngresada.after(fechaHoy)) {
+                return false; // La fecha ingresada es posterior al día de hoy
+            }
+
+            return true; // La fecha ingresada es válida (no posterior a hoy)
+        } catch (ParseException e) {
+            return false; // Si ocurre un error en el formato de la fecha
         }
     }
 
@@ -304,9 +366,9 @@ public class DlgFacturar extends javax.swing.JFrame {
     private javax.swing.JPanel background;
     private javax.swing.JButton btnAplicar;
     private javax.swing.JButton btnImprimir;
+    private javax.swing.JButton btnRegresarMenu;
     private com.github.lgooddatepicker.components.DatePicker fechaFin;
     private com.github.lgooddatepicker.components.DatePicker fechaInicio;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

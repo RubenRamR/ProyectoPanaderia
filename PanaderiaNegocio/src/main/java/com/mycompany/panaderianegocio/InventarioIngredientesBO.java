@@ -26,6 +26,9 @@ public class InventarioIngredientesBO implements IInventarioIngredientesBO {
     private IIngredienteDAO ingredienteDAO;
     private IngredienteConversiones ingredienteConversiones;
 
+    /**
+     * Constructor de la clase
+     */
     public InventarioIngredientesBO() {
         ingredienteDAO = new IngredienteDAO();
         ingredienteConversiones = new IngredienteConversiones();

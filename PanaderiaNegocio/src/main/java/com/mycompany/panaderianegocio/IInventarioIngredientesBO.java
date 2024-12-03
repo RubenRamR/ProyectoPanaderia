@@ -5,13 +5,9 @@ import com.mycompany.panaderiadominiosMapeo.IngredienteMapeo;
 import DTO.DTO_Ingrediente;
 import java.util.List;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 /**
- *
- * 
+ * Clase de tipo Interfaz que implementa metodos de ingredientesDAO
+ * @author Temo
  */
 public interface IInventarioIngredientesBO {
 

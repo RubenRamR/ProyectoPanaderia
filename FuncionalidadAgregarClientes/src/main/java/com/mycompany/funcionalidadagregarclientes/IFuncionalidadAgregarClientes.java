@@ -7,10 +7,14 @@ package com.mycompany.funcionalidadagregarclientes;
 import DTO.DTO_Cliente;
 
 /**
- *
+ * Interfaz del subsistema Agregar Clientes
  * @author joseq
  */
 public interface IFuncionalidadAgregarClientes {
-    
+    /**
+     * Agrega un Cliente
+     * @param cliente DTO del cliente
+     * @return El cliente agregado
+     */
     public DTO_Cliente agregarCliente(DTO_Cliente cliente);
 }

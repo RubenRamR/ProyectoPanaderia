@@ -14,26 +14,43 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * Clase subsistema historial ventas
  * @author adane
  */
 public class FuncionalidadHistorialVentas implements IFuncionalidadHistorialVentas{
-    
+    /**
+     * Objeto de negocio de ventas
+     */
     private IVentasBO ventabo;
+    /**
+     * Objetos de negocio de productos
+     */
     private IProductosBO productosBO;
 
+    /**
+     * Constructor que inicializa la ventaBO y el productoBO
+     */
     public FuncionalidadHistorialVentas() {
         this.ventabo = new VentasBO();
         this.productosBO = new ProductosBO();
     }
-    
-    
 
+    /**
+     * Regresa la lista de las ventas que esten dentro del rango de las fechas
+     * @param fechaInicio fecha de inicio
+     * @param fechaFin fecha de fin
+     * @return Lista de las ventas
+     */
     @Override
     public List<DTO_Venta> consultarVentasPorRangoFechas(Date fechaInicio, Date fechaFin) {
         return this.ventabo.consultarVentasPorRangoFecha(fechaInicio, fechaFin);
     }
 
+    /**
+      * Regresa el producto que coincida con el id
+      * @param id id unico del producto
+      * @return Produco en forma DTO
+      */
     @Override
     public DTO_Producto consultarProducto(String id) {
         return this.productosBO.consultarProducto(id);

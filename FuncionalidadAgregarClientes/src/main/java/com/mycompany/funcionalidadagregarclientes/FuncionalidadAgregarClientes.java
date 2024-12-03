@@ -13,17 +13,27 @@ import com.mycompany.panaderianegocio.VentasBO;
 
 
 /**
- *
+ * Clase del subsistema que agrega un cliente
  * @author joseq
  */
 public class FuncionalidadAgregarClientes implements IFuncionalidadAgregarClientes {
-    
+    /**
+     * Objeto de negocio del cliente
+     */
     private IClientesBO clientesBO;
 
+    /**
+     * Constructor que inicializa el clienteBo
+     */
     public FuncionalidadAgregarClientes() {
         this.clientesBO = new ClientesBO();
     }
 
+    /**
+     * Agrega un Cliente
+     * @param cliente DTO del cliente
+     * @return El cliente agregado
+     */
     @Override
     public DTO_Cliente agregarCliente(DTO_Cliente cliente) {
         return clientesBO.agregarCliente(cliente);

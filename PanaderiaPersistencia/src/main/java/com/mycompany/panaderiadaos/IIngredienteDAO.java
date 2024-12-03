@@ -123,6 +123,11 @@ public interface IIngredienteDAO {
      */
     public List<Ingrediente> consultarIngredientesConStock() throws PersistenciaException;
 
+    /**
+     * Calcula El monto total de los ingredientes
+     * @return EL monto total en tipo Float
+     * @throws PersistenciaException Por si ocurre un error durante la operacion de persistencia
+     */
     public Float calcularMontoTotal() throws PersistenciaException;
     
     
