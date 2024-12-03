@@ -21,6 +21,7 @@ public class Presentacion_DlgCobrarVenta extends javax.swing.JDialog{
         this.venta = control.getVenta();
         setTitle("Tipo de pago");
         initComponents();
+        this.setLocationRelativeTo(null);
         setVisible(true);
     }
 

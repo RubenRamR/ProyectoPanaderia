@@ -30,6 +30,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
         this.venta = new DTO_Venta();
         setTitle("Datos del cliente");
         initComponents();
+        this.setLocationRelativeTo(null);
 
         setVisible(true);
     }
@@ -56,6 +57,8 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
         campoTextoApellidoM = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(360, 460));
+        setPreferredSize(new java.awt.Dimension(360, 460));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -128,7 +131,7 @@ public class Presentacion_DlgDatosCliente extends javax.swing.JDialog {
         }
 
         if (!esValido(campoTextoTelefono.getText())) {
-            JOptionPane.showMessageDialog(this, "El teléfono debe ser de 7 digitos y con caracteres validos.", "Teléfono inválido", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El teléfono debe ser de 10 digitos y con caracteres validos.", "Teléfono inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (!soloLetrasYEspacios(campoTextoNombre.getText()) || !soloLetrasYEspacios(campoTextoApellidoM.getText()) || !soloLetrasYEspacios(campoTextoApellidoP.getText())) {

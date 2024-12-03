@@ -52,6 +52,7 @@ public class Presentacion_DlgConfirmacionPago extends javax.swing.JDialog {
         this.ventas = new FuncionalidadesVenta();
         setTitle("Confirmación");
         initComponents();
+        this.setLocationRelativeTo(null);
         txtCliente.setText(venta.getCliente().getNombre());
         txtCosto.setText(Float.toString(venta.getMontoTotal()));
         SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
