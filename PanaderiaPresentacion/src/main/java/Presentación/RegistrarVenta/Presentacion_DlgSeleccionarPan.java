@@ -69,6 +69,9 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         txtCantidad.setText(String.valueOf(cantidadProducto));
     }
 
+    private void llenarComboBox(){
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,7 +137,7 @@ public class Presentacion_DlgSeleccionarPan extends javax.swing.JDialog {
         });
         getContentPane().add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
 
-        cbIngredienteExtra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nada" }));
+        cbIngredienteExtra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nada", "Chocolate", "Vainilla" }));
         getContentPane().add(cbIngredienteExtra, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
